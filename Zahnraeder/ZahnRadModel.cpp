@@ -7,7 +7,7 @@
 #include <math.h>
 
 
-// --- public member functions ------------------------------------------------
+// --- public member functions ---------------------------------------------------
 static  double l = 0.0;			// laenge des Zahns
 static   double k = 0.0;		// laenge der Rille
 static   double w1 = 0.0;		// Winkel des Zahns zum Ursprung
