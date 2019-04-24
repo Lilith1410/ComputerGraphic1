@@ -1,0 +1,61 @@
+GeometryCoreSP GeometryCoreFactory::createTeapot(GLfloat size) {
+  // create geometry core
+  auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
+
+  // define vertices (800 vertices)
+  GLfloat vertices[] = {
+      17.83489990234375, 0, 30.573999404907227, 16.452699661254883, -7.000179767608643, 30.573999404907227, 16.223100662231445, -6.902520179748535, 31.51460075378418, 17.586000442504883, 0, 31.51460075378418, 16.48940086364746, -7.015810012817383, 31.828100204467773, 17.87470054626465, 0
+ };
+  // scale and translate vertices to unit size and origin center
+  GLfloat factor = size / 50.f;
+  int nVertices = sizeof(vertices) / sizeof(GLfloat);
+  for (int i = 0; i < nVertices; ++i) {
+    vertices[i] *= factor;
+  }
+  for (int i = 2; i < nVertices; i += 3) {
+    vertices[i] -= 0.4f;
+  }
+  core->addAttributeData(OGLConstants::VERTEX.location, vertices,
+      sizeof(vertices), 3, GL_STATIC_DRAW);
+
+  // define normals
+  const GLfloat normals[] = {
+      -0.9667419791221619, 0, -0.25575199723243713, -0.8930140137672424, 0.3698819875717163, -0.2563450038433075, -0.8934370279312134, 0.36910200119018555, 0.2559970021247864, -0.9668239951133728, 0, 0.2554430067539215, -0.0838799998164177, 0.03550700098276138, 0.9958429932594299, -0.09205400198698044, 0, 0.9957540035247803, 0.629721999168396, -0.2604379951953888, 
+  };
+  core->addAttributeData(OGLConstants::NORMAL.location, normals,
+      sizeof(normals), 3, GL_STATIC_DRAW);
+
+  // define tangents
+  const GLfloat tangents[] = {
+      0.012897999957203865, 0.998727023601532, -0.048757001757621765, 0.3861910104751587, 0.9210079908370972, -0.016421999782323837, 0.38136398792266846, 0.9230089783668518, 0.000155999994603917, 0.012866999953985214, 0.9987300038337708, 0.04870200157165527, 0.3750790059566498, 0.9061710238456726, 
+  };
+  core->addAttributeData(OGLConstants::TANGENT.location, tangents,
+      sizeof(tangents), 3, GL_STATIC_DRAW);
+
+  // define binormals
+  const GLfloat binormals[] = {
+      0.2554270029067993, -0.05043400079011917, -0.9655119776725769, 0.2302899956703186, -0.11379700154066086, -0.9664459824562073, -0.23653900623321533, 0.09789499640464783, -0.9666780233383179, -0.2551180124282837, 0.05037299916148186, -0.9655969738960266, -0.9201610088348389, 0.38079801201820374, -0.09108299762010574, -0.9770479798316956, 0.1929199993610382, -0.09032399952411652, 
+  };
+  core->addAttributeData(OGLConstants::BINORMAL.location, binormals,
+      sizeof(binormals), 3, GL_STATIC_DRAW);
+
+  // define texture coordinates (3D)
+  GLfloat texCoords[] = {
+      2, 2, 0, 1.75, 2, 0, 1.75, 1.975000023841858, 0, 2, 1.975000023841858, 0, 1.75, 1.9500000476837158, 0, 2, 1.9500000476837158, 0, 1.75, 1.9249999523162842, 0, 2, 1.9249999523162842, 0, 1.75, 1.899999976158142, 0, 2, 1.899999976158142, 0, 1.5, 2, 0, 1.5, 1.975000023841858, 0, 1.5, 1.9500000476837158, 0, 1.5, 1.9249999523162842, 0, 1.5, 1.899999976158142, 
+  };
+  // mirror texture coordinates
+  int nTexCoords = sizeof(texCoords) / sizeof(GLfloat);
+  for (int i = 1; i < nTexCoords; i += 3) {
+    texCoords[i] = 2.f - texCoords[i];
+  }
+  core->addAttributeData(OGLConstants::TEX_COORD_0.location, texCoords,
+      sizeof(texCoords), 3, GL_STATIC_DRAW);
+
+  // define indices (1024 triangles)
+  const GLuint indices[] = {
+      0, 1, 2, 2, 3, 0, 3, 2, 4, 4, 5, 3, 5, 4, 6, 6, 7, 5, 7, 6, 8, 8, 9, 7, 1, 10, 11, 11, 2, 1, 2, 11, 12, 12, 4, 2, 4, 12, 13, 13, 6, 4, 6, 13, 14,
+  };
+  core->setElementIndexData(indices, sizeof(indices), GL_STATIC_DRAW);
+
+  return core;
+}
