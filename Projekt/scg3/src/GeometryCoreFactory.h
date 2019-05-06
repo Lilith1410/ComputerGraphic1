@@ -78,6 +78,17 @@ public:
    */
   GeometryCoreSP createModelFromOBJFile(const std::string& fileName);
 
+
+  /*
+   * create a Test
+   */
+
+  GeometryCoreSP createTest();
+  /*
+   * Create a Gear
+   */
+  GeometryCoreSP createGear(double l, double k, double z, double w1, double w2);
+
   /**
    * Create rectangle in xy plane with normals, tangents, binormals, and
    * texture coordinates (2 triangles).

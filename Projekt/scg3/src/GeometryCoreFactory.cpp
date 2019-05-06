@@ -134,37 +134,521 @@ GeometryCoreSP GeometryCoreFactory::createModelFromOBJFile(const std::string& fi
 
 
 /*
-*
-* createGear
-*
-*/
-GeometryCoreSP GeometryCoreFactory::createGear(GLfloat size) {
+ * createTest
+ */
+GeometryCoreSP GeometryCoreFactory::createTest() {
   // create geometry core
   auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
-
-  // define vertices (800 vertices)
+  // define vertices
   GLfloat vertices[] = {
-      17.83489990234375, 0, 
+		  0.5f, 0.5f, 0.0f,
+		  -0.5f, 0.5f, 0.0f,
+		  -0.5f, -0.5f, 0.0f,
+		  0.5f, -0.5f, 0.0f,
+
   };
+/*
   // scale and translate vertices to unit size and origin center
-  GLfloat factor = size / 50.f;
+  GLfloat factor = 1.0f / 50.f; //GLfloat factor = size / 50.f;
   int nVertices = sizeof(vertices) / sizeof(GLfloat);
   for (int i = 0; i < nVertices; ++i) {
     vertices[i] *= factor;
   }
   for (int i = 2; i < nVertices; i += 3) {
     vertices[i] -= 0.4f;
-  }
+  } */
   core->addAttributeData(OGLConstants::VERTEX.location, vertices,
       sizeof(vertices), 3, GL_STATIC_DRAW);
 
-  // define normals
-  const GLfloat normals[] = {
-      -0.9667419791221619, 0,
+
+  //define indices
+  const GLuint indices[] = {
+		 0,1,3,
+		 1,2,3
   };
+  core->setElementIndexData(indices, sizeof(indices), GL_STATIC_DRAW);
+
+
+  return core;
+}
+
+
+
+
+/*
+*
+* createGear
+*
+* l: length of the long part
+* k: length of the short part
+* z: width of the gear
+* w1: angle of the long part
+* w2: angle of the short part
+* !! (w1 + w2 = 30°)
+*
+*GeometryCoreSP GeometryCoreFactory::createGear(GLfloat size) {
+*/
+GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double _w1, double _w2) {
+  // create geometry core
+  auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
+  GLfloat z_vorn = z/2;
+  GLfloat z_hinten = -z/2;
+  double w1 = _w1*M_PI/180;
+  double w2 = _w2*M_PI/180;
+  // define vertices
+  GLfloat vertices[] = {
+		   0.0f, 0.0f, z_vorn,																	// 0
+
+		   /*
+		    * Frontseite
+		    */
+
+		   /*
+		    *           |12
+		    *           |   \
+		    *   ________|______1
+		    *           |
+		    *           |
+		    *           |
+		    */
+		(float) l, 	 0.0f, z_vorn,																// 1
+		(float) (sqrt(pow(l, 2)-pow((sin(w1)*l),2))), (float) (sin(w1)*l), 	z_vorn,				// 2
+
+		(float) (sqrt(pow(k,2)-pow((sin(w1)*k),2))),	(float) (sin(w1)*k), z_vorn,				// 3
+		(float) (sqrt(pow(k,2)-pow((sin(w1+w2)*k),2))),	(float) (sin(w1+w2)*k), z_vorn,			// 4
+
+		(float) (sqrt(pow(l,2)-pow((sin(w1+w2)*l),2))),	(float) (sin(w1+w2)*l), z_vorn,			// 5
+		(float) (sqrt(pow(l,2)-pow((sin(2*w1+w2)*l),2))),	(float) (sin(2*w1+w2)*l), z_vorn,		// 6
+
+		(float) (sqrt(pow(k,2)-pow((sin(2*w1+w2)*k),2))),	(float) (sin(2*w1+w2)*k), z_vorn,		// 7
+		(float) (sqrt(pow(k,2)-pow((sin(2*w1+2*w2)*k),2))), (float) (sin(2*w1+2*w2)*k), z_vorn,	// 8
+
+		(float) (sqrt(pow(l,2)-pow((sin(2*w1+2*w2)*l),2))),	(float) (sin(2*w1+2*w2)*l), z_vorn,	// 9
+		(float) (sqrt(pow(l,2)-pow((sin(3*w1+2*w2)*l),2))),	(float) (sin(3*w1+2*w2)*l), z_vorn,	// 10
+
+		(float) (sqrt(pow(k,2)-pow((sin(3*w1+2*w2)*k),2))),	(float) (sin(3*w1+2*w2)*k), z_vorn,	// 11
+		   0.0f, (float)k, z_vorn,												 				// 12
+
+		   /*
+		    *           |
+		    *           |
+		    *   ________|_______
+		    *           |      13
+		    *           |    /
+		    *           |24
+		    */
+		(float) k, 	 0.0f, z_vorn,																// 13
+		(float) (sqrt(pow(k, 2)-pow((sin(w2)*k),2))), (float) -(sin(w2)*k), 	z_vorn,			// 14
+
+		(float) (sqrt(pow(l,2)-pow((sin(w2)*l),2))),	(float) -(sin(w2)*l), z_vorn,				// 15
+		(float) (sqrt(pow(l,2)-pow((sin(w1+w2)*l),2))),	(float) -(sin(w1+w2)*l), z_vorn,			// 16
+
+		(float) (sqrt(pow(k,2)-pow((sin(w1+w2)*k),2))),	(float) -(sin(w1+w2)*k), z_vorn,			// 17
+		(float) (sqrt(pow(k,2)-pow((sin(2*w2+w1)*k),2))),	(float) -(sin(2*w2+w1)*k), z_vorn,	// 18
+
+		(float) (sqrt(pow(l,2)-pow((sin(2*w2+w1)*l),2))),	(float) -(sin(2*w2+w1)*l), z_vorn,	// 19
+		(float) (sqrt(pow(l,2)-pow((sin(2*w2+2*w1)*l),2))), (float) -(sin(2*w2+2*w1)*l), z_vorn,	// 20
+
+		(float) (sqrt(pow(k,2)-pow((sin(2*w2+2*w1)*k),2))),	(float) -(sin(2*w2+2*w1)*k), z_vorn,	// 21
+		(float) (sqrt(pow(k,2)-pow((sin(3*w2+2*w1)*k),2))),	(float) -(sin(3*w2+2*w1)*k), z_vorn,	// 22
+
+		(float) (sqrt(pow(l,2)-pow((sin(3*w2+2*w1)*l),2))),	(float) -(sin(3*w2+2*w1)*l), z_vorn,	// 23
+		 0.0f, (float) (-l), z_vorn,																// 24
+
+
+
+		   /*
+		    *        36 |
+		    *      /    |
+		    *   25______|_______
+		    *           |
+		    *           |
+		    *           |
+		    */
+		-(float) k, 	 0.0f, z_vorn,															// 25
+		-(float) (sqrt(pow(k, 2)-pow((sin(w2)*k),2))), (float) (sin(w2)*k), 	z_vorn,			// 26
+
+		-(float) (sqrt(pow(l,2)-pow((sin(w2)*l),2))),	(float) (sin(w2)*l), z_vorn,				// 27
+		-(float) (sqrt(pow(l,2)-pow((sin(w1+w2)*l),2))),	(float) (sin(w1+w2)*l), z_vorn,		// 28
+
+		-(float) (sqrt(pow(k,2)-pow((sin(w1+w2)*k),2))),	(float) (sin(w1+w2)*k), z_vorn,		// 29
+		-(float) (sqrt(pow(k,2)-pow((sin(2*w2+w1)*k),2))),	(float) (sin(2*w2+w1)*k), z_vorn,		// 30
+
+		-(float) (sqrt(pow(l,2)-pow((sin(2*w2+w1)*l),2))),	(float) (sin(2*w2+w1)*l), z_vorn,		// 31
+		-(float) (sqrt(pow(l,2)-pow((sin(2*w2+2*w1)*l),2))), (float) (sin(2*w2+2*w1)*l), z_vorn,	// 32
+
+		-(float) (sqrt(pow(k,2)-pow((sin(2*w2+2*w1)*k),2))),	(float) (sin(2*w2+2*w1)*k), z_vorn,// 33
+		-(float) (sqrt(pow(k,2)-pow((sin(3*w2+2*w1)*k),2))),	(float) (sin(3*w2+2*w1)*k), z_vorn,// 34
+
+		-(float) (sqrt(pow(l,2)-pow((sin(3*w2+2*w1)*l),2))),	(float) (sin(3*w2+2*w1)*l), z_vorn,// 35
+		0.0f, (float) (l), z_vorn,																 // 36
+
+
+		   /*
+		    *           |
+		    *           |
+		    *   ________|_______
+		    *   37      |
+		    *      \    |
+		    *         48|
+		    */
+		-(float) l, 	 0.0f, z_vorn,															// 37
+		-(float) (sqrt(pow(l, 2)-pow((sin(w1)*l),2))), -(float) (sin(w1)*l), z_vorn,			// 38
+
+		-(float) (sqrt(pow(k,2)-pow((sin(w1)*k),2))),	-(float) (sin(w1)*k), z_vorn,				// 39
+		-(float) (sqrt(pow(k,2)-pow((sin(w1+w2)*k),2))),	-(float) (sin(w1+w2)*k), z_vorn,		// 40
+
+		-(float) (sqrt(pow(l,2)-pow((sin(w1+w2)*l),2))),	-(float) (sin(w1+w2)*l), z_vorn,		// 41
+		-(float) (sqrt(pow(l,2)-pow((sin(2*w1+w2)*l),2))),	-(float) (sin(2*w1+w2)*l), z_vorn,	// 42
+
+		-(float) (sqrt(pow(k,2)-pow((sin(2*w1+w2)*k),2))),	-(float) (sin(2*w1+w2)*k), z_vorn,	// 43
+		-(float) (sqrt(pow(k,2)-pow((sin(2*w1+2*w2)*k),2))), -(float) (sin(2*w1+2*w2)*k), z_vorn,	// 44
+
+		-(float) (sqrt(pow(l,2)-pow((sin(2*w1+2*w2)*l),2))),	-(float) (sin(2*w1+2*w2)*l), z_vorn,// 45
+		-(float) (sqrt(pow(l,2)-pow((sin(3*w1+2*w2)*l),2))),	-(float) (sin(3*w1+2*w2)*l), z_vorn,// 46
+
+		-(float) (sqrt(pow(k,2)-pow((sin(3*w1+2*w2)*k),2))),	-(float) (sin(3*w1+2*w2)*k), z_vorn,// 47
+		0.0f, -(float)k, z_vorn,																	  // 48
+
+
+		/*
+		 * Rückseite
+		 */
+		   0.0f, 0.0f, (float) z_hinten,																// 49
+
+
+
+		   /*
+		    *           |61
+		    *           |   \
+		    *   ________|______50
+		    *           |
+		    *           |
+		    *           |
+		    */
+		(float) l, 	 0.0f, (float) z_hinten,																// 50
+		(float) (sqrt(pow(l, 2)-pow((sin(w1)*l),2))), (float) (sin(w1)*l), 	z_hinten,						// 51
+
+		(float) (sqrt(pow(k,2)-pow((sin(w1)*k),2))),	(float) (sin(w1)*k), (float) z_hinten,				// 52
+		(float) (sqrt(pow(k,2)-pow((sin(w1+w2)*k),2))),	(float) (sin(w1+w2)*k), (float) z_hinten,			// 53
+
+		(float) (sqrt(pow(l,2)-pow((sin(w1+w2)*l),2))),	(float) (sin(w1+w2)*l), (float) z_hinten,			// 54
+		(float) (sqrt(pow(l,2)-pow((sin(2*w1+w2)*l),2))),	(float) (sin(2*w1+w2)*l), (float) z_hinten,	// 55
+
+		(float) (sqrt(pow(k,2)-pow((sin(2*w1+w2)*k),2))),	(float) (sin(2*w1+w2)*k), (float) z_hinten,	// 56
+		(float) (sqrt(pow(k,2)-pow((sin(2*w1+2*w2)*k),2))), (float) (sin(2*w1+2*w2)*k), (float) z_hinten,	// 57
+
+		(float) (sqrt(pow(l,2)-pow((sin(2*w1+2*w2)*l),2))),	(float) (sin(2*w1+2*w2)*l), (float) z_hinten,	// 58
+		(float) (sqrt(pow(l,2)-pow((sin(3*w1+2*w2)*l),2))),	(float) (sin(3*w1+2*w2)*l), (float) z_hinten,	// 59
+
+		(float) (sqrt(pow(k,2)-pow((sin(3*w1+2*w2)*k),2))),	(float) (sin(3*w1+2*w2)*k), (float) z_hinten,	// 60
+		   0.0f, (float)k, (float) z_hinten,																// 61
+
+		   /*
+		    *           |
+		    *           |
+		    *   ________|_______
+		    *           |      62
+		    *           |    /
+		    *           |73
+		    */
+		(float) k, 	 0.0f, (float) z_hinten,																// 62
+		(float) (sqrt(pow(k, 2)-pow((sin(w2)*k),2))), (float) -(sin(w2)*k), z_hinten,					// 63
+
+		(float) (sqrt(pow(l,2)-pow((sin(w2)*l),2))),	(float) -(sin(w2)*l), (float) z_hinten,			// 64
+		(float) (sqrt(pow(l,2)-pow((sin(w1+w2)*l),2))),	(float) -(sin(w1+w2)*l), (float) z_hinten,			// 65
+
+		(float) (sqrt(pow(k,2)-pow((sin(w1+w2)*k),2))),	(float) -(sin(w1+w2)*k), (float) z_hinten,			// 66
+		(float) (sqrt(pow(k,2)-pow((sin(2*w2+w1)*k),2))),	(float) -(sin(2*w2+w1)*k), (float) z_hinten,	// 67
+
+		(float) (sqrt(pow(l,2)-pow((sin(2*w2+w1)*l),2))),	(float) -(sin(2*w2+w1)*l), (float) z_hinten,	// 68
+		(float) (sqrt(pow(l,2)-pow((sin(2*w2+2*w1)*l),2))), (float) -(sin(2*w2+2*w1)*l), (float) z_hinten,	// 69
+
+		(float) (sqrt(pow(k,2)-pow((sin(2*w2+2*w1)*k),2))),	(float) -(sin(2*w2+2*w1)*k), (float) z_hinten,	// 70
+		(float) (sqrt(pow(k,2)-pow((sin(3*w2+2*w1)*k),2))),	(float) -(sin(3*w2+2*w1)*k), (float) z_hinten,	// 71
+
+		(float) (sqrt(pow(l,2)-pow((sin(3*w2+2*w1)*l),2))),	(float) -(sin(3*w2+2*w1)*l), (float) z_hinten,	// 72
+		 0.0f, (float) (-l), (float) z_hinten,																// 73
+
+
+		   /*
+		    *        85 |
+		    *      /    |
+		    *   74______|_______
+		    *           |
+		    *           |
+		    *           |
+		    */
+		-(float) k, 	 0.0f, (float) z_hinten,															// 74
+		-(float) (sqrt(pow(k, 2)-pow((sin(w2)*k),2))), (float) (sin(w2)*k), (float)	z_hinten,					// 75
+
+		-(float) (sqrt(pow(l,2)-pow((sin(w2)*l),2))),	(float) (sin(w2)*l), (float) z_hinten,				// 76
+		-(float) (sqrt(pow(l,2)-pow((sin(w1+w2)*l),2))),	(float) (sin(w1+w2)*l), (float) z_hinten,		// 77
+
+		-(float) (sqrt(pow(k,2)-pow((sin(w1+w2)*k),2))),	(float) (sin(w1+w2)*k), (float) z_hinten,		// 78
+		-(float) (sqrt(pow(k,2)-pow((sin(2*w2+w1)*k),2))),	(float) (sin(2*w2+w1)*k), (float) z_hinten,	// 79
+
+		-(float) (sqrt(pow(l,2)-pow((sin(2*w2+w1)*l),2))),	(float) (sin(2*w2+w1)*l), (float) z_hinten,	// 80
+		-(float) (sqrt(pow(l,2)-pow((sin(2*w2+2*w1)*l),2))), (float) (sin(2*w2+2*w1)*l), (float) z_hinten,	// 81
+
+		-(float) (sqrt(pow(k,2)-pow((sin(2*w2+2*w1)*k),2))),	(float) (sin(2*w2+2*w1)*k), (float) z_hinten,// 82
+		-(float) (sqrt(pow(k,2)-pow((sin(3*w2+2*w1)*k),2))),	(float) (sin(3*w2+2*w1)*k), (float) z_hinten,// 83
+
+		-(float) (sqrt(pow(l,2)-pow((sin(3*w2+2*w1)*l),2))),	(float) (sin(3*w2+2*w1)*l), (float) z_hinten,// 84
+		0.0f, (float) (l), (float) z_hinten,																 // 85
+
+
+		   /*
+		    *           |
+		    *           |
+		    *   ________|_______
+		    *   86      |
+		    *      \    |
+		    *         97|
+		    */
+		-(float) l, 	 0.0f, (float) z_hinten,															// 86
+		-(float) (sqrt(pow(l, 2)-pow((sin(w1)*l),2))), -(float) (sin(w1)*l), 	z_hinten,					// 87
+
+		-(float) (sqrt(pow(k,2)-pow((sin(w1)*k),2))),	-(float) (sin(w1)*k), (float) z_hinten,			// 88
+		-(float) (sqrt(pow(k,2)-pow((sin(w1+w2)*k),2))),	-(float) (sin(w1+w2)*k), (float) z_hinten,		// 89
+
+		-(float) (sqrt(pow(l,2)-pow((sin(w1+w2)*l),2))),	-(float) (sin(w1+w2)*l), (float) z_hinten,		//90
+		-(float) (sqrt(pow(l,2)-pow((sin(2*w1+w2)*l),2))),	-(float) (sin(2*w1+w2)*l), (float) z_hinten,	// 91
+
+		-(float) (sqrt(pow(k,2)-pow((sin(2*w1+w2)*k),2))),	-(float) (sin(2*w1+w2)*k), (float) z_hinten,	// 92
+		-(float) (sqrt(pow(k,2)-pow((sin(2*w1+2*w2)*k),2))), -(float) (sin(2*w1+2*w2)*k), (float) z_hinten,// 93
+
+		-(float) (sqrt(pow(l,2)-pow((sin(2*w1+2*w2)*l),2))),	-(float) (sin(2*w1+2*w2)*l), (float) z_hinten,// 94
+		-(float) (sqrt(pow(l,2)-pow((sin(3*w1+2*w2)*l),2))),	-(float) (sin(3*w1+2*w2)*l), (float) z_hinten,// 95
+
+		-(float) (sqrt(pow(k,2)-pow((sin(3*w1+2*w2)*k),2))),	-(float) (sin(3*w1+2*w2)*k), (float) z_hinten,// 96
+		0.0f, -(float)k, (float) z_hinten													  // 97
+
+  };
+/*
+  // scale and translate vertices to unit size and origin center
+  GLfloat factor = 1.0f / 50.f; //GLfloat factor = size / 50.f;
+  int nVertices = sizeof(vertices) / sizeof(GLfloat);
+  for (int i = 0; i < nVertices; ++i) {
+    vertices[i] *= factor;
+  }
+  for (int i = 2; i < nVertices; i += 3) {
+    vertices[i] -= 0.4f;
+  } */
+  core->addAttributeData(OGLConstants::VERTEX.location, vertices,
+      sizeof(vertices), 3, GL_STATIC_DRAW);
+
+
+  //define indices
+  const GLuint indices[] = {
+		  0, 1, 2,
+	      0, 3, 4,
+		  0, 5, 6,
+		  0, 7, 8,
+		  0, 9, 10,
+		  0, 11, 12,
+		  0, 13, 14,
+		  0, 15, 16,
+		  0, 17, 18,
+		  0, 19, 20,
+		  0, 21, 22,
+		  0, 23, 24,
+		  0, 25, 26,
+		  0, 27, 28,
+		  0, 29, 30,
+		  0, 31, 32,
+		  0, 33, 34,
+		  0, 35, 36,
+		  0, 37, 38,
+		  0, 39, 40,
+		  0, 41, 42,
+		  0, 43, 44,
+		  0, 45, 46,
+		  0, 47, 48,
+		  49, 50, 51,
+		  49, 52, 53,
+		  49, 54, 55,
+		  49, 56, 57,
+		  49, 58, 59,
+		  49, 60, 61,
+		  49, 62, 63,
+		  49, 64, 65,
+		  49, 66, 67,
+		  49, 68, 69,
+		  49, 70, 71,
+		  49, 72, 73,
+		  49, 74, 75,
+		  49, 76, 77,
+		  49, 78, 79,
+		  49, 80, 81,
+		  49, 82, 83,
+		  49, 84, 85,
+		  49, 86, 87,
+		  49, 88, 89,
+		  49, 90, 91,
+		  49, 92, 93,
+		  49, 94, 95,
+		  49, 96, 97,
+		  1, 2, 50,
+		  2, 50, 51,
+		  3, 4, 52,
+		  4, 52, 53,
+		  5, 6, 54,
+		  6, 54, 55,
+		  7, 8, 56,
+		  8, 56, 57,
+		  9, 10, 58,
+		  10, 58, 59,
+		  11, 12, 60,
+		  12, 60, 61,
+		  13, 14, 62,
+		  14, 62, 63,
+		  15, 16, 64,
+		  16, 64, 65,
+		  17, 18, 66,
+		  18, 66, 67,
+		  19, 20, 68,
+		  20, 68, 69,
+		  21, 22, 70,
+		  22, 70, 71,
+		  23, 24, 72,
+		  24, 72, 73,
+		  25, 26, 74,
+		  26, 74, 75,
+		  27, 28, 76,
+		  28, 76, 77,
+		  29, 30, 78,
+		  30, 78, 79,
+		  31, 32, 80,
+		  32, 80, 81,
+		  33, 34, 82,
+		  34, 82, 83,
+		  35, 36, 84,
+		  36, 84, 85,
+		  37, 38, 86,
+		  38, 86, 87,
+		  39, 40, 88,
+		  40, 88, 89,
+		  41, 42, 90,
+		  42, 90, 91,
+		  43, 44, 92,
+		  44, 92, 93,
+		  45, 46, 94,
+		  46, 94, 95,
+		  47, 48, 96,
+		  2,3,51,
+		  3,51,52,
+		  4,5,53,
+		  5,53,54,
+		  6,7,55,
+		  7,55,56,
+		  8,9,57,
+		  9,57,58,
+		  10,11,59,
+		  11,59,60,
+		  14,15,63,
+		  15,63,64,
+		  16,17,65,
+		  17,65,66,
+		  18,19,67,
+		  19,67,68,
+		  20,21,69,
+		  21,69,70,
+		  22,23,71,
+		  23,71,72,
+		  26,27,75,
+		  27,75,76,
+		  28,29,77,
+		  29,77,78,
+		  30,31,79,
+		  31,79,80,
+		  32,33,81,
+		  33,81,82,
+		  34,35,83,
+		  35,83,84,
+		  38,39,87,
+		  39,87,88,
+		  40,41,89,
+		  41,89,90,
+		  42,43,91,
+		  43,91,92,
+		  44,45,93,
+		  45,93,94,
+		  46,47,95,
+		  47,95,96,
+		  48,49,97
+  };
+  core->setElementIndexData(indices, sizeof(indices), GL_STATIC_DRAW);
+
+
+
+//  /*
+//   * start: normals berechnen
+//   */
+//
+  // anzahl der Dreiecke herausfinden
+  int triangles_num = (sizeof(indices) / sizeof(int)) / 3;
+
+  // Arraygröße für die normalen festlegen ( Anzahl der Dreiecke * 3, da jeder Punkt x,y und z hat)
+  GLfloat normals[triangles_num*3];
+
+  // jedes Dreieck aufrufen
+  for(int i=0; i<triangles_num; i++){
+
+	  // Indices eines Dreiecks auslesen
+	  int indice_p1 = indices[i*3];
+	  int indice_p2 = indices[(i*3)+1];
+	  int indice_p3 = indices[(i*3)+2];
+
+	  // get Triangle vertices anhand der Indices
+	  int vx1 = indice_p1*3;	// stelle des x Wertes im Array
+	  int vy1 = vx1+1;			// stelle des y Wertes im Array = x + 1
+	  int vz1 = vy1+1;			// stelle des z Wertes im Array = y + 1, oder x + 2
+
+	  int vx2 = indice_p2*3;
+	  int vy2 = vx2+1;
+	  int vz2 = vy2+1;
+
+	  int vx3 = indice_p3*3;
+	  int vy3 = vx3+1;
+	  int vz3 = vy3+1;
+
+	  // Kantenvektoren berechnen
+	  float kanteA[] = {vertices[vx2]-vertices[vx1], vertices[vy2]-vertices[vy1], vertices[vz2]-vertices[vz1]}; // Vektor2-Vektor1
+	  float kanteB[] = {vertices[vx3]-vertices[vx1], vertices[vy3]-vertices[vy1], vertices[vz3]-vertices[vz1]}; // Vektor3-Vektor1
+
+	  // Normalenvaktor berechnen kanteA x KanteB
+	  float nVec[] = {	(kanteA[1]*kanteB[2])-(kanteA[2]*kanteB[1]),
+			  	  	  	  (kanteA[2]*kanteB[0])-(kanteA[0]*kanteB[2]),
+						  (kanteA[0]*kanteB[1])-(kanteA[1]*kanteB[0])
+	  };
+
+	  // Normierung
+	  float nVec_length = sqrt(pow(nVec[0],2)+pow(nVec[1],2)+pow(nVec[2],2)); // länge des Normalvektor
+	  float normVec[] = { (nVec[0]/nVec_length),
+			  	  	  	  (nVec[1]/nVec_length),
+						  (nVec[2]/nVec_length)
+
+	  };
+
+	  //set normals
+	  normals[(i*3)] = normVec[0];
+	  normals[(i*3)+1] = normVec[1];
+	  normals[(i*3)+2] = normVec[2];
+  };
+
   core->addAttributeData(OGLConstants::NORMAL.location, normals,
       sizeof(normals), 3, GL_STATIC_DRAW);
 
+  //  /*
+  //   * ende: normals berechnen
+  //   */
+  //
+
+
+
+
+  /*
   // define tangents
   const GLfloat tangents[] = {
       0.012897999957203865,
@@ -183,6 +667,8 @@ GeometryCoreSP GeometryCoreFactory::createGear(GLfloat size) {
   GLfloat texCoords[] = {
       2, 2, 0, 
   };
+
+
   // mirror texture coordinates
   int nTexCoords = sizeof(texCoords) / sizeof(GLfloat);
   for (int i = 1; i < nTexCoords; i += 3) {
@@ -190,12 +676,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(GLfloat size) {
   }
   core->addAttributeData(OGLConstants::TEX_COORD_0.location, texCoords,
       sizeof(texCoords), 3, GL_STATIC_DRAW);
-
-  // define indices (1024 triangles)
-  const GLuint indices[] = {
-	0,0,0
-  };
-  core->setElementIndexData(indices, sizeof(indices), GL_STATIC_DRAW);
+*/
 
   return core;
 }

@@ -108,13 +108,21 @@ void useSimpleViewer() {
         ->setSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
         ->setShininess(20.f)
         ->init();
+/*
+  // add a Test to scene graph
+  GeometryCoreFactory gF;
+  auto test = Shape::create();
+  test->addCore(matRed)
+		  ->addCore(gF.createTest());
+  light->addChild(test);
+*/
 
-  // add teapot shape to scene graph
+  // add gear shape to scene graph
   GeometryCoreFactory geometryFactory;
-  auto teapot = Shape::create();
-  teapot->addCore(matRed)
-        ->addCore(geometryFactory.createTeapot(1.f));
-  light->addChild(teapot);
+  auto gear = Shape::create();
+  gear->addCore(matRed)
+        ->addCore(geometryFactory.createGear(0.5, 0.42, 0.1, 14.0, 16.0));  //GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double w1, double w2)
+  light->addChild(gear);
 
   // move camera backwards, enter main loop
   camera->translate(glm::vec3(0.f, 0.f, 1.f))
