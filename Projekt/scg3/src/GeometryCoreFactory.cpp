@@ -504,7 +504,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 		  0,35,36,
 
 
-// Rückseite, rechtsläufig verbunden
+  // Rückseite, rechtsläufig verbunden
 	 /*
 	  *           |61
 	  *           |   \
@@ -568,7 +568,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 
 		  //Seitenflächen
 
-      /*
+		/*
 	   *           |12 + 61
 	   *           |   \
 	   *   ________|______1 + 50
@@ -602,7 +602,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 		  1,13,62,
 		  1,50,62,
 
-     /*
+	   /*
 	  *           |
 	  *           |
 	  *   ________|_______
@@ -636,7 +636,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 		  24,48,97,
 		  24,73,97,
 
-     /*
+	   /*
 	  *           |
 	  *           |
 	  *   ________|_______
@@ -672,7 +672,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 		  37,25,74,
 		  37,86,74,
 
-     /*
+	   /*
 	  *   36 + 85 |
 	  *      /    |
 	  *25 + 74____|_______
@@ -704,7 +704,6 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 		  35,84,85,
 		  36,12,61,
 		  36,85,61
-
 
 
 		/*  0, 1, 2,
