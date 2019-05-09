@@ -860,7 +860,8 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 	  //set normals
 	  normals[(i*3)] = normVec[0];
 	  normals[(i*3)+1] = normVec[1];
-	  normals[(i*3)+2] = normVec[2]*(-1);
+	 // normals[(i*3)+2] = normVec[2]*(-1);
+	  normals[(i*3)+2] = k;
   };
 
   core->addAttributeData(OGLConstants::NORMAL.location, normals,
