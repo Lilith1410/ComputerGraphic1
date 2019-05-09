@@ -106,7 +106,7 @@ void useSimpleViewer() {
   auto matRed = MaterialCore::create();
   matRed->setAmbientAndDiffuse(glm::vec4(1.f, 0.5f, 0.5f, 1.f))
         ->setSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
-        ->setShininess(20.f)
+        ->setShininess(80.f)
         ->init();
 /*
   // add a Test to scene graph
