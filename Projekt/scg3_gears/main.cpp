@@ -31,6 +31,10 @@
 #include <vector>
 #include <scg3.h>
 
+#include <ctime>
+#include <functional>
+#include <random>
+
 using namespace scg;
 
 
@@ -38,9 +42,9 @@ using namespace scg;
  * \brief Configuration parameters.
  */
 struct SCGConfiguration {
-  static const int viewerType = 0;  // 0: simple, 1: customized
+  static const int viewerType = 1;  // 0: simple, 1: customized
   // for customized viewer:
-  static const int sceneType = 0;   // 0: teapot, 1: table
+  static const int sceneType = 1;   // 0: teapot, 1: table
 };
 
 
@@ -290,85 +294,233 @@ void createTableScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
        ->setPosition(glm::vec4(10.f, 10.f, 10.f, 1.f))
        ->init();
 
-  // materials
-  auto matRed = MaterialCore::create();
-  matRed->setAmbientAndDiffuse(glm::vec4(1.f, 0.5f, 0.5f, 1.f))
-        ->setSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
-        ->setShininess(20.f)
-        ->init();
-
-  auto matGreen = MaterialCore::create();
-  matGreen->setAmbientAndDiffuse(glm::vec4(0.1f, 0.8f, 0.3f, 1.f))
+  auto light2 = Light::create();
+     light2->setDiffuseAndSpecular(glm::vec4(1.f, 0.f, 0.f, 1.f))
+          ->setPosition(glm::vec4(-10.f, -3.f, 10.f, 1.f))
           ->init();
 
-  auto matWhite = MaterialCore::create();
-  matWhite->setAmbientAndDiffuse(glm::vec4(1.f, 1.f, 1.f, 1.f))
-          ->setSpecular(glm::vec4(0.5f, 0.5f, 0.5f, 1.f))
+    // materials
+    auto matRed = MaterialCore::create();
+    matRed->setAmbientAndDiffuse(glm::vec4(1.f, 0.5f, 0.5f, 1.f))
+          ->setSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
           ->setShininess(20.f)
           ->init();
 
-  // textures
-  TextureCoreFactory textureFactory("../scg3/textures;../../scg3/textures");
-  auto texWood = textureFactory.create2DTextureFromFile(
-      "wood_256.png", GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
-  // set texture matrix
-//  texWood->scale2D(glm::vec2(4.f, 4.f));
+    auto matGreen = MaterialCore::create();
+    matGreen->setAmbientAndDiffuse(glm::vec4(0.1f, 0.8f, 0.3f, 1.f))
+            ->init();
 
-  // floor shape and transformation
-  GeometryCoreFactory geometryFactory;
-  auto floorCore = geometryFactory.createCuboid(glm::vec3(20.f, 0.05f, 10.f));
-  auto floor = Shape::create();
-  floor->addCore(matGreen)
-       ->addCore(floorCore);
-  auto floorTrans = Transformation::create();
-  floorTrans->translate(glm::vec3(0.f, -0.5f, 0.f));
+    auto matWhite = MaterialCore::create();
+    matWhite->setAmbientAndDiffuse(glm::vec4(1.f, 1.f, 1.f, 1.f))
+            ->setSpecular(glm::vec4(0.5f, 0.5f, 0.5f, 1.f))
+            ->setShininess(20.f)
+            ->init();
 
-  // teapot shape and transformation
-  auto teapotCore = geometryFactory.createTeapot(0.35f);
-  auto teapot = Shape::create();
-  teapot->addCore(matRed)
-        ->addCore(teapotCore);
-  auto teapotTrans = Transformation::create();
-  teapotTrans->translate(glm::vec3(0.f, 0.9f, 0.f))
-             ->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f));
+    auto matBlue = MaterialCore::create();
+      matBlue->setAmbientAndDiffuse(glm::vec4(0.5f, 0.5f, 1.f, 1.f))
+              ->setSpecular(glm::vec4(0.8f, 0.8f, 0.8f, 1.f))
+              ->setShininess(20.f)
+              ->init();
 
-  // table group and transformation
-  auto table = Group::create();
-  table->addCore(shaderPhongTex)
-       ->addCore(matWhite)
-       ->addCore(texWood);
-  auto tableTrans = Transformation::create();
-  tableTrans->rotate(30.f, glm::vec3(0.f, 1.f, 0.f));
+      auto matOrange = MaterialCore::create();
+        matOrange->setAmbientAndDiffuse(glm::vec4(.8f, 0.6f, 0.0f, 1.f))
+                ->init();
 
-  auto tableTop = Shape::create(geometryFactory.createCuboid(glm::vec3(1.5f, 0.05f, 1.f)));
-  auto tableTopTrans = Transformation::create();
-  tableTopTrans->translate(glm::vec3(0.f, 0.5f, 0.f));
-  table->addChild(tableTopTrans);
-  tableTopTrans->addChild(tableTop);
+    auto matGold = MaterialCore::create();
+  	 matGold->setAmbient(glm::vec4(0.25f, 0.22f, 0.06f, 1.f))
+  			 ->setDiffuse(glm::vec4(0.35f, 0.31f, 0.09f, 1.f))
+  			 ->setSpecular(glm::vec4(0.80f, 0.72f, 0.21f, 1.f))
+  			 ->setShininess(13.2f)
+  			 ->init();
 
-  auto tableLegCore = geometryFactory.createCuboid(glm::vec3(0.1f, 1.f, 0.1f));
-  ShapeSP tableLeg[4];
-  TransformationSP tableLegTrans[4];
-  for (int i = 0; i < 4; ++i) {
-    tableLeg[i] = Shape::create(tableLegCore);
-    tableLegTrans[i] = Transformation::create();
-    table->addChild(tableLegTrans[i]);
-    tableLegTrans[i]->addChild(tableLeg[i]);
-  }
-  tableLegTrans[0]->translate(glm::vec3( 0.6f, 0.f,  0.35f));
-  tableLegTrans[1]->translate(glm::vec3( 0.6f, 0.f, -0.35f));
-  tableLegTrans[2]->translate(glm::vec3(-0.6f, 0.f, -0.35f));
-  tableLegTrans[3]->translate(glm::vec3(-0.6f, 0.f,  0.35f));
+   auto matTuerkis = MaterialCore::create();
+  	 matTuerkis->setAmbient(glm::vec4(0.10f, 0.19f, 0.17f, 0.8f))
+  			 ->setDiffuse(glm::vec4(0.40f, 0.74f, 0.69f, 0.8f))
+  			 ->setSpecular(glm::vec4(0.30f, 0.31f, 0.31f, 0.8f))
+  			 ->setShininess(12.8f)
+  			 ->init();
 
-  // create scene graph
-  scene = Group::create();
-  scene->addCore(shaderPhong);
-  scene->addChild(camera)
-       ->addChild(light);
-  light->addChild(floorTrans)
-       ->addChild(tableTrans);
-  floorTrans->addChild(floor);
-  tableTrans->addChild(table)
-            ->addChild(teapotTrans);
-  teapotTrans->addChild(teapot);
+    // textures
+    TextureCoreFactory textureFactory("../scg3/textures;../../scg3/textures");
+    auto texWood = textureFactory.create2DTextureFromFile(
+        "wood_256.png", GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
+    // set texture matrix
+  //  texWood->scale2D(glm::vec2(4.f, 4.f));
+
+    // floor shape and transformation
+    GeometryCoreFactory geometryFactory;
+    auto floorCore = geometryFactory.createCuboid(glm::vec3(20.f, 0.05f, 10.f));
+    auto floor = Shape::create();
+    floor->addCore(matGreen)
+         ->addCore(floorCore);
+    auto floorTrans = Transformation::create();
+    floorTrans->translate(glm::vec3(0.f, -0.5f, 0.f));
+
+    // teapot shape and transformation
+    auto teapotCore = geometryFactory.createTeapot(0.35f);
+    auto teapot = Shape::create();
+    teapot->addCore(matRed)
+          ->addCore(teapotCore);
+    auto teapotTrans = Transformation::create();
+    teapotTrans->translate(glm::vec3(.5f, 0.9f, 0.f))
+               ->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f));
+
+    // table group and transformation
+    auto table = Group::create();
+    table->addCore(shaderPhongTex)
+         ->addCore(matWhite)
+         ->addCore(texWood);
+    auto tableTrans = Transformation::create();
+    tableTrans->rotate(30.f, glm::vec3(0.f, 1.f, 0.f));
+
+    auto tableTop = Shape::create(geometryFactory.createCuboid(glm::vec3(1.5f, 0.05f, 1.f)));
+    auto tableTopTrans = Transformation::create();
+    tableTopTrans->translate(glm::vec3(0.f, 0.5f, 0.f));
+    table->addChild(tableTopTrans);
+    tableTopTrans->addChild(tableTop);
+
+    auto tableLegCore = geometryFactory.createCuboid(glm::vec3(0.1f, 1.f, 0.1f));
+    ShapeSP tableLeg[4];
+    TransformationSP tableLegTrans[4];
+    for (int i = 0; i < 4; ++i) {
+      tableLeg[i] = Shape::create(tableLegCore);
+      tableLegTrans[i] = Transformation::create();
+      table->addChild(tableLegTrans[i]);
+      tableLegTrans[i]->addChild(tableLeg[i]);
+    }
+    tableLegTrans[0]->translate(glm::vec3( 0.6f, 0.f,  0.35f));
+    tableLegTrans[1]->translate(glm::vec3( 0.6f, 0.f, -0.35f));
+    tableLegTrans[2]->translate(glm::vec3(-0.6f, 0.f, -0.35f));
+    tableLegTrans[3]->translate(glm::vec3(-0.6f, 0.f,  0.35f));
+
+    // Mersenne Twister seeded with current time
+    std::mt19937 randEngine(
+    		static_cast<std::mt19937::result_type>(std::time(nullptr)));
+    auto random = std::bind(
+    		std::uniform_real_distribution<float>(0.0f, 1.0f), randEngine);
+
+
+    auto cubeCore = geometryFactory.createCuboid(glm::vec3(.3f, .5f, 0.3f));
+    ShapeSP cubeLeg[4];
+    TransformationSP cubeLegTrans[4];
+    for (int i = 0; i < 4; ++i) {
+    	//random scaling
+    	float scaling = random();
+
+      cubeLeg[i] = Shape::create();
+      cubeLeg[i]->addCore(matBlue)
+           ->addCore(cubeCore);
+      cubeLegTrans[i] = Transformation::create();
+      cubeLegTrans[i]->scale(glm::vec3(scaling, scaling, scaling));
+     // cubeLegTrans[i]->translate(glm::vec3(scaling, scaling, scaling));
+      light->addChild(cubeLegTrans[i]);
+      cubeLegTrans[i]->addChild(cubeLeg[i]);
+    }
+    	cubeLegTrans[0]->translate(glm::vec3( 1.6f, -0.4f,  0.35f));
+        cubeLegTrans[1]->translate(glm::vec3( 1.6f, -0.4f, -0.35f));
+        cubeLegTrans[2]->translate(glm::vec3(-1.6f, -0.4f, -0.35f));
+        cubeLegTrans[3]->translate(glm::vec3(-1.6f, -0.4f,  0.35f));
+
+     auto deckeCore = geometryFactory.createCuboid(glm::vec3(20.f, 10.f, 0.3f));
+       auto decke = Shape::create();
+       decke->addCore(matOrange)
+            ->addCore(deckeCore);
+       auto deckeTrans = Transformation::create();
+       deckeTrans->translate(glm::vec3(0.0f, 4.5f, -5.f));
+
+     auto modelCore = geometryFactory.createModelFromOBJFile("../scg3/models/icosahedron.obj");
+  	  auto model = Shape::create();
+  	  model->addCore(matGold)
+  		   ->addCore(modelCore);
+  	  auto modelTrans = Transformation::create();
+  	  modelTrans->translate(glm::vec3(-3.0f, 4.0f, -4.f));
+
+    auto sphereCore = geometryFactory.createSphere(1.0f, 50, 40) ;
+  	   auto sphere = Shape::create();
+  	   sphere->addCore(matTuerkis)
+  			->addCore(sphereCore);
+  	   auto sphereTrans = Transformation::create();
+  	   sphereTrans->translate(glm::vec3(3.0f, 2.5f, -3.f));
+
+  	   //Zahnrad
+  	  auto gearCore = geometryFactory.createGear(0.5, 0.42, 0.1, 14.0, 16.0); //GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double w1, double w2)
+  		auto gear = Shape::create();
+  		gear->addCore(matRed)
+  	        ->addCore(gearCore);
+  		auto gearTrans = Transformation::create();
+  		  	   gearTrans->translate(glm::vec3(2.0f, 2.0f, 3.f));
+
+
+  	   // add animation (rotation)
+  	   auto teapotAnim = TransformAnimation::create();
+  	   float angularVel = 50.f; //Geschwindigkeit
+  	   glm::vec3 axis(0.f, 0.f, 1.f); //Rotation um z-Achse
+  	   teapotAnim->setUpdateFunc([angularVel, axis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+  		   animation->rotate(angularVel*static_cast<GLfloat>(diffTime), axis);
+  	   });
+  	   viewer->addAnimation(teapotAnim);
+  	   // add transformation (translation) to be applied before animation
+  	   auto teapotAnimTrans = Transformation::create();
+  	   teapotAnimTrans->translate(glm::vec3(0.3f, 0.f, 0.f));
+
+  	   auto modelAnim = TransformAnimation::create();
+  	   	   float angularVel2 = 100.f; //Geschwindigkeit
+  	   	   glm::vec3 axis2(0.f, 1.f, 0.f); //Rotation um y-Achse
+  	   	   modelAnim->setUpdateFunc([angularVel2, axis2](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+  	   		   animation->rotate(angularVel2*static_cast<GLfloat>(diffTime), axis2);
+  	   	   });
+  	   	   viewer->addAnimation(modelAnim);
+  	   auto modelAnimTrans = Transformation::create();
+  	   modelAnimTrans->translate(glm::vec3(0.3f, 0.f, 0.f));
+
+  	   //Animation für Zahnrad
+  	 auto gearAnim = TransformAnimation::create();
+  	   	   float angularVel3 = 100.f; //Geschwindigkeit
+  	   	   glm::vec3 axis3(0.f, 0.f, 1.f); //Rotation um z-Achse
+  	   	   gearAnim->setUpdateFunc([angularVel3, axis3](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+  	   		   animation->rotate(angularVel3*static_cast<GLfloat>(diffTime), axis3);
+  	   	   });
+  	   	   viewer->addAnimation(gearAnim);
+  	   	   // add transformation (translation) to be applied before animation
+  	   	   auto gearAnimTrans = Transformation::create();
+  	   	   gearAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
+
+
+    // create scene graph
+    scene = Group::create();
+    scene->addCore(shaderPhong);
+    scene->addChild(camera)
+         ->addChild(light)
+  	   ->addChild(light2);
+
+    //Light*lichtPtr = light.get();
+
+    light->addChild(floorTrans)
+         ->addChild(tableTrans)
+  	   ->addChild(deckeTrans)
+  	   ->addChild(sphereTrans)
+  	   ->addChild(modelTrans)
+	   ->addChild(gearTrans);
+    //light2 ->addChild(tableTrans);
+    floorTrans->addChild(floor);
+    deckeTrans->addChild(decke);
+    tableTrans->addChild(table)
+              ->addChild(teapotTrans);
+  	//		->addChild(cubeLegTrans);
+    //cubeLegTrans->addChild(cubeLeg);
+    teapotTrans->addChild(teapot);
+    modelTrans->addChild(model);
+    sphereTrans->addChild(sphere);
+    //gearTrans->addChild(gear);
+
+    gearTrans->addChild(gearAnim);
+    gearAnim->addChild(gearAnimTrans);
+    gearAnimTrans->addChild(gear);
+    /*teapotTrans->addChild(teapotAnim);
+    teapotAnim->addChild(teapotAnimTrans);
+    teapotAnimTrans->addChild(teapot);
+
+    modelTrans->addChild(modelAnim);
+    modelAnim->addChild(modelAnimTrans);
+    modelAnimTrans->addChild(model);*/
 }
