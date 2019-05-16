@@ -582,11 +582,12 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
   // lights
   auto light = Light::create();
   light->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
-       ->setPosition(glm::vec4(10.f, 10.f, 10.f, 1.f))
+       ->setPosition(glm::vec4(5.f, 4.f, 3.f, 1.f))
        ->init();
 
   auto light2 = Light::create();
      light2->setDiffuseAndSpecular(glm::vec4(1.f, 0.f, 0.f, 1.f))
+    	  ->setSpot(glm::vec3(1.f, 0.f, 0.f), 0.5f, 0.5f)
           ->setPosition(glm::vec4(-10.f, -3.f, 10.f, 1.f))
           ->init();
 
@@ -640,19 +641,51 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
     // floor shape and transformation
     GeometryCoreFactory geometryFactory;
-    auto floorCore = geometryFactory.createCuboid(glm::vec3(20.f, 0.05f, 10.f));
+    auto floorCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
     auto floor = Shape::create();
     floor->addCore(matGreen)
          ->addCore(floorCore);
     auto floorTrans = Transformation::create();
     floorTrans->translate(glm::vec3(0.f, -0.5f, 0.f));
 
-     auto wandCore = geometryFactory.createCuboid(glm::vec3(20.f, 10.f, 0.3f));
-       auto wand = Shape::create();
-       wand->addCore(matOrange)
-            ->addCore(wandCore);
-       auto wandTrans = Transformation::create();
-       wandTrans->translate(glm::vec3(0.0f, 4.5f, -5.f));
+    auto deckeCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
+      auto decke = Shape::create();
+      decke->addCore(matWhite)
+           ->addCore(deckeCore);
+      auto deckeTrans = Transformation::create();
+      deckeTrans->translate(glm::vec3(0.f, 9.5f, 0.f));
+		  // ->rotate(-180.f, glm::vec3(1.f, 0.f, 0.f));
+
+    //4 Wände im Raum: linke, hintere, rechte, vordere
+     auto wandLinksCore = geometryFactory.createCuboid(glm::vec3(10.f, 0.05f, 10.0f));
+       auto wandLinks = Shape::create();
+       wandLinks->addCore(matRed)
+           ->addCore(wandLinksCore);
+       auto wandLinksTrans = Transformation::create();
+       wandLinksTrans->translate(glm::vec3(-7.5f, 4.5f, 0.f))
+		->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
+
+     auto wandHintenCore = geometryFactory.createCuboid(glm::vec3(15.f, 10.f, 0.3f));
+       auto wandHinten = Shape::create();
+       wandHinten->addCore(matOrange)
+            ->addCore(wandHintenCore);
+       auto wandHintenTrans = Transformation::create();
+       wandHintenTrans->translate(glm::vec3(0.0f, 4.5f, -5.f));
+
+     auto wandRechtsCore = geometryFactory.createCuboid(glm::vec3(10.f, 0.05f, 10.0f));
+       auto wandRechts = Shape::create();
+       wandRechts->addCore(matRed)
+            ->addCore(wandRechtsCore);
+       auto wandRechtsTrans = Transformation::create();
+       wandRechtsTrans->translate(glm::vec3(7.5f, 4.5f, 0.f))
+		->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
+
+     auto wandVorneCore = geometryFactory.createCuboid(glm::vec3(15.f, 10.f, 0.3f));
+       auto wandVorne = Shape::create();
+       wandVorne->addCore(matOrange)
+            ->addCore(wandVorneCore);
+       auto wandVorneTrans = Transformation::create();
+       wandVorneTrans->translate(glm::vec3(0.0f, 4.5f, 5.f));
 
    	   // Creat Zahnrad
   	  auto gearCore = geometryFactory.createGear(0.5, 0.42, 0.1, 14.0, 16.0); //GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double w1, double w2)
@@ -660,7 +693,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
   		gear->addCore(matRed)
   	        ->addCore(gearCore);
   		auto gearTrans = Transformation::create();
-  		  	   gearTrans->translate(glm::vec3(0.0f, 0.0f, 0.f));
+  		  	   gearTrans->translate(glm::vec3(0.0f, 0.75f, 0.f));
 
 
   	   //Animation für Zahnrad- Rotation
@@ -683,11 +716,19 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
          ->addChild(light)
 		 ->addChild(light2);
     light->addChild(floorTrans)
-         ->addChild(wandTrans)
+    	 ->addChild(deckeTrans)
+		 ->addChild(wandLinksTrans)
+         ->addChild(wandHintenTrans)
+		 ->addChild(wandRechtsTrans)
+		 ->addChild(wandVorneTrans)
 		 ->addChild(gearTrans);
     //light2 ->addChild(gearTrans);
     floorTrans->addChild(floor);
-    wandTrans->addChild(wand);
+    deckeTrans->addChild(decke);
+    wandLinksTrans->addChild(wandLinks);
+    wandHintenTrans->addChild(wandHinten);
+    wandRechtsTrans->addChild(wandRechts);
+    wandVorneTrans->addChild(wandVorne);
     //gearTrans->addChild(gear);
 
     gearTrans->addChild(gearAnim);
