@@ -84,6 +84,7 @@ public:
    */
 
   GeometryCoreSP createTest();
+  GeometryCoreSP createFrame();
   /*
    * Create a Gear
    */

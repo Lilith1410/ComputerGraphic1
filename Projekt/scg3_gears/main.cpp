@@ -600,6 +600,12 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
        ->setPosition(glm::vec4(5.f, 4.f, 3.f, 1.f))
        ->init();
 
+  auto frameLight = Light::create();
+  frameLight->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
+       ->setPosition(glm::vec4(-6.0f, 8.0f, -4.8f, 1.f))
+       ->init();
+
+
   auto light2 = Light::create();
      light2->setDiffuseAndSpecular(glm::vec4(1.f, 0.f, 0.f, 1.f))
     	  //->setSpot(glm::vec3(1.f, 0.f, 0.f), 0.5f, 0.5f)
@@ -731,6 +737,23 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
     tableTrans->rotate(30.f, glm::vec3(0.f, 1.f, 0.f));
         *
         */
+       // Create Frame
+   	  auto frameCore = geometryFactory.createFrame();
+   		auto frame = Shape::create();
+   		frame->addCore(matGrey)
+   	        ->addCore(frameCore);
+   		auto frameTrans = Transformation::create();
+   		  	   frameTrans->translate(glm::vec3(-6.0f, 8.0f, -4.85f));
+   		  			   frameTrans->scale(glm::vec3(2.f,2.f,2.f));
+
+   		     auto frameBGCore = geometryFactory.createCuboid(glm::vec3(1.3f, 0.7f, .01f));
+   		       auto frameBG = Shape::create();
+   		       frameBG->addCore(matBlue)
+   		            ->addCore(frameBGCore);
+   		       auto frameBGTrans = Transformation::create();
+   		       frameBGTrans->translate(glm::vec3(-4.9f, 7.3f, -4.85f));
+   		    frameBGTrans->scale(glm::vec3(2.f,2.f,2.f));
+
 
    	   // Creat Zahnrad
   	  auto gearCore = geometryFactory.createGear(0.5, 0.42, 0.1, 14.0, 16.0); //GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double w1, double w2)
@@ -787,7 +810,10 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
     scene->addCore(shaderPhong);
     scene->addChild(camera)
          ->addChild(light)
-		 ->addChild(light2);
+		 ->addChild(light2)
+		 ->addChild(frameLight);
+    frameLight->addChild(frameBGTrans)
+    		;
     light->addChild(floorTrans)
     	 ->addChild(deckeTrans)
 		 ->addChild(wandLinksTrans)
@@ -796,7 +822,9 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		 ->addChild(wandVorneTrans)
 		 ->addChild(gearTrans)
 		 ->addChild(gear2Trans)
-		 ->addChild(sonneTrans);
+		 ->addChild(sonneTrans)
+		 ->addChild(frameBGTrans)
+    	 ->addChild(frameTrans);
     //light2 ->addChild(gearTrans);
     floorTrans->addChild(floor);
     deckeTrans->addChild(decke);
@@ -806,6 +834,8 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
     wandVorneTrans->addChild(wandVorne);
     //gearTrans->addChild(gear);
     //gear2Trans->addChild(gear2);
+    frameTrans->addChild(frame);
+    frameBGTrans->addChild(frameBG);
     sonneTrans->addChild(sonne);
 
     gearTrans->addChild(gearAnim);
