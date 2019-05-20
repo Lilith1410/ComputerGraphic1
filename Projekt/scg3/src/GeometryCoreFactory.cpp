@@ -171,9 +171,58 @@ GeometryCoreSP GeometryCoreFactory::createTest() {
 
   return core;
 }
+/*
+ * Vorlage
+
+GeometryCoreSP GeometryCoreFactory::createXXXX(double l, double k, double z, double _w1, double _w2) {
+  // create geometry core
+  auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
+  GLfloat vertices[] = {
+
+  };
+  core->addAttributeData(OGLConstants::VERTEX.location, vertices,
+		  	 sizeof(vertices), 3, GL_STATIC_DRAW);
+
+  //define indices
+  const GLuint indices[] = {
+
+  };
+  core->setElementIndexData(indices, sizeof(indices), GL_STATIC_DRAW);
+
+  GLfloat normals[] = {
+
+  };
+  core->addAttributeData(OGLConstants::NORMAL.location, normals,
+      sizeof(normals), 3, GL_STATIC_DRAW);
+  return core;
+
+}
+*/
 
 
+GeometryCoreSP GeometryCoreFactory::createFrame() {
+  // create geometry core
+  auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
+  GLfloat vertices[] = {
 
+  };
+  core->addAttributeData(OGLConstants::VERTEX.location, vertices,
+		  	 sizeof(vertices), 3, GL_STATIC_DRAW);
+
+  //define indices
+  const GLuint indices[] = {
+
+  };
+  core->setElementIndexData(indices, sizeof(indices), GL_STATIC_DRAW);
+
+  GLfloat normals[] = {
+
+  };
+  core->addAttributeData(OGLConstants::NORMAL.location, normals,
+      sizeof(normals), 3, GL_STATIC_DRAW);
+  return core;
+
+}
 
 /*
 *
@@ -898,9 +947,9 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 
 	  //set normals
 	  normals[(i*3)] = normVec[0];
-	  normals[(i*3)+1] = normVec[1]*(-1);
-	  //normals[(i*3)+2] = normVec[2]*(-1);
-	  normals[(i*3)+2] = -k;
+	  normals[(i*3)+1] = normVec[1];
+	  normals[(i*3)+2] = normVec[2]*(-1);
+	  //normals[(i*3)+2] = -k;
   };
 
 

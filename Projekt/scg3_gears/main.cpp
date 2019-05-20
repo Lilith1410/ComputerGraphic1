@@ -502,7 +502,7 @@ void createTableScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
   	   ->addChild(modelTrans)
 	   ->addChild(gearTrans);
     //light2 ->addChild(tableTrans);
-    floorTrans->addChild(floor);http://org.eclipse.ui.intro/showPage?id=samples&standby=false
+    floorTrans->addChild(floor);//http://org.eclipse.ui.intro/showPage?id=samples&standby=false
     deckeTrans->addChild(decke);
     tableTrans->addChild(table)
               ->addChild(teapotTrans);
@@ -629,8 +629,8 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
               ->setShininess(20.f)
               ->init();
 
-      auto matOrange = MaterialCore::create();
-        matOrange->setAmbientAndDiffuse(glm::vec4(.8f, 0.6f, 0.0f, 1.f))
+      auto matGrey = MaterialCore::create();
+        matGrey->setAmbientAndDiffuse(glm::vec4(.5f, 0.5f, 0.5f, 1.f))
                 ->init();
 
     auto matGold = MaterialCore::create();
@@ -649,23 +649,36 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
     // textures
     TextureCoreFactory textureFactory("../scg3/textures;../../scg3/textures");
-    auto texWood = textureFactory.create2DTextureFromFile(
-        "wood_256.png", GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
     // set texture matrix
-  //  texWood->scale2D(glm::vec2(4.f, 4.f));
+    //texWood->scale2D(glm::vec2(4.f, 4.f));
+    //TextureCoreFactory textureFactory2("../scg3/textures;../../scg3/textures");
+    auto texCem1 = textureFactory.create2DTextureFromFile(
+        "cement1.jpg", GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
+    //TextureCoreFactory textureFactory3("../scg3/textures;../../scg3/textures");
+    auto texCem2 = textureFactory.create2DTextureFromFile(
+        "cement2.jpg", GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
+    auto texCem3 = textureFactory.create2DTextureFromFile(
+            "cement3.jpg", GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
+    auto texCeiling = textureFactory.create2DTextureFromFile(
+                "ceiling.png", GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
+
 
     // floor shape and transformation
     GeometryCoreFactory geometryFactory;
     auto floorCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
     auto floor = Shape::create();
-    floor->addCore(matGreen)
+    floor->addCore(shaderPhongTex)
+    		->addCore(matGrey)
+			->addCore(texCem3)
          ->addCore(floorCore);
     auto floorTrans = Transformation::create();
     floorTrans->translate(glm::vec3(0.f, -0.5f, 0.f));
 
     auto deckeCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
       auto decke = Shape::create();
-      decke->addCore(matWhite)
+      decke->addCore(shaderPhongTex)
+	  ->addCore(matGrey)
+	  ->addCore(texCeiling)
            ->addCore(deckeCore);
       auto deckeTrans = Transformation::create();
       deckeTrans->translate(glm::vec3(0.f, 9.5f, 0.f));
@@ -674,7 +687,9 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
     //4 Wände im Raum: linke, hintere, rechte, vordere
      auto wandLinksCore = geometryFactory.createCuboid(glm::vec3(10.f, 0.05f, 10.0f));
        auto wandLinks = Shape::create();
-       wandLinks->addCore(matRed)
+       wandLinks->addCore(shaderPhongTex)
+    		   ->addCore(matGrey)
+		->addCore(texCem2)
            ->addCore(wandLinksCore);
        auto wandLinksTrans = Transformation::create();
        wandLinksTrans->translate(glm::vec3(-7.5f, 4.5f, 0.f))
@@ -682,14 +697,18 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
      auto wandHintenCore = geometryFactory.createCuboid(glm::vec3(15.f, 10.f, 0.3f));
        auto wandHinten = Shape::create();
-       wandHinten->addCore(matOrange)
+       wandHinten->addCore(shaderPhongTex)
+    		   ->addCore(matGrey)
+				->addCore(texCem1)
             ->addCore(wandHintenCore);
        auto wandHintenTrans = Transformation::create();
        wandHintenTrans->translate(glm::vec3(0.0f, 4.5f, -5.f));
 
      auto wandRechtsCore = geometryFactory.createCuboid(glm::vec3(10.f, 0.05f, 10.0f));
        auto wandRechts = Shape::create();
-       wandRechts->addCore(matRed)
+       wandRechts->addCore(shaderPhongTex)
+    		   ->addCore(matGrey)
+		->addCore(texCem2)
             ->addCore(wandRechtsCore);
        auto wandRechtsTrans = Transformation::create();
        wandRechtsTrans->translate(glm::vec3(7.5f, 4.5f, 0.f))
@@ -697,10 +716,21 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
      auto wandVorneCore = geometryFactory.createCuboid(glm::vec3(15.f, 10.f, 0.3f));
        auto wandVorne = Shape::create();
-       wandVorne->addCore(matOrange)
+       wandVorne->addCore(shaderPhongTex)
+			   ->addCore(matGrey)
+    		   ->addCore(texCem1)
             ->addCore(wandVorneCore);
        auto wandVorneTrans = Transformation::create();
        wandVorneTrans->translate(glm::vec3(0.0f, 4.5f, 5.f));
+
+       /*    auto table = Group::create();
+    table->addCore(shaderPhongTex)
+         ->addCore(matWhite)
+         ->addCore(texWood);
+    auto tableTrans = Transformation::create();
+    tableTrans->rotate(30.f, glm::vec3(0.f, 1.f, 0.f));
+        *
+        */
 
    	   // Creat Zahnrad
   	  auto gearCore = geometryFactory.createGear(0.5, 0.42, 0.1, 14.0, 16.0); //GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double w1, double w2)
