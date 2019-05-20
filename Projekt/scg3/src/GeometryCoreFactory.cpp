@@ -931,7 +931,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 	  float kanteA[] = {vertices[vx2]-vertices[vx1], vertices[vy2]-vertices[vy1], vertices[vz2]-vertices[vz1]}; // Vektor2-Vektor1
 	  float kanteB[] = {vertices[vx3]-vertices[vx1], vertices[vy3]-vertices[vy1], vertices[vz3]-vertices[vz1]}; // Vektor3-Vektor1
 
-	  // Normalenvaktor berechnen kanteA x KanteB
+	  // Normalenvektor berechnen kanteA x KanteB
 	  float nVec[] = {	(kanteA[1]*kanteB[2])-(kanteA[2]*kanteB[1]),
 			  	  	  	  (kanteA[2]*kanteB[0])-(kanteA[0]*kanteB[2]),
 						  (kanteA[0]*kanteB[1])-(kanteA[1]*kanteB[0])

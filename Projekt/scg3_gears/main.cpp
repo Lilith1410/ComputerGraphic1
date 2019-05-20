@@ -577,7 +577,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		//->rotateYawRad(1.0f)			//um vertikale Kameraachse
 		//->rotate(2.0f, glm::vec3(0.f, 0.f, 1.f))
 
-        ->dolly(-2.f);			//Abstand zum Fokus(Bewegungen der Kamera in Blickrichtung)
+        ->dolly(-2.5f);			//Abstand zum Fokus(Bewegungen der Kamera in Blickrichtung)
 
   glm::vec3 _eye(0, 0, 10), _center(2, 0, 0), _up(0, 1, 0);
   glm::mat4 modelViewMatrix = glm::lookAt(_eye, _center, _up);
@@ -602,8 +602,8 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
   auto light2 = Light::create();
      light2->setDiffuseAndSpecular(glm::vec4(1.f, 0.f, 0.f, 1.f))
-    	  ->setSpot(glm::vec3(1.f, 0.f, 0.f), 0.5f, 0.5f)
-          ->setPosition(glm::vec4(-10.f, -3.f, 10.f, 1.f))
+    	  //->setSpot(glm::vec3(1.f, 0.f, 0.f), 0.5f, 0.5f)
+          ->setPosition(glm::vec4(-5.f, 4.f, 3.f, 1.f))
           ->init();
 
     // materials
@@ -753,7 +753,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
   	   	   auto gearAnimTrans = Transformation::create();
   	   	   gearAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-	 // Creat Zahnrad 2
+	 // Create Zahnrad 2
 	  auto gear2Core = geometryFactory.createGear(0.5, 0.42, 0.1, 14.0, 16.0); //GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double w1, double w2)
 		auto gear2 = Shape::create();
 		gear2->addCore(matGold)
@@ -762,7 +762,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			   gear2Trans->translate(glm::vec3(0.93f, 0.75f, 0.f));
 						//->rotate(-10.f, glm::vec3(0.f, 0.f, 1.f));
 
-	   //Animation für Zahnrad- Rotation
+	   //Animation für 2-Zahnrad- Rotation
 	 auto gear2Anim = TransformAnimation::create();
 		   float angularVel4 = 60.f; //Geschwindigkeit
 		   glm::vec3 axis4(0.f, 0.f, 1.f); //Rotation um z-Achse
@@ -774,6 +774,13 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		   auto gear2AnimTrans = Transformation::create();
 		   gear2AnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
 
+	//Create Sonne
+	   auto sonneCore = geometryFactory.createSphere(0.6f, 150, 140) ;
+			auto sonne = Shape::create();
+			sonne->addCore(matTuerkis)
+				->addCore(sonneCore);
+			auto sonneTrans = Transformation::create();
+			sonneTrans->translate(glm::vec3(3.6f, 2.3f, -1.f));
 
     // create scene graph
     scene = Group::create();
@@ -788,7 +795,8 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		 ->addChild(wandRechtsTrans)
 		 ->addChild(wandVorneTrans)
 		 ->addChild(gearTrans)
-		 ->addChild(gear2Trans);
+		 ->addChild(gear2Trans)
+		 ->addChild(sonneTrans);
     //light2 ->addChild(gearTrans);
     floorTrans->addChild(floor);
     deckeTrans->addChild(decke);
@@ -798,6 +806,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
     wandVorneTrans->addChild(wandVorne);
     //gearTrans->addChild(gear);
     //gear2Trans->addChild(gear2);
+    sonneTrans->addChild(sonne);
 
     gearTrans->addChild(gearAnim);
     gearAnim->addChild(gearAnimTrans);
