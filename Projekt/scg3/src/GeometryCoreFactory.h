@@ -85,6 +85,7 @@ public:
 
   GeometryCoreSP createTest();
   GeometryCoreSP createFrame();
+  GeometryCoreSP createBroccoli();
   /*
    * Create a Gear
    */
