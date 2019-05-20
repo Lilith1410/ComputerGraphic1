@@ -748,6 +748,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto gear2AnimTrans = Transformation::create();
 	gear2AnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
 
+
 /*	//Create Sonne
 	auto sonneCore = geometryFactory.createSphere(0.6f, 150, 140);
 	auto sonne = Shape::create();
