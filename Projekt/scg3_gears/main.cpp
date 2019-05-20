@@ -540,6 +540,11 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	frameLight->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))->setPosition(
 			glm::vec4(-6.0f, 8.0f, -4.8f, 1.f))->init();
 
+	auto lampLight = Light::create();
+	lampLight->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))->setPosition(
+			glm::vec4(4.6f, 5.95f, -.9f, 1.f))->init();
+
+
 	auto light2 = Light::create();
 	light2->setDiffuseAndSpecular(glm::vec4(1.f, 0.f, 0.f, 1.f))
 	//->setSpot(glm::vec3(1.f, 0.f, 0.f), 0.5f, 0.5f)
@@ -548,6 +553,10 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	// materials
 	auto matRed = MaterialCore::create();
 	matRed->setAmbientAndDiffuse(glm::vec4(1.f, 0.5f, 0.5f, 1.f))->setSpecular(
+			glm::vec4(1.f, 1.f, 1.f, 1.f))->setShininess(20.f)->init();
+
+	auto matYellow = MaterialCore::create();
+	matYellow->setAmbientAndDiffuse(glm::vec4(.8f, 0.4f, 0.12f, 1.f))->setSpecular(
 			glm::vec4(1.f, 1.f, 1.f, 1.f))->setShininess(20.f)->init();
 
 	auto matGreen = MaterialCore::create();
@@ -563,6 +572,9 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	auto matGrey = MaterialCore::create();
 	matGrey->setAmbientAndDiffuse(glm::vec4(.5f, 0.5f, 0.5f, 1.f))->init();
+
+	auto matDarkGrey = MaterialCore::create();
+		matDarkGrey->setAmbientAndDiffuse(glm::vec4(0.25f, 0.25f, 0.25f, 1.f))->init();
 
 	auto matGold = MaterialCore::create();
 	matGold->setAmbient(glm::vec4(0.25f, 0.22f, 0.06f, 1.f))->setDiffuse(
@@ -676,6 +688,23 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	broccoliTrans->scale(glm::vec3(.5f, .5f, .5f));
 	broccoliTrans->rotate(-14.f, glm::vec3(0.f, 0.f, 1.f));
 
+	//Create Lamp
+	auto lampCore = geometryFactory.createLamp();
+	auto lamp = Shape::create();
+	lamp->addCore(matDarkGrey)->addCore(lampCore);
+	auto lampTrans = Transformation::create();
+	lampTrans->translate(glm::vec3(5.0f, 9.5f, 1.85f));
+	lampTrans->scale(glm::vec3(1.f, 1.f, 1.f));
+	lampTrans->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f));
+
+	//Create Bulb
+	auto bulbCore = geometryFactory.createBulb();
+	auto bulb = Shape::create();
+	bulb->addCore(matYellow)->addCore(bulbCore);
+	auto bulbTrans = Transformation::create();
+	bulbTrans->translate(glm::vec3(4.6f, 5.95f, -.9f));
+	bulbTrans->scale(glm::vec3(1.3f, 1.3f, 1.3f));
+	bulbTrans->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
 
 	// Creat Zahnrad
 	auto gearCore = geometryFactory.createGear(0.5, 0.42, 0.1, 14.0, 16.0); //GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double w1, double w2)
@@ -719,24 +748,24 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto gear2AnimTrans = Transformation::create();
 	gear2AnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-	//Create Sonne
+/*	//Create Sonne
 	auto sonneCore = geometryFactory.createSphere(0.6f, 150, 140);
 	auto sonne = Shape::create();
 	sonne->addCore(matTuerkis)->addCore(sonneCore);
 	auto sonneTrans = Transformation::create();
 	sonneTrans->translate(glm::vec3(3.6f, 2.3f, -1.f));
-
+*/
 	// create scene graph
 	scene = Group::create();
 	scene->addCore(shaderPhong);
 	scene->addChild(camera)->addChild(light)->addChild(light2)->addChild(
 			frameLight);
 	frameLight->addChild(frameBGTrans);
+	lampLight->addChild(bulbTrans);
 	light->addChild(floorTrans)->addChild(deckeTrans)->addChild(wandLinksTrans)->addChild(
 			wandHintenTrans)->addChild(wandRechtsTrans)->addChild(
-			wandVorneTrans)->addChild(gearTrans)->addChild(gear2Trans)->addChild(
-			sonneTrans)->addChild(frameBGTrans)->addChild(frameTrans)
-			->addChild(broccoliTrans);
+			wandVorneTrans)->addChild(gearTrans)->addChild(gear2Trans)->addChild(frameBGTrans)->addChild(frameTrans)
+			->addChild(broccoliTrans)->addChild(lampTrans)->addChild(bulbTrans);
 	//light2 ->addChild(gearTrans);
 	floorTrans->addChild(floor);
 	deckeTrans->addChild(decke);
@@ -749,7 +778,9 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	frameTrans->addChild(frame);
 	frameBGTrans->addChild(frameBG);
 	broccoliTrans->addChild(broccoli);
-	sonneTrans->addChild(sonne);
+	//sonneTrans->addChild(sonne);
+	lampTrans->addChild(lamp);
+	bulbTrans->addChild(bulb);
 
 	gearTrans->addChild(gearAnim);
 	gearAnim->addChild(gearAnimTrans);
