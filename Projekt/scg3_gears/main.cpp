@@ -502,7 +502,7 @@ void createTableScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
   	   ->addChild(modelTrans)
 	   ->addChild(gearTrans);
     //light2 ->addChild(tableTrans);
-    floorTrans->addChild(floor);
+    floorTrans->addChild(floor);http://org.eclipse.ui.intro/showPage?id=samples&standby=false
     deckeTrans->addChild(decke);
     tableTrans->addChild(table)
               ->addChild(teapotTrans);
@@ -567,7 +567,22 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
   // camera controllers
   camera->translate(glm::vec3(0.f, 0.5f, 1.f))
-        ->dolly(-1.f);
+		//->rotateElevationRad(1.0f)	//um horizontale Achse durch den Fokus
+		//->rotateElevation(12.0f)
+		//->rotateAzimuthRad(1.0f)		//um vertikale Achse durch den Fokus
+		//->rotateAzimuth(12.0f)
+		//->rotateRollRad(2.0f)			//Rotation um die optische Achse
+		//->rotateRoll(2.0f)
+		//->rotatePitchRad(-1.0f) 		//um horizintale Kameraachse
+		//->rotateYawRad(1.0f)			//um vertikale Kameraachse
+		//->rotate(2.0f, glm::vec3(0.f, 0.f, 1.f))
+
+        ->dolly(-2.f);			//Abstand zum Fokus(Bewegungen der Kamera in Blickrichtung)
+
+  glm::vec3 _eye(0, 0, 10), _center(2, 0, 0), _up(0, 1, 0);
+  glm::mat4 modelViewMatrix = glm::lookAt(_eye, _center, _up);
+  //glm::mat4 projectionMatrix = glm::perspective(glm::radians(45), 6./8., 0.1, 200.);
+
 #ifdef SCG_CPP11_INITIALIZER_LISTS
   viewer->addControllers(
       {
@@ -694,11 +709,11 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
   	        ->addCore(gearCore);
   		auto gearTrans = Transformation::create();
   		  	   gearTrans->translate(glm::vec3(0.0f, 0.75f, 0.f));
-
+						//->rotate(-180.f, glm::vec3(0.f, 1.f, 0.f));
 
   	   //Animation für Zahnrad- Rotation
   	 auto gearAnim = TransformAnimation::create();
-  	   	   float angularVel3 = 100.f; //Geschwindigkeit
+  	   	   float angularVel3 = 60.f; //Geschwindigkeit
   	   	   glm::vec3 axis3(0.f, 0.f, 1.f); //Rotation um z-Achse
   	   	   gearAnim->setUpdateFunc([angularVel3, axis3](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
   	   		   animation->rotate(angularVel3*static_cast<GLfloat>(diffTime), axis3);
@@ -707,6 +722,27 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
   	   	   // add transformation (translation) to be applied before animation
   	   	   auto gearAnimTrans = Transformation::create();
   	   	   gearAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
+
+	 // Creat Zahnrad 2
+	  auto gear2Core = geometryFactory.createGear(0.5, 0.42, 0.1, 14.0, 16.0); //GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double w1, double w2)
+		auto gear2 = Shape::create();
+		gear2->addCore(matGold)
+			->addCore(gear2Core);
+		auto gear2Trans = Transformation::create();
+			   gear2Trans->translate(glm::vec3(0.93f, 0.75f, 0.f));
+						//->rotate(-10.f, glm::vec3(0.f, 0.f, 1.f));
+
+	   //Animation für Zahnrad- Rotation
+	 auto gear2Anim = TransformAnimation::create();
+		   float angularVel4 = 60.f; //Geschwindigkeit
+		   glm::vec3 axis4(0.f, 0.f, 1.f); //Rotation um z-Achse
+		   gear2Anim->setUpdateFunc([angularVel4, axis4](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+			   animation->rotate(-angularVel4*static_cast<GLfloat>(diffTime), axis4);
+		   });
+		   viewer->addAnimation(gear2Anim);
+		   // add transformation (translation) to be applied before animation
+		   auto gear2AnimTrans = Transformation::create();
+		   gear2AnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
 
 
     // create scene graph
@@ -721,7 +757,8 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
          ->addChild(wandHintenTrans)
 		 ->addChild(wandRechtsTrans)
 		 ->addChild(wandVorneTrans)
-		 ->addChild(gearTrans);
+		 ->addChild(gearTrans)
+		 ->addChild(gear2Trans);
     //light2 ->addChild(gearTrans);
     floorTrans->addChild(floor);
     deckeTrans->addChild(decke);
@@ -730,8 +767,13 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
     wandRechtsTrans->addChild(wandRechts);
     wandVorneTrans->addChild(wandVorne);
     //gearTrans->addChild(gear);
+    //gear2Trans->addChild(gear2);
 
     gearTrans->addChild(gearAnim);
     gearAnim->addChild(gearAnimTrans);
     gearAnimTrans->addChild(gear);
+
+    gear2Trans->addChild(gear2Anim);
+    gear2Anim->addChild(gear2AnimTrans);
+    gear2AnimTrans->addChild(gear2);
 }
