@@ -298,66 +298,13 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto wandVorneTrans = Transformation::create();
 	wandVorneTrans->translate(glm::vec3(0.0f, 4.5f, 5.f));
 
-	/*    auto table = Group::create();
-	 table->addCore(shaderPhongTex)
-	 ->addCore(matWhite)
-	 ->addCore(texWood);
-	 auto tableTrans = Transformation::create();
-	 tableTrans->rotate(30.f, glm::vec3(0.f, 1.f, 0.f));
-	 *
-	 */
-	// Create Frame
-/*	auto frameCore = geometryFactory.createFrame();
-	auto frame = Shape::create();
-	frame->addCore(matGrey)->addCore(frameCore);
-	auto frameTrans = Transformation::create();
-	frameTrans->translate(glm::vec3(-6.0f, 8.0f, -4.85f));
-	frameTrans->scale(glm::vec3(2.f, 2.f, 2.f));
-
-	auto frameBGCore = geometryFactory.createCuboid(
-			glm::vec3(1.3f, 0.7f, .01f));
-	auto frameBG = Shape::create();
-	frameBG->addCore(matBlue)->addCore(frameBGCore);
-	auto frameBGTrans = Transformation::create();
-	frameBGTrans->translate(glm::vec3(-4.9f, 7.3f, -4.85f));
-	frameBGTrans->scale(glm::vec3(2.f, 2.f, 2.f));
-
-
-
-	//Create Broccoli Wall-Art
-	auto broccoliCore = geometryFactory.createBroccoli();
-	auto broccoli = Shape::create();
-	broccoli->addCore(matGreen)->addCore(broccoliCore);
-	auto broccoliTrans = Transformation::create();
-	broccoliTrans->translate(glm::vec3(6.0f, 1.0f, -4.85f));
-	broccoliTrans->scale(glm::vec3(.5f, .5f, .5f));
-	broccoliTrans->rotate(-14.f, glm::vec3(0.f, 0.f, 1.f));
-
-	//Create Lamp
-	auto lampCore = geometryFactory.createLamp();
-	auto lamp = Shape::create();
-	lamp->addCore(matDarkGrey)->addCore(lampCore);
-	auto lampTrans = Transformation::create();
-	lampTrans->translate(glm::vec3(5.0f, 9.5f, 1.85f));
-	lampTrans->scale(glm::vec3(1.f, 1.f, 1.f));
-	lampTrans->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f));
-
-	//Create Bulb
-	auto bulbCore = geometryFactory.createBulb();
-	auto bulb = Shape::create();
-	bulb->addCore(matYellow)->addCore(bulbCore);
-	auto bulbTrans = Transformation::create();
-	bulbTrans->translate(glm::vec3(4.6f, 5.95f, -.9f));
-	bulbTrans->scale(glm::vec3(1.3f, 1.3f, 1.3f));
-	bulbTrans->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
-
-	// Creat Zahnrad
-	auto gearCore = geometryFactory.createGear(0.5, 0.42, 0.1, 14.0, 16.0); //GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double w1, double w2)
-	auto gear = Shape::create();
-	gear->addCore(matRed)->addCore(gearCore);
-	auto gearTrans = Transformation::create();
-	gearTrans->translate(glm::vec3(0.0f, 0.75f, 0.f));
-	//->rotate(-180.f, glm::vec3(0.f, 1.f, 0.f));
+/*
+	auto spotCore = geometryFactory.createModelFromOBJFile("obj/spot.obj");
+	auto spot = Shape::create();
+	spot->addCore(matGrey)->addCore(spotCore);
+	auto spotTrans = Transformation::create();
+	spotTrans->translate(glm::vec3(-0.45f, 0.75f, 0.0f));
+	spotTrans->rotate(0.0f, glm::vec3(0.f, 1.f, 0.f));
 */
 
 	auto stabCore = geometryFactory.createModelFromOBJFile("obj/gear_center.obj");
@@ -436,7 +383,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			frameLight);
 	light->addChild(floorTrans)->addChild(deckeTrans)->addChild(wandLinksTrans)->addChild(
 			wandHintenTrans)->addChild(wandRechtsTrans)->addChild(
-			wandVorneTrans)->addChild(gearTrans)->addChild(gear2Trans)->addChild(stabTrans)->addChild(stab2Trans);
+			wandVorneTrans)->addChild(gearTrans)->addChild(gear2Trans)->addChild(stabTrans)->addChild(stab2Trans)->addChild(spotTrans);
 	//light2 ->addChild(gearTrans);
 	floorTrans->addChild(floor);
 	deckeTrans->addChild(decke);
@@ -452,6 +399,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	gearTrans->addChild(gearAnim);
 	gearAnim->addChild(gearAnimTrans);
 	gearAnimTrans->addChild(gear);
+	spotTrans->addChild(spot);
 
 	gear2Trans->addChild(gear2Anim);
 	gear2Anim->addChild(gear2AnimTrans);
