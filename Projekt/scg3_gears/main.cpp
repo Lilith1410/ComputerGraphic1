@@ -164,8 +164,11 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	// lights
 	auto light = Light::create();
-	light->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))->setPosition(
-			glm::vec4(5.f, 4.f, 3.f, 1.f))->init();
+	light->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
+			->setPosition(glm::vec4(0.f, 3.f, -3.f, 1.f))
+		->setSpot(glm::vec3(0.f, -0.8f, -1.f), 35.f, 1.f)
+
+		->init();
 
 	auto frameLight = Light::create();
 	frameLight->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))->setPosition(
@@ -178,7 +181,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	auto light2 = Light::create();
 	light2->setDiffuseAndSpecular(glm::vec4(1.f, 0.f, 0.f, 1.f))
-	//->setSpot(glm::vec3(1.f, 0.f, 0.f), 0.5f, 0.5f)
+	//->setSpot(glm::vec3(1.f, 0.f, 0.f), 45.f, 30.f)
 	->setPosition(glm::vec4(-5.f, 4.f, 3.f, 1.f))->init();
 
 	/*
