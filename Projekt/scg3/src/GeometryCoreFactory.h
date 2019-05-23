@@ -84,10 +84,14 @@ public:
    */
 
   GeometryCoreSP createTest();
+  GeometryCoreSP createFrame();
+  GeometryCoreSP createBroccoli();
+  GeometryCoreSP createLamp();
+  GeometryCoreSP createBulb();
   /*
    * Create a Gear
    */
-  GeometryCoreSP createGear(double l, double k, double z, double w1, double w2);
+  GeometryCoreSP createGearOld(double l, double k, double z, double w1, double w2);
 
   /**
    * Create rectangle in xy plane with normals, tangents, binormals, and

@@ -168,12 +168,64 @@ GeometryCoreSP GeometryCoreFactory::createTest() {
   };
   core->setElementIndexData(indices, sizeof(indices), GL_STATIC_DRAW);
 
+  return core;
+}
+/*
+ * Vorlage
+
+GeometryCoreSP GeometryCoreFactory::createXXXX(double l, double k, double z, double _w1, double _w2) {
+  // create geometry core
+  auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
+  GLfloat vertices[] = {
+
+  };
+  core->addAttributeData(OGLConstants::VERTEX.location, vertices,
+		  	 sizeof(vertices), 3, GL_STATIC_DRAW);
+
+  //define indices
+  const GLuint indices[] = {
+
+  };
+  core->setElementIndexData(indices, sizeof(indices), GL_STATIC_DRAW);
+
+  GLfloat normals[] = {
+
+  };
+  core->addAttributeData(OGLConstants::NORMAL.location, normals,
+      sizeof(normals), 3, GL_STATIC_DRAW);
+  return core;
+
+}
+*/
+
+GeometryCoreSP GeometryCoreFactory::createBulb() {
+	auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
 
   return core;
 }
 
 
+GeometryCoreSP GeometryCoreFactory::createLamp() {
+	auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
+  return core;
+}
 
+GeometryCoreSP GeometryCoreFactory::createBroccoli() {
+  // create geometry core
+  auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
+
+  return core;
+
+}
+
+
+GeometryCoreSP GeometryCoreFactory::createFrame() {
+  // create geometry core
+  auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
+
+  return core;
+
+}
 
 /*
 *
@@ -188,7 +240,7 @@ GeometryCoreSP GeometryCoreFactory::createTest() {
 *
 *GeometryCoreSP GeometryCoreFactory::createGear(GLfloat size) {
 */
-GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, double _w1, double _w2) {
+GeometryCoreSP GeometryCoreFactory::createGearOld(double l, double k, double z, double _w1, double _w2) {
   // create geometry core
   auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
   GLfloat z_vorn = z/2;
@@ -513,12 +565,12 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 	  *           |
 	  *           |
 	  */
-		  61,60,0,
-		  59,58,0,
-		  57,56,0,
-		  55,54,0,
-		  53,52,0,
-		  51,50,0,
+		  49,61,60,
+		  49,59,58,
+		  49,57,56,
+		  49,55,54,
+		  49,53,52,
+		  49,51,50,
 
 	 /*
 	  *           |
@@ -528,12 +580,12 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 	  *           |    /
 	  *           |73
 	  */
-		  62,63,0,
-		  64,65,0,
-		  66,67,0,
-		  68,69,0,
-		  70,71,0,
-		  72,73,0,
+		  49,62,63,
+		  49,64,65,
+		  49,66,67,
+		  49,68,69,
+		  49,70,71,
+		  49,72,73,
 
 	 /*
 	  *           |
@@ -543,12 +595,12 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 	  *      \    |
 	  *         97|
 	  */
-		  97,96,0,
-		  95,94,0,
-		  93,92,0,
-		  91,90,0,
-		  89,88,0,
-		  87,86,0,
+		  49,97,96,
+		  49,95,94,
+		  49,93,92,
+		  49,91,90,
+		  49,89,88,
+		  49,87,86,
 
 	   /*
 		*        85 |
@@ -559,12 +611,12 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 		*           |
 		*/
 
-		  74,75,0,
-		  76,77,0,
-		  78,79,0,
-		  80,81,0,
-		  82,83,0,
-		  84,85,0,
+		  49,74,75,
+		  49,76,77,
+		  49,78,79,
+		  49,80,81,
+		  49,82,83,
+		  49,84,85,
 
 		  //Seitenflächen
 
@@ -577,7 +629,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 	   *           |
 	   */
 
-		  12,11,60,
+		/*  12,11,60,
 		  12,61,60,
 		  11,10,59,
 		  11,60,59,
@@ -611,7 +663,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 	  *           |24 + 73
 	  */
 
-		  13,14,63,
+	/*	  13,14,63,
 		  13,62,63,
 		  14,15,64,
 		  14,63,64,
@@ -647,7 +699,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 
 
 
-		  48,47,96,
+		/*  48,47,96,
 		  48,97,96,
 		  47,46,95,
 		  47,96,95,
@@ -680,7 +732,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 	  *           |
 	  *           |
 	  */
-		  25,26,75,
+		/*  25,26,75,
 		  25,74,75,
 		  26,27,76,
 		  26,75,76,
@@ -882,7 +934,7 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 	  float kanteA[] = {vertices[vx2]-vertices[vx1], vertices[vy2]-vertices[vy1], vertices[vz2]-vertices[vz1]}; // Vektor2-Vektor1
 	  float kanteB[] = {vertices[vx3]-vertices[vx1], vertices[vy3]-vertices[vy1], vertices[vz3]-vertices[vz1]}; // Vektor3-Vektor1
 
-	  // Normalenvaktor berechnen kanteA x KanteB
+	  // Normalenvektor berechnen kanteA x KanteB
 	  float nVec[] = {	(kanteA[1]*kanteB[2])-(kanteA[2]*kanteB[1]),
 			  	  	  	  (kanteA[2]*kanteB[0])-(kanteA[0]*kanteB[2]),
 						  (kanteA[0]*kanteB[1])-(kanteA[1]*kanteB[0])
@@ -899,9 +951,10 @@ GeometryCoreSP GeometryCoreFactory::createGear(double l, double k, double z, dou
 	  //set normals
 	  normals[(i*3)] = normVec[0];
 	  normals[(i*3)+1] = normVec[1];
-	 // normals[(i*3)+2] = normVec[2]*(-1);
-	  normals[(i*3)+2] = k;
+	  normals[(i*3)+2] = normVec[2]*(-1);
+	  //normals[(i*3)+2] = -k;
   };
+
 
   core->addAttributeData(OGLConstants::NORMAL.location, normals,
       sizeof(normals), 3, GL_STATIC_DRAW);
