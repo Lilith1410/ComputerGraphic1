@@ -132,43 +132,6 @@ GeometryCoreSP GeometryCoreFactory::createModelFromOBJFile(const std::string& fi
   return core;
 }
 
-
-/*
- * createTest
- */
-GeometryCoreSP GeometryCoreFactory::createTest() {
-  // create geometry core
-  auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
-  // define vertices
-  GLfloat vertices[] = {
-		  0.5f, 0.5f, 0.0f,
-		  -0.5f, 0.5f, 0.0f,
-		  -0.5f, -0.5f, 0.0f,
-		  0.5f, -0.5f, 0.0f,
-
-  };
-/*
-  // scale and translate vertices to unit size and origin center
-  GLfloat factor = 1.0f / 50.f; //GLfloat factor = size / 50.f;
-  int nVertices = sizeof(vertices) / sizeof(GLfloat);
-  for (int i = 0; i < nVertices; ++i) {
-    vertices[i] *= factor;
-  }
-  for (int i = 2; i < nVertices; i += 3) {
-    vertices[i] -= 0.4f;
-  } */
-  core->addAttributeData(OGLConstants::VERTEX.location, vertices,
-      sizeof(vertices), 3, GL_STATIC_DRAW);
-
-
-  //define indices
-  const GLuint indices[] = {
-		 0,1,3,
-		 1,2,3
-  };
-  core->setElementIndexData(indices, sizeof(indices), GL_STATIC_DRAW);
-
-  return core;
 }
 /*
  * Vorlage
@@ -198,34 +161,6 @@ GeometryCoreSP GeometryCoreFactory::createXXXX(double l, double k, double z, dou
 }
 */
 
-GeometryCoreSP GeometryCoreFactory::createBulb() {
-	auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
-
-  return core;
-}
-
-
-GeometryCoreSP GeometryCoreFactory::createLamp() {
-	auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
-  return core;
-}
-
-GeometryCoreSP GeometryCoreFactory::createBroccoli() {
-  // create geometry core
-  auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
-
-  return core;
-
-}
-
-
-GeometryCoreSP GeometryCoreFactory::createFrame() {
-  // create geometry core
-  auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
-
-  return core;
-
-}
 
 /*
 *
@@ -245,8 +180,8 @@ GeometryCoreSP GeometryCoreFactory::createGearOld(double l, double k, double z, 
   auto core = GeometryCore::create(GL_TRIANGLES, DrawMode::ELEMENTS);
   GLfloat z_vorn = z/2;
   GLfloat z_hinten = -z/2;
-  double w1 = _w1*M_PI/180;
-  double w2 = _w2*M_PI/180;
+  double w1 = _w1*3.14/180;
+  double w2 = _w2*3.14/180;
   // define vertices
   GLfloat vertices[] = {
 		   0.0f, 0.0f, z_vorn,																	// 0
