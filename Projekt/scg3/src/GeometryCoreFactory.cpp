@@ -132,7 +132,7 @@ GeometryCoreSP GeometryCoreFactory::createModelFromOBJFile(const std::string& fi
   return core;
 }
 
-}
+
 /*
  * Vorlage
 
@@ -1898,6 +1898,5 @@ int GeometryCoreFactory::loadOBJFile_(const std::string& fileName, OBJModel& mod
 
   return error;
 }
-
-
-} /* namespace scg */
+}
+ /* namespace scg */
