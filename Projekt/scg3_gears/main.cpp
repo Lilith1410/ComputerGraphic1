@@ -301,14 +301,16 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto wandVorneTrans = Transformation::create();
 	wandVorneTrans->translate(glm::vec3(0.0f, 4.5f, 5.f));
 
-/*
-	auto spotCore = geometryFactory.createModelFromOBJFile("obj/spot.obj");
+
+	/*auto spotCore = geometryFactory.createModelFromOBJFile("obj/spot.obj");
 	auto spot = Shape::create();
 	spot->addCore(matGrey)->addCore(spotCore);
 	auto spotTrans = Transformation::create();
-	spotTrans->translate(glm::vec3(-0.45f, 0.75f, 0.0f));
-	spotTrans->rotate(0.0f, glm::vec3(0.f, 1.f, 0.f));
-*/
+	spotTrans->translate(glm::vec3(0.0f, 0.2f, -4.58f));
+	spotTrans->rotate(-135.0f, glm::vec3(0.f, 1.f, 0.f));
+	spotTrans->rotate(180.0f, glm::vec3(1.f, 0.f, 1.f));
+	spotTrans->rotate(180.0f, glm::vec3(0.f, 1.f, 0.f));
+	spotTrans->scale(glm::vec3(0.2f, 0.2f, 0.2f)); */
 
 	auto stabCore = geometryFactory.createModelFromOBJFile("obj/gear_center.obj");
 	auto stab = Shape::create();
@@ -386,7 +388,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			frameLight);
 	light->addChild(floorTrans)->addChild(deckeTrans)->addChild(wandLinksTrans)->addChild(
 			wandHintenTrans)->addChild(wandRechtsTrans)->addChild(
-			wandVorneTrans)->addChild(gearTrans)->addChild(gear2Trans)->addChild(stabTrans)->addChild(stab2Trans)->addChild(spotTrans);
+			wandVorneTrans)->addChild(gearTrans)->addChild(gear2Trans)->addChild(stabTrans)->addChild(stab2Trans)/*->addChild(spotTrans)*/;
 	//light2 ->addChild(gearTrans);
 	floorTrans->addChild(floor);
 	deckeTrans->addChild(decke);
@@ -402,7 +404,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	gearTrans->addChild(gearAnim);
 	gearAnim->addChild(gearAnimTrans);
 	gearAnimTrans->addChild(gear);
-	spotTrans->addChild(spot);
+	//spotTrans->addChild(spot);
 
 	gear2Trans->addChild(gear2Anim);
 	gear2Anim->addChild(gear2AnimTrans);
