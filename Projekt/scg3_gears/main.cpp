@@ -301,16 +301,87 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto wandVorneTrans = Transformation::create();
 	wandVorneTrans->translate(glm::vec3(0.0f, 4.5f, 5.f));
 
+	/*
+	 *
+	 *
+	 *  Clock Model
+	 *
+	 *
+	 */
+	auto clockAxisCore = geometryFactory.createModelFromOBJFile("obj/clock/06_achse.obj");
+	auto clockGear1Core = geometryFactory.createModelFromOBJFile("obj/clock/00_Zahnrad_1.obj");
+	auto clockGear2Core = geometryFactory.createModelFromOBJFile("obj/clock/01_Zahnrad_2.obj");
+	auto clockGear3Core = geometryFactory.createModelFromOBJFile("obj/clock/02_Zahnrad_3.obj");
+	auto clockGear4Core = geometryFactory.createModelFromOBJFile("obj/clock/03_Zahnrad_4.obj");
+	auto clockHandSmallCore = geometryFactory.createModelFromOBJFile("obj/clock/04_Zeiger_klein.obj");
+	auto clockHandBigCore = geometryFactory.createModelFromOBJFile("obj/clock/05_Zeiger_gross.obj");
+	auto clockAxis2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/07_achse_2.obj");
+	auto clockGear2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/08_zahnrad_abseits.obj");
 
-	/*auto spotCore = geometryFactory.createModelFromOBJFile("obj/spot.obj");
+
+	auto clockAxis = Shape::create(); clockAxis->addCore(matGold)->addCore(clockAxisCore);
+	auto clockGear1 = Shape::create(); clockGear1->addCore(matGold)->addCore(clockGear1Core);
+	auto clockGear2 = Shape::create(); clockGear2->addCore(matGold)->addCore(clockGear2Core);
+	auto clockGear3 = Shape::create(); clockGear3->addCore(matGold)->addCore(clockGear3Core);
+	auto clockGear4 = Shape::create(); clockGear4->addCore(matGold)->addCore(clockGear4Core);
+	auto clockHandSmall = Shape::create(); clockHandSmall->addCore(matGold)->addCore(clockHandSmallCore);
+	auto clockHandBig = Shape::create(); clockHandBig->addCore(matGold)->addCore(clockHandBigCore);
+	auto clockAxis2nd = Shape::create(); clockAxis2nd->addCore(matGold)->addCore(clockAxis2ndCore);
+	auto clockGear2nd = Shape::create(); clockGear2nd->addCore(matGold)->addCore(clockGear2ndCore);
+
+
+	auto clockAxisTrans = Transformation::create(); clockAxisTrans->translate(glm::vec3(0.0f, 3.5f, -4.85f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	auto clockGear1Trans = Transformation::create(); clockGear1Trans->translate(glm::vec3(0.0f, 3.5f, -4.7f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	auto clockGear2Trans = Transformation::create(); clockGear2Trans->translate(glm::vec3(0.0f, 3.5f, -4.5f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	auto clockGear3Trans = Transformation::create(); clockGear3Trans->translate(glm::vec3(0.0f, 3.5f, -4.25f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	auto clockHandSmallTrans = Transformation::create(); clockHandSmallTrans->translate(glm::vec3(0.0f, 3.5f, -4.1f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->rotate(-70.f, glm::vec3(0.f, 1.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	auto clockGear4Trans = Transformation::create(); clockGear4Trans->translate(glm::vec3(0.0f, 3.5f, -4.f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	auto clockHandBigTrans = Transformation::create(); clockHandBigTrans->translate(glm::vec3(0.0f, 3.5f, -3.9f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	auto clockAxis2ndTrans = Transformation::create(); clockAxis2ndTrans->translate(glm::vec3(-2.125f, 3.5f, -4.85f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	auto clockGear2ndTrans = Transformation::create(); clockGear2ndTrans->translate(glm::vec3(-2.125f, 3.5f, -4.47f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+
+	/*
+	 *
+	 */
+	auto clockGearAnim = TransformAnimation::create();
+	float angularVel5 = 3.f; //Geschwindigkeit
+	glm::vec3 axis5(0.f, 1.f, 0.f); //Rotation um z-Achse
+	clockGearAnim->setUpdateFunc(
+			[angularVel5, axis5](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(angularVel5*static_cast<GLfloat>(diffTime), axis5);});
+	viewer->addAnimation(clockGearAnim);
+
+	auto clockGearAnimTrans = Transformation::create(); clockGearAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
+	/*
+	 *
+	 */
+	auto clockGear2ndAnim = TransformAnimation::create();
+	float angularVel6 = 3.f; //Geschwindigkeit
+	glm::vec3 axis6(0.f, 1.f, 0.f); //Rotation um z-Achse
+	clockGear2ndAnim->setUpdateFunc(
+			[angularVel6, axis6](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(-angularVel6*static_cast<GLfloat>(diffTime), axis6);
+			});
+	viewer->addAnimation(clockGear2ndAnim);
+	auto clockGear2ndAnimTrans = Transformation::create(); clockGear2ndAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
+	/*
+	 *
+	 */
+
+
+
+
+
+
+	auto spotCore = geometryFactory.createModelFromOBJFile("obj/spot.obj");
 	auto spot = Shape::create();
 	spot->addCore(matGrey)->addCore(spotCore);
 	auto spotTrans = Transformation::create();
-	spotTrans->translate(glm::vec3(0.0f, 0.2f, -4.58f));
+/*	spotTrans->translate(glm::vec3(0.0f, 0.2f, -4.58f));
 	spotTrans->rotate(-135.0f, glm::vec3(0.f, 1.f, 0.f));
 	spotTrans->rotate(180.0f, glm::vec3(1.f, 0.f, 1.f));
 	spotTrans->rotate(180.0f, glm::vec3(0.f, 1.f, 0.f));
-	spotTrans->scale(glm::vec3(0.2f, 0.2f, 0.2f)); */
+*/	spotTrans->scale(glm::vec3(0.2f, 0.2f, 0.2f));
 
 	auto stabCore = geometryFactory.createModelFromOBJFile("obj/gear_center.obj");
 	auto stab = Shape::create();
@@ -388,7 +459,10 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			frameLight);
 	light->addChild(floorTrans)->addChild(deckeTrans)->addChild(wandLinksTrans)->addChild(
 			wandHintenTrans)->addChild(wandRechtsTrans)->addChild(
-			wandVorneTrans)->addChild(gearTrans)->addChild(gear2Trans)->addChild(stabTrans)->addChild(stab2Trans)/*->addChild(spotTrans)*/;
+			wandVorneTrans)->addChild(gearTrans)->addChild(gear2Trans)->addChild(stabTrans)->addChild(stab2Trans)->addChild(clockAxisTrans)
+			->addChild(clockGear1Trans)->addChild(clockGear2Trans)->addChild(clockGear3Trans)->addChild(clockHandSmallTrans)
+			->addChild(clockGear4Trans)->addChild(clockHandBigTrans)->addChild(clockGear2ndTrans)->addChild(clockAxis2ndTrans);
+
 	//light2 ->addChild(gearTrans);
 	floorTrans->addChild(floor);
 	deckeTrans->addChild(decke);
@@ -401,11 +475,30 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	stabTrans->addChild(stab);
 	stab2Trans->addChild(stab2);
+
+
+	clockAxisTrans->addChild(clockAxis);
+	clockGear1Trans->addChild(clockGear1);
+	// clockGear2Trans->addChild(clockGear2);
+	clockGear3Trans->addChild(clockGear3);
+	clockHandSmallTrans->addChild(clockHandSmall);
+	clockGear4Trans->addChild(clockGear4);
+	clockHandBigTrans->addChild(clockHandBig);
+	// clockGear2ndTrans->addChild(clockGear2nd);
+	clockAxis2ndTrans->addChild(clockAxis2nd);
+
+
+	clockGear2ndTrans->addChild(clockGear2ndAnim);
+	clockGear2ndAnim->addChild(clockGear2ndAnimTrans);
+	clockGear2ndAnimTrans->addChild(clockGear2nd);
+
+	clockGear2Trans->addChild(clockGearAnim);
+	clockGearAnim->addChild(clockGearAnimTrans);
+	clockGearAnimTrans->addChild(clockGear2);
+
 	gearTrans->addChild(gearAnim);
 	gearAnim->addChild(gearAnimTrans);
 	gearAnimTrans->addChild(gear);
-	//spotTrans->addChild(spot);
-
 	gear2Trans->addChild(gear2Anim);
 	gear2Anim->addChild(gear2AnimTrans);
 	gear2AnimTrans->addChild(gear2);
