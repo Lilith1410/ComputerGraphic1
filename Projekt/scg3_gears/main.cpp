@@ -139,16 +139,16 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	// camera controllers
 	camera->translate(glm::vec3(0.f, 0.5f, 1.f))
 	//->rotateElevationRad(1.0f)	//um horizontale Achse durch den Fokus
-	//->rotateElevation(12.0f)
-	//->rotateAzimuthRad(1.0f)		//um vertikale Achse durch den Fokus
-	//->rotateAzimuth(12.0f)
+	->rotateElevation(-3.5f)
+	//->rotateAzimuthRad(1.0f);		//um vertikale Achse durch den Fokus
+	//->rotateAzimuth(12.0f);
 	//->rotateRollRad(2.0f)			//Rotation um die optische Achse
 	//->rotateRoll(2.0f)
 	//->rotatePitchRad(-1.0f) 		//um horizintale Kameraachse
-	//->rotateYawRad(1.0f)			//um vertikale Kameraachse
+	//->rotateYawRad(1.0f);			//um vertikale Kameraachse
 	//->rotate(2.0f, glm::vec3(0.f, 0.f, 1.f))
 
-	->dolly(-2.5f);	//Abstand zum Fokus(Bewegungen der Kamera in Blickrichtung)
+	->dolly(-0.2f);	//Abstand zum Fokus(Bewegungen der Kamera in Blickrichtung)
 
 	glm::vec3 _eye(0, 0, 10), _center(2, 0, 0), _up(0, 1, 0);
 	//glm::mat4 modelViewMatrix = glm::lookAt(_eye, _center, _up);
@@ -166,7 +166,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto light = Light::create();
 	light->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
 			->setPosition(glm::vec4(0.f, 3.f, -3.f, 1.f))
-		->setSpot(glm::vec3(0.f, -0.8f, -1.f), 35.f, 1.f)
+//		->setSpot(glm::vec3(0.f, -0.8f, -1.f), 35.f, 1.f)
 
 		->init();
 
@@ -180,9 +180,11 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 
 	auto light2 = Light::create();
-	light2->setDiffuseAndSpecular(glm::vec4(1.f, 0.f, 0.f, 1.f))
-	//->setSpot(glm::vec3(1.f, 0.f, 0.f), 45.f, 30.f)
-	->setPosition(glm::vec4(-5.f, 4.f, 3.f, 1.f))->init();
+	light2->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
+					->setPosition(glm::vec4(0.f, 3.f, -3.f, 1.f))
+				->setSpot(glm::vec3(0.f, -0.8f, -1.f), 35.f, 1.f)
+				->init();
+
 
 	/*
 	 *
@@ -192,10 +194,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	// materials
 	auto matRed = MaterialCore::create();
 	matRed->setAmbientAndDiffuse(glm::vec4(1.f, 0.5f, 0.5f, 1.f))->setSpecular(
-			glm::vec4(1.f, 1.f, 1.f, 1.f))->setShininess(20.f)->init();
-
-	auto matYellow = MaterialCore::create();
-	matYellow->setAmbientAndDiffuse(glm::vec4(.8f, 0.4f, 0.12f, 1.f))->setSpecular(
 			glm::vec4(1.f, 1.f, 1.f, 1.f))->setShininess(20.f)->init();
 
 	auto matGreen = MaterialCore::create();
@@ -220,10 +218,28 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			glm::vec4(0.35f, 0.31f, 0.09f, 1.f))->setSpecular(
 			glm::vec4(0.80f, 0.72f, 0.21f, 1.f))->setShininess(13.2f)->init();
 
-	auto matTuerkis = MaterialCore::create();
-	matTuerkis->setAmbient(glm::vec4(0.10f, 0.19f, 0.17f, 0.8f))->setDiffuse(
-			glm::vec4(0.40f, 0.74f, 0.69f, 0.8f))->setSpecular(
-			glm::vec4(0.30f, 0.31f, 0.31f, 0.8f))->setShininess(12.8f)->init();
+	auto matMessing = MaterialCore::create();
+	matMessing->setAmbient(glm::vec4(0.33f, 0.22f, 0.03f, 1.0f))->setDiffuse(
+			glm::vec4(0.78f, 0.57f, 0.11f, 1.0f))->setSpecular(
+			glm::vec4(0.99f, 0.94f, 0.81f, 1.0f))->setShininess(27.9f)->init();
+
+	auto matSilber = MaterialCore::create();
+	matSilber->setAmbient(glm::vec4(0.19f, 0.19f, 0.19f, 1.f))->setDiffuse(
+			glm::vec4(0.51f, 0.51f, 0.51f, 1.f))->setSpecular(
+			glm::vec4(0.51f, 0.51f, 0.51f, 1.f))->setShininess(51.2f)->init();
+
+	auto matChrom = MaterialCore::create();
+	matChrom->setAmbient(glm::vec4(0.25f, 0.25f, 0.25f, 1.f))->setDiffuse(
+			glm::vec4(0.40f, 0.40f, 0.40f, 1.f))->setSpecular(
+			glm::vec4(0.77f, 0.77f, 0.77f, 1.f))->setShininess(76.8f)->init();
+
+	auto matBronze = MaterialCore::create();
+	matBronze->setAmbient(glm::vec4(0.21f, 0.13f, 0.05f, 1.f))->setDiffuse(
+			glm::vec4(0.71f, 0.43f, 0.18f, 1.f))->setSpecular(
+			glm::vec4(0.39f, 0.27f, 0.17f, 1.f))->setShininess(25.6f)->init();
+
+
+
 
 	// textures
 	/*
@@ -260,7 +276,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	auto deckeCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
 	auto decke = Shape::create();
-	decke->addCore(shaderPhongTex)->addCore(matGrey)->addCore(
+	decke->addCore(shaderPhongTex)->addCore(matGrey)->addCore(texCeiling)->addCore(
 			deckeCore);
 	auto deckeTrans = Transformation::create();
 	deckeTrans->translate(glm::vec3(0.f, 9.5f, 0.f));
@@ -324,8 +340,8 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto clockGear2 = Shape::create(); clockGear2->addCore(matGold)->addCore(clockGear2Core);
 	auto clockGear3 = Shape::create(); clockGear3->addCore(matGold)->addCore(clockGear3Core);
 	auto clockGear4 = Shape::create(); clockGear4->addCore(matGold)->addCore(clockGear4Core);
-	auto clockHandSmall = Shape::create(); clockHandSmall->addCore(matGold)->addCore(clockHandSmallCore);
-	auto clockHandBig = Shape::create(); clockHandBig->addCore(matGold)->addCore(clockHandBigCore);
+	auto clockHandSmall = Shape::create(); clockHandSmall->addCore(matMessing)->addCore(clockHandSmallCore);
+	auto clockHandBig = Shape::create(); clockHandBig->addCore(matMessing)->addCore(clockHandBigCore);
 	auto clockAxis2nd = Shape::create(); clockAxis2nd->addCore(matGold)->addCore(clockAxis2ndCore);
 	auto clockGear2nd = Shape::create(); clockGear2nd->addCore(matGold)->addCore(clockGear2ndCore);
 
@@ -393,7 +409,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	auto gearCore = geometryFactory.createModelFromOBJFile("obj/gear.obj");
 	auto gear = Shape::create();
-	gear->addCore(matRed)->addCore(gearCore);
+	gear->addCore(matMessing)->addCore(gearCore);
 	auto gearTrans = Transformation::create();
 	gearTrans->translate(glm::vec3(-0.45f, 0.75f, -4.7f));
 	gearTrans->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
@@ -416,7 +432,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	auto stab2Core = geometryFactory.createModelFromOBJFile("obj/gear_center.obj");
 	auto stab2 = Shape::create();
-	stab2->addCore(matRed)->addCore(stab2Core);
+	stab2->addCore(matMessing)->addCore(stab2Core);
 	auto stab2Trans = Transformation::create();
 	stab2Trans->translate(glm::vec3(0.93f, 0.75f, -4.55f));
 	stab2Trans->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
@@ -444,34 +460,74 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto gear2AnimTrans = Transformation::create();
 	gear2AnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
 
+	//Create Zahnrad auf dem Boden
+	auto gearFloorCore = geometryFactory.createModelFromOBJFile("obj/gear.obj");
+	auto gearFloor = Shape::create();
+	gearFloor->addCore(matChrom)->addCore(gearFloorCore);
+	auto gearFloorTrans = Transformation::create();
+	gearFloorTrans->translate(glm::vec3(0.f, -0.4f, 0.f));
+	gearFloorTrans->scale(glm::vec3(1.5f, 1.5f, 1.5f));
+	//->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
 
-/*	//Create Sonne
-	auto sonneCore = geometryFactory.createSphere(0.6f, 150, 140);
-	auto sonne = Shape::create();
-	sonne->addCore(matTuerkis)->addCore(sonneCore);
-	auto sonneTrans = Transformation::create();
-	sonneTrans->translate(glm::vec3(3.6f, 2.3f, -1.f));
-*/
+//	Animation für Zahnrad auf dem Boden
+	auto gearFloorAnim = TransformAnimation::create();
+	float angularVel7 = 20.f; //Geschwindigkeit
+	glm::vec3 axis7(0.f, 1.f, 0.f); //Rotation um z-Achse
+	gearFloorAnim->setUpdateFunc(
+			[angularVel7, axis7](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(angularVel7*static_cast<GLfloat>(diffTime), axis7);
+			});
+	viewer->addAnimation(gearFloorAnim);
+	// add transformation (translation) to be applied before animation
+	auto gearFloorAnimTrans = Transformation::create();
+	gearFloorAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
+
+	auto sphereCore = geometryFactory.createSphere(1.0f, 50, 50) ;
+	   auto sphere = Shape::create();
+	   sphere->addCore(matWhite)
+			->addCore(sphereCore);
+	   auto sphereTrans = Transformation::create();
+	   sphereTrans->translate(glm::vec3(3.0f, 2.5f, -3.f))
+		->scale(glm::vec3(0.5f, 0.5f, 0.5f));;
+
+
 	// create scene graph
+	/*
+	   scene
+	     |------------------|
+	   camera			  light
+	   	   	   	   	   	    |
+	   	   	   	   	   	  light2------------------
+	   	   	   	   	   	    |					 |
+	   	   	   	   	   	  floortrans
+
+	 */
 	scene = Group::create();
 	scene->addCore(shaderPhong);
-	scene->addChild(camera)->addChild(light)->addChild(light2)->addChild(
-			frameLight);
-	light->addChild(floorTrans)->addChild(deckeTrans)->addChild(wandLinksTrans)->addChild(
-			wandHintenTrans)->addChild(wandRechtsTrans)->addChild(
-			wandVorneTrans)->addChild(gearTrans)->addChild(gear2Trans)->addChild(stabTrans)->addChild(stab2Trans)->addChild(clockAxisTrans)
+	scene->addChild(camera)
+			->addChild(light)
+			->addChild(frameLight);
+	light ->addChild(light2);
+	light->addChild(floorTrans)->addChild(deckeTrans)
+			->addChild(wandLinksTrans)->addChild(wandHintenTrans)->addChild(wandRechtsTrans)->addChild(wandVorneTrans)
+			->addChild(sphereTrans)
+			->addChild(gearTrans)->addChild(gear2Trans)->addChild(gearFloorTrans)
+			->addChild(stabTrans)->addChild(stab2Trans)
+			->addChild(clockAxisTrans)
 			->addChild(clockGear1Trans)->addChild(clockGear2Trans)->addChild(clockGear3Trans)->addChild(clockHandSmallTrans)
 			->addChild(clockGear4Trans)->addChild(clockHandBigTrans)->addChild(clockGear2ndTrans)->addChild(clockAxis2ndTrans);
 
-	//light2 ->addChild(gearTrans);
+
 	floorTrans->addChild(floor);
 	deckeTrans->addChild(decke);
 	wandLinksTrans->addChild(wandLinks);
 	wandHintenTrans->addChild(wandHinten);
 	wandRechtsTrans->addChild(wandRechts);
 	wandVorneTrans->addChild(wandVorne);
+	sphereTrans->addChild(sphere);
 	//gearTrans->addChild(gear);
 	//gear2Trans->addChild(gear2);
+//	gearFloorTrans->addChild(gearFloor);
 
 	stabTrans->addChild(stab);
 	stab2Trans->addChild(stab2);
@@ -502,4 +558,10 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	gear2Trans->addChild(gear2Anim);
 	gear2Anim->addChild(gear2AnimTrans);
 	gear2AnimTrans->addChild(gear2);
+
+	gearFloorTrans->addChild(gearFloorAnim);
+		gearFloorAnim->addChild(gearFloorAnimTrans);
+		gearFloorAnimTrans
+	//	->addChild(camera)
+		->addChild(gearFloor);
 }
