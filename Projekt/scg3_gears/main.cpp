@@ -101,7 +101,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	ShaderCoreFactory shaderFactory("../scg3/shaders;../../scg3/shaders");
 
-#ifdef SCG_CPP11_INITIALIZER_LISTS
 	// Phong shader
 	auto shaderPhong = shaderFactory.createShaderFromSourceFiles(
 			{ ShaderFile("phong_vert.glsl", GL_VERTEX_SHADER), ShaderFile(
@@ -118,23 +117,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 									GL_FRAGMENT_SHADER), ShaderFile(
 									"texture2d_modulate.glsl",
 									GL_FRAGMENT_SHADER) });
-#else
-  // Phong shader
-  std::vector<ShaderFile> shaderFiles;
-  shaderFiles.push_back(ShaderFile("phong_vert.glsl", GL_VERTEX_SHADER));
-  shaderFiles.push_back(ShaderFile("phong_frag.glsl", GL_FRAGMENT_SHADER));
-  shaderFiles.push_back(ShaderFile("blinn_phong_lighting.glsl", GL_FRAGMENT_SHADER));
-  shaderFiles.push_back(ShaderFile("texture_none.glsl", GL_FRAGMENT_SHADER));
-  auto shaderPhong = shaderFactory.createShaderFromSourceFiles(shaderFiles);
 
-  // Phong shader with texture mapping
-  shaderFiles.clear();
-  shaderFiles.push_back(ShaderFile("phong_vert.glsl", GL_VERTEX_SHADER));
-  shaderFiles.push_back(ShaderFile("phong_frag.glsl", GL_FRAGMENT_SHADER));
-  shaderFiles.push_back(ShaderFile("blinn_phong_lighting.glsl", GL_FRAGMENT_SHADER));
-  shaderFiles.push_back(ShaderFile("texture2d_modulate.glsl", GL_FRAGMENT_SHADER));
-  auto shaderPhongTex = shaderFactory.createShaderFromSourceFiles(shaderFiles);
-#endif
 
 	// camera controllers
 	camera->translate(glm::vec3(0.f, 0.5f, 1.f))
@@ -260,62 +243,53 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
 	auto texCeiling = textureFactory.create2DTextureFromFile("ceiling.png",
 			GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
-/*
- *
- *    Wände und Decken
- *
- */
-	// floor shape and transformation
+
+
+
+
 	GeometryCoreFactory geometryFactory;
-	auto floorCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
-	auto floor = Shape::create();
-	floor->addCore(shaderPhongTex)->addCore(matGrey)->addCore(texCem3)->addCore(
-			floorCore);
-	auto floorTrans = Transformation::create();
-	floorTrans->translate(glm::vec3(0.f, -0.5f, 0.f));
+	auto wallCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
+	ShapeSP walls[6];
+	TransformationSP wallsTrans[6];
 
-	auto deckeCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
-	auto decke = Shape::create();
-	decke->addCore(shaderPhongTex)->addCore(matGrey)->addCore(texCeiling)->addCore(
-			deckeCore);
-	auto deckeTrans = Transformation::create();
-	deckeTrans->translate(glm::vec3(0.f, 9.5f, 0.f));
-	// ->rotate(-180.f, glm::vec3(1.f, 0.f, 0.f));
+	auto zimmer = Group::create();
+	zimmer->addCore(shaderPhongTex)
+			->addCore(matGrey);
 
-	//4 Wände im Raum: linke, hintere, rechte, vordere
-	auto wandLinksCore = geometryFactory.createCuboid(
-			glm::vec3(10.f, 0.05f, 10.0f));
-	auto wandLinks = Shape::create();
-	wandLinks->addCore(shaderPhongTex)->addCore(matGrey)->addCore(texCem2)->addCore(
-			wandLinksCore);
-	auto wandLinksTrans = Transformation::create();
-	wandLinksTrans->translate(glm::vec3(-7.5f, 4.5f, 0.f))->rotate(-90.f,
-			glm::vec3(0.f, 0.f, 1.f));
+	auto wandLR = Group::create();
+		wandLR->addCore(texCem1);
+	auto wandVH = Group::create();
+		wandVH->addCore(texCem2);
+/*
+	walls[0]->addCore(texCem3);
+	walls[1]->addCore(texCeiling);
+*/
 
-	auto wandHintenCore = geometryFactory.createCuboid(
-			glm::vec3(15.f, 10.f, 0.3f));
-	auto wandHinten = Shape::create();
-	wandHinten->addCore(shaderPhongTex)->addCore(matGrey)->addCore(texCem1)->addCore(
-			wandHintenCore);
-	auto wandHintenTrans = Transformation::create();
-	wandHintenTrans->translate(glm::vec3(0.0f, 4.5f, -5.f));
+	for(int i = 0; i < 6; i++){
+		walls[i] = Shape::create(wallCore);
+		wallsTrans[i] = Transformation::create();
+		wallsTrans[i]->addChild(walls[i]);
+//		zimmer->addChild(wallsTrans[i]);
+	}
 
-	auto wandRechtsCore = geometryFactory.createCuboid(
-			glm::vec3(10.f, 0.05f, 10.0f));
-	auto wandRechts = Shape::create();
-	wandRechts->addCore(shaderPhongTex)->addCore(matGrey)->addCore(texCem2)->addCore(
-			wandRechtsCore);
-	auto wandRechtsTrans = Transformation::create();
-	wandRechtsTrans->translate(glm::vec3(7.5f, 4.5f, 0.f))->rotate(-90.f,
-			glm::vec3(0.f, 0.f, 1.f));
 
-	auto wandVorneCore = geometryFactory.createCuboid(
-			glm::vec3(15.f, 10.f, 0.3f));
-	auto wandVorne = Shape::create();
-	wandVorne->addCore(shaderPhongTex)->addCore(matGrey)->addCore(texCem1)->addCore(
-			wandVorneCore);
-	auto wandVorneTrans = Transformation::create();
-	wandVorneTrans->translate(glm::vec3(0.0f, 4.5f, 5.f));
+	zimmer->addChild(wandLR)
+			->addChild(wandVH)
+			->addChild(wallsTrans[0])
+			->addChild(wallsTrans[1]);
+
+	wallsTrans[0]->translate(glm::vec3(0.f, -0.5f, 0.f));												//floor
+	wallsTrans[1]->translate(glm::vec3(0.f, 9.5f, 0.f));												//decke
+	wallsTrans[2]->translate(glm::vec3(-7.5f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//links
+	wallsTrans[3]->translate(glm::vec3(0.0f, 4.5f, -5.f));												//hinten
+	wallsTrans[4]->translate(glm::vec3(7.5f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//rechts
+	wallsTrans[5]->translate(glm::vec3(0.0f, 4.5f, 5.f));												//vorn
+
+
+
+
+
+
 
 	/*
 	 *
@@ -508,22 +482,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			->addChild(light)
 			->addChild(frameLight);
 	light ->addChild(light2);
-	light->addChild(floorTrans)->addChild(deckeTrans)
-			->addChild(wandLinksTrans)->addChild(wandHintenTrans)->addChild(wandRechtsTrans)->addChild(wandVorneTrans)
-			->addChild(sphereTrans)
-			->addChild(gearTrans)->addChild(gear2Trans)->addChild(gearFloorTrans)
-			->addChild(stabTrans)->addChild(stab2Trans)
-			->addChild(clockAxisTrans)
-			->addChild(clockGear1Trans)->addChild(clockGear2Trans)->addChild(clockGear3Trans)->addChild(clockHandSmallTrans)
-			->addChild(clockGear4Trans)->addChild(clockHandBigTrans)->addChild(clockGear2ndTrans)->addChild(clockAxis2ndTrans);
-
-
-	floorTrans->addChild(floor);
-	deckeTrans->addChild(decke);
-	wandLinksTrans->addChild(wandLinks);
-	wandHintenTrans->addChild(wandHinten);
-	wandRechtsTrans->addChild(wandRechts);
-	wandVorneTrans->addChild(wandVorne);
+	light2->addChild(zimmer)->addChild(gearFloorTrans);
 	sphereTrans->addChild(sphere);
 	//gearTrans->addChild(gear);
 	//gear2Trans->addChild(gear2);
