@@ -314,20 +314,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto clockAxis2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/07_achse_2.obj");
 	auto clockGear2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/08_zahnrad_abseits.obj");
 
-
-	auto clockAxis = Shape::create(); clockAxis->addCore(matGold)->addCore(clockAxisCore);
-	auto clockGear1 = Shape::create(); clockGear1->addCore(matGold)->addCore(clockGear1Core);
-	auto clockGear2 = Shape::create(); clockGear2->addCore(matGold)->addCore(clockGear2Core);
-	auto clockGear3 = Shape::create(); clockGear3->addCore(matGold)->addCore(clockGear3Core);
-	auto clockGear4 = Shape::create(); clockGear4->addCore(matGold)->addCore(clockGear4Core);
-	auto clockHandSmall = Shape::create(); clockHandSmall->addCore(matMessing)->addCore(clockHandSmallCore);
-	auto clockHandBig = Shape::create(); clockHandBig->addCore(matMessing)->addCore(clockHandBigCore);
-	auto clockAxis2nd = Shape::create(); clockAxis2nd->addCore(matGold)->addCore(clockAxis2ndCore);
-	auto clockGear2nd = Shape::create(); clockGear2nd->addCore(matGold)->addCore(clockGear2ndCore);
-
-
-
-
 	// Dinge
 
 	ShapeSP clockGears[7];
