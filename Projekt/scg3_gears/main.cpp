@@ -134,8 +134,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	->dolly(-0.2f);	//Abstand zum Fokus(Bewegungen der Kamera in Blickrichtung)
 
 	glm::vec3 _eye(0, 0, 10), _center(2, 0, 0), _up(0, 1, 0);
-	//glm::mat4 modelViewMatrix = glm::lookAt(_eye, _center, _up);
-	//glm::mat4 projectionMatrix = glm::perspective(glm::radians(45), 6./8., 0.1, 200.);
 
 #ifdef SCG_CPP11_INITIALIZER_LISTS
 	viewer->addControllers( { KeyboardController::create(camera),
@@ -149,23 +147,13 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto light = Light::create();
 	light->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
 			->setPosition(glm::vec4(1.f, 7.2f, -1.f, 1.f))
-//		->setSpot(glm::vec3(0.f, -0.8f, -1.f), 35.f, 1.f)
 
 		->init();
 
-	auto frameLight = Light::create();
-	frameLight->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))->setPosition(
-			glm::vec4(-6.0f, 8.0f, -4.8f, 1.f))->init();
-
-	auto lampLight = Light::create();
-	lampLight->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))->setPosition(
-			glm::vec4(4.6f, 5.95f, -.9f, 1.f))->init();
-
-
 	auto light2 = Light::create();
 	light2->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
-					->setPosition(glm::vec4(0.f, 3.f, -3.f, 1.f))
-				->setSpot(glm::vec3(0.f, -0.8f, -1.f), 35.f, 1.f)
+					->setPosition(glm::vec4(0.f, 4.5f, -3.f, 1.f))
+				->setSpot(glm::vec3(0.f, -0.8f, -1.f), 45.f, 1.f)
 				->init();
 
 
@@ -348,16 +336,16 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		clockHandsTrans[i]->addChild(clockHands[i]);
 	}
 
-	clockGearsTrans[0]->translate(glm::vec3(0.0f, 3.5f, -4.85f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[1]->translate(glm::vec3(0.0f, 3.5f, -4.7f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[2]->translate(glm::vec3(0.0f, 3.5f, -4.5f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[3]->translate(glm::vec3(0.0f, 3.5f, -4.25f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[4]->translate(glm::vec3(0.0f, 3.5f, -4.f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[5]->translate(glm::vec3(-2.03f, 3.5f, -4.85f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[6]->translate(glm::vec3(-2.03f, 3.5f, -4.47f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(1.85f, 1.85f, 1.85f));
+	clockGearsTrans[0]->translate(glm::vec3(0.0f, 2.f, -4.85f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[1]->translate(glm::vec3(0.0f, 2.f, -4.7f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[2]->translate(glm::vec3(0.0f, 2.f, -4.5f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[3]->translate(glm::vec3(0.0f, 2.f, -4.25f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[4]->translate(glm::vec3(0.0f, 2.f, -4.f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[5]->translate(glm::vec3(-2.03f, 2.f, -4.85f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[6]->translate(glm::vec3(-2.03f, 2.f, -4.47f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(1.85f, 1.85f, 1.85f));
 
-	clockHandsTrans[0]->translate(glm::vec3(0.0f, 3.5f, -4.1f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->rotate(-70.f, glm::vec3(0.f, 1.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockHandsTrans[1]->translate(glm::vec3(0.0f, 3.5f, -3.9f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockHandsTrans[0]->translate(glm::vec3(0.0f, 2.f, -4.1f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->rotate(-70.f, glm::vec3(0.f, 1.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockHandsTrans[1]->translate(glm::vec3(0.0f, 2.f, -3.9f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 
 	gearsAxis->addChild(clockGearsTrans[0])->addChild(clockGearsTrans[1])->addChild(clockGearsTrans[2])->addChild(clockGearsTrans[3])->addChild(clockGearsTrans[4])
 			->addChild(clockGearsTrans[5])->addChild(clockGearsTrans[6]);
@@ -525,8 +513,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	scene = Group::create();
 	scene->addCore(shaderPhong);
 	scene->addChild(camera)
-			->addChild(light)
-			->addChild(frameLight);
+			->addChild(light);
 	light ->addChild(light2);
 	light2->addChild(zimmer)
 			->addChild(clock)
