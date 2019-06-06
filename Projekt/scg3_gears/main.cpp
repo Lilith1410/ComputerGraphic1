@@ -359,8 +359,9 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	clockHandsTrans[0]->translate(glm::vec3(0.0f, 3.5f, -4.1f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->rotate(-70.f, glm::vec3(0.f, 1.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 	clockHandsTrans[1]->translate(glm::vec3(0.0f, 3.5f, -3.9f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 
-	gearsAxis->addChild(clockGearsTrans[0])->addChild(clockGearsTrans[1])->addChild(clockGearsTrans[2])->addChild(clockGearsTrans[3])->addChild(clockGearsTrans[4])
-			->addChild(clockGearsTrans[5])->addChild(clockGearsTrans[6]);
+	for(int i = 0; i < 7; i++) {
+		gearsAxis->addChild(clockGearsTrans[i]);
+	}
 
 	zeiger->addChild(clockHandsTrans[0])->addChild(clockHandsTrans[1]);
 
