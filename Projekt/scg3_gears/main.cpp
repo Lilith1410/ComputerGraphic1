@@ -148,7 +148,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	// lights
 	auto light = Light::create();
 	light->setDiffuseAndSpecular(glm::vec4(1.f, 1.f, 1.f, 1.f))
-			->setPosition(glm::vec4(0.f, 3.f, -3.f, 1.f))
+			->setPosition(glm::vec4(1.f, 7.2f, -1.f, 1.f))
 //		->setSpot(glm::vec3(0.f, -0.8f, -1.f), 35.f, 1.f)
 
 		->init();
@@ -494,13 +494,22 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto gearFloorAnimTrans = Transformation::create();
 	gearFloorAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
 
+
+	//Create Lampe
+	auto lampeCore = geometryFactory.createModelFromOBJFile("obj/lamp1.obj");
+		auto lampe = Shape::create();
+		lampe->addCore(matChrom)->addCore(lampeCore);
+		auto lampeTrans = Transformation::create();
+		lampeTrans->translate(glm::vec3(1.f, 8.1f, -1.f));
+		//lampeTrans->scale(glm::vec3(1.5f, 1.5f, 1.5f));
+
 	auto sphereCore = geometryFactory.createSphere(1.0f, 50, 50) ;
 	   auto sphere = Shape::create();
 	   sphere->addCore(matWhite)
 			->addCore(sphereCore);
 	   auto sphereTrans = Transformation::create();
-	   sphereTrans->translate(glm::vec3(3.0f, 2.5f, -3.f))
-		->scale(glm::vec3(0.5f, 0.5f, 0.5f));;
+	   sphereTrans->translate(glm::vec3(1.0f, 7.95f, -1.f))
+		->scale(glm::vec3(0.2f, 0.2f, 0.2f));;
 
 
 	// create scene graph
@@ -522,8 +531,11 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	light ->addChild(light2);
 	light2->addChild(zimmer)
 			->addChild(clock)
+			->addChild(lampeTrans)
+			->addChild(sphereTrans)
 			->addChild(gearFloorTrans);
-	//sphereTrans->addChild(sphere);
+	lampeTrans->addChild(lampe);
+	sphereTrans->addChild(sphere);
 	//gearTrans->addChild(gear);
 	//gear2Trans->addChild(gear2);
 //	gearFloorTrans->addChild(gearFloor);
