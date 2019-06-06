@@ -367,8 +367,8 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	clockGearsTrans[2]->translate(glm::vec3(0.0f, 3.5f, -4.5f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 	clockGearsTrans[3]->translate(glm::vec3(0.0f, 3.5f, -4.25f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 	clockGearsTrans[4]->translate(glm::vec3(0.0f, 3.5f, -4.f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[5]->translate(glm::vec3(-2.125f, 3.5f, -4.85f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[6]->translate(glm::vec3(-2.125f, 3.5f, -4.47f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[5]->translate(glm::vec3(-2.03f, 3.5f, -4.85f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[6]->translate(glm::vec3(-2.03f, 3.5f, -4.47f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(1.85f, 1.85f, 1.85f));
 
 	clockHandsTrans[0]->translate(glm::vec3(0.0f, 3.5f, -4.1f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->rotate(-70.f, glm::vec3(0.f, 1.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
 	clockHandsTrans[1]->translate(glm::vec3(0.0f, 3.5f, -3.9f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
