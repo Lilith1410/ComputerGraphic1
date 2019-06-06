@@ -248,7 +248,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 
 	GeometryCoreFactory geometryFactory;
-	auto wallCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
+	auto wallCore = geometryFactory.createCuboid(glm::vec3(10.f, 0.05f, 10.f));
 	ShapeSP walls[6];
 	TransformationSP wallsTrans[6];
 
@@ -256,34 +256,39 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	zimmer->addCore(shaderPhongTex)
 			->addCore(matGrey);
 
+	auto wandTrans = Transformation::create();
+	zimmer->addChild(wandTrans);
+
 	auto wandLR = Group::create();
 		wandLR->addCore(texCem1);
 	auto wandVH = Group::create();
 		wandVH->addCore(texCem2);
-/*
-	walls[0]->addCore(texCem3);
-	walls[1]->addCore(texCeiling);
-*/
+	auto wandNT = Group::create();
+	//	wandNT->addCore(texCem3);
 
 	for(int i = 0; i < 6; i++){
 		walls[i] = Shape::create(wallCore);
 		wallsTrans[i] = Transformation::create();
 		wallsTrans[i]->addChild(walls[i]);
-//		zimmer->addChild(wallsTrans[i]);
 	}
 
+	walls[0]->addCore(texCem3);
+	walls[1]->addCore(texCeiling);
 
+	wandLR->addChild(wallsTrans[2])->addChild(wallsTrans[4]);
+	wandVH->addChild(wallsTrans[3])->addChild(wallsTrans[5]);
+	wandNT->addChild(wallsTrans[0])->addChild(wallsTrans[1]);
 	zimmer->addChild(wandLR)
 			->addChild(wandVH)
-			->addChild(wallsTrans[0])
-			->addChild(wallsTrans[1]);
+			//->addChild(wallsTrans[0])
+			->addChild(wandNT);
 
 	wallsTrans[0]->translate(glm::vec3(0.f, -0.5f, 0.f));												//floor
-	wallsTrans[1]->translate(glm::vec3(0.f, 9.5f, 0.f));												//decke
-	wallsTrans[2]->translate(glm::vec3(-7.5f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//links
-	wallsTrans[3]->translate(glm::vec3(0.0f, 4.5f, -5.f));												//hinten
-	wallsTrans[4]->translate(glm::vec3(7.5f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//rechts
-	wallsTrans[5]->translate(glm::vec3(0.0f, 4.5f, 5.f));												//vorn
+	wallsTrans[1]->translate(glm::vec3(0.f, 9.5f, 0.f))->rotate(-180.f,glm::vec3(1.f, 0.f, 0.f));		//decke
+	wallsTrans[2]->translate(glm::vec3(-5.0f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//links
+	wallsTrans[3]->translate(glm::vec3(0.0f, 4.5f, -5.f))->rotate(-90.f,glm::vec3(1.f, 0.f, 0.f));		//hinten
+	wallsTrans[4]->translate(glm::vec3(5.0f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//rechts
+	wallsTrans[5]->translate(glm::vec3(0.0f, 4.5f, 5.f))->rotate(-90.f,glm::vec3(1.f, 0.f, 0.f));		//vorn
 
 
 
