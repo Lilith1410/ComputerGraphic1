@@ -1,0 +1,174 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Computergrafik Projekt}
+\author{Projektgruppe "Zahnradaparatus" }
+\date{June 2019}
+
+\begin{document}
+
+\maketitle
+
+\section{Projektzusammenfassung}
+\subsection{Projektidee}
+Nach Sichtung des bereits behandelten Vorlesungsmaterials hat sich die Gruppe dazu entschlossen, 
+für das Projekte eine kleine Menge an selbsterstellten 
+Zahnrädern für das Projekt zu entwerfen. 
+Es ist geplant, dass diese Zahnräder gemäß den bereits bearbeiteten Übungen an unterschiedlichen Koordinaten im Raum platziert werden und dort, ineinandergreifend, bewegt werden. 
+
+Geplant ist die Umsetzung von zwischen 3 und 5 Zahnräder mit verschiedenen Größen und farblichen, sowie texturellen Differenzen, die durch Keyboardeingaben gesteuert werden können. 
+
+Es sollen dabei alle in der Vorlesung angesprochenen Teilgebiete verwendet werden. Der Einfachheit halber werden diese einzelnen Teilaspekte in der Reihenfolge eingebaut, wie sie gemäß der Veranstaltung vorgestellt werden. 
+
+\subsubsection{Vorgehen} %für die eigene Übersichtlichkeit % 
+Am Anfang haben wir die Sachen aus den Übungen genommen und damit rumexperimentiert. 
+Kurt hat dann angefangen, ein Zahnradmodell zu bauen, nachdem wir einen Nachmittag lang überlegt haben, wie die optimale Herangehensweise zur Konstruktion eines solchen Objekts war. 
+Es stellte sich im Nachhinein heraus, dass die Modelle statt, wie bisher versuchterweise implementiert, in vier unterschiedlich nummerierten Sektoren, in einem rechtsseitig drehenden Koordinatensystem implementiert werden. 
+Nachdem dieser Fehler aufgefallen ist, mussten die Vertices aller Ecken und Dreiecke nochmal neu berechnet werden. 
+Nachdem das erste beispielhafte Zahnrad dann neu (und korrekt) geometrisch erstellt und gerendered wurde, hat Katja sich zu HAuse mit der hübschen Darstellung dessen beschäftigt und es geschafft, dass die Beleuchtung verbessert wurde und die einzelnen Front- und Rückseitigen Dreiecke nicht mehr ganz so bruchstückhaft angezeigt wurden. Parallel hat Katja an den Optionen zur Beleuchtung herum gespielt, sodass wir nun eine matte und eine glänzende Zahnradseite haben. 
+Firas hat sich in der Zwischenzeit mit allen Aspekten der Vorlesung auseinander gesetzt und übernimmt grade die Möglichkeit der Tastatureingaben. Es geht im in erster Linie darum, weitere Möglichkeiten zu implementieren, das Objekt oder die Kamera zu drehen. Kurt hatte geäußert, dass er die in den Vorlesungsmaterialien implementierten Optionen zur Kamerasteuerung / Drehung des Objektes eher counter-intuitive empfindet und es hier einen logischeren Ansatz geben sollte. 
+Das fertige Modell soll später die Möglichkeiten haben, nicht nur durch Knopfdruck eine Bewegung der einzelnen Zahnräder zu implementieren, sondern auch die Kamera durch Tastatureingaben zu drehen. Hierdurch möchten wir ermöglichen, dass das Versuchsobjekt von allen Seiten betrachtet werden kann. 
+Für Testzwecke, insbesondere zur Überprüfung der korrekten und geplanten Implementierung der Zahnräder, bietet es sich jedoch an, eine weitere Option zu implementieren, die es erlaubt, per Tastendruck auch die einzelnen Objekte zu drehen. Dies ermöglicht dann ein Betrachten des Objekts von unterschiedlichen Winkeln, sodass Kamera und Lichtquelle in ihrer ursprünglichen Position fixiert bleiben. Weiterhin wird so ermöglicht, den Lichteinfall auf das jeweilige Objekt von unterschiedlichen Positionen zu prüfen. Wenn zu einem späteren Zeitpunkt Texturen für die Oobjekte implementiert werden, kann so parallel geprüft werden, ob diese korrekt dargestellt werden, ohne dass man (also die Kamera) sich um das Objekt herum bewegen muss. 
+Währenddessen arbeitet Kurt daran, unser bisheriges Projekt in die neuen Veranstaltungsmaterialien einzubauen. Das Projekt aus den Übungen beinhaltet nun einen Tisch, auf dem man Objekte platzieren kann. Hierfür benötigt er diverse Transformationen, die er auf unser Zahnrad anwenden muss, damit es entsprechend im Raum platziert wird. 
+
+
+
+\subsection{Konkretisieren der Projektidee}
+Nach Bekanntgabe der genaueren Anforderungen an das zu erstellende Computergrafik-Projekt wurde ein erstes Teammeeting angesetzt, um zu besprechen, wie die Realisierung der Anforderungen konkret aussehen könnte. 
+Gemeinsam hat sich die vierköpfige Gruppe nach einiger Diskussion auf eine Idee geeinigt, die sowohl alle Anforderungen an das Projekt erfüllt, als auch im Rahmen der Fähigkeiten und Kenntnisse der einzelnen Gruppenmitglieder im angegebenen Zeitrahmen umsetzbar erscheint. 
+
+Es wurde sich darauf geeinigt, dass ein gemeinsamer Prototyp eines selbst modellierten Zahnrades gebaut werden sollte. 
+Die Wahl auf das Zahnrad fiel aufgrund von unterschiedlichen Überlegungen:
+
+\begin{itemize}
+    \item Das Zahnrad selbst erscheint in seiner geometrischen Modellierung einmalig aufwendig, jedoch in seiner Schwierigkeit dem Projektumfang exakt angemessen. 
+    \item Die Zahnräder können ineinander verbaut werden, sodass ein "Kurbeln" an einem Zahnrad, den gesamten Apparatus in Bewegung setzt. *
+    \item Man kann den einzelnen Zahnrädern unterschiedliche Größen geben, sodass unterschiedliche Skalierungsmatritzen auf das originale Objekt angewendet werden. *
+    \item Man kann den einzelnen Zahnrädern unterschiedliche Texturen / Farben / Lichtrefkletionsmodelle geben. 
+    \item Man kann die einzelnen Zahnräder an unterschiedlichen Raumkoordinaten positionieren, sodass unterschiedliche Transformationen am originalen Objekt vorgenommen werden. 
+\end{itemize}
+
+Bedingt durch die Möglichkeit, an einem Zahnrad zu drehen und somit den gesamten Apparatus in Bewegung zu setzen, würde das Projekt dementsprechend auch eine dynamisch-animierte Komponente enthalten, die sich die Gruppenmitgleider ausdrücklich gewünscht hatten. 
+
+Weiterhin bot die Idee des Zahnradapparatus' die Möglichkeiten, diesen durch eine dynamische (keyboard-gesteuerte) Implementierung zu "umschreiten", um den Apparat von unterschiedlichen Seiten zu betrachten. 
+
+Nachdem sich alle Gruppenmitglieder mit dem Vorschlag des Zahnradapparatus einverstanden erklärt hatten, erfolgte die Vorstellung der Idee vor dem Dozenten, der mit dem Umfang und den Implementierungen des Projektes einverstanden war. 
+
+
+
+\subsubsection{Anmerkungen}
+Die Überlegungen zu den einzelnen Gründen für die Implementierung eines Zahnradaparatus haben sich im Laufe der Vorlesung als falsch erwiesen. 
+
+So ist es nicht ohne weiteres möglich, dass ein "Kurbeln" an einem Objekt ein anderes Objekt in Bewegung versetzt. 
+Eine Implememtierung dieser Funktion hätte vorgenommen werden können, war jeodch im gegebenenn Zeitrahmen und Umfang des Projekts mit dem bisherigen Stand der Gruppe nicht möglich. 
+Retrospektiv könnte dies heute, würde noch einmal ein neues Projekt aufgesetzt werden, etabliert werden. 
+
+Parallel ist es nicht möglich, den Zahnrädern ohne weiteres unterschiedliche Größen zu geben, bzw. dasselbe Objekt durch Skalierung zu einem größeren/kleineren Zahnrad zu machen. 
+Hintergrund ist hier logischerweise, dass sich bei einer Größenänderung von einem Zahnrad zwar die Größe (Durchmesser bzw. Radius) ändert, jedoch die Größe der einzelnen Zähne gleich bleiben muss, damit diese lückenlos ineinander greifen können. 
+Dies bedeutet somit, dass für ein kleineres Zahnrad ein neues Modell erstellt werden muss, dass nicht nur einen kleineren Radius besitzt, sondern auch weniger Zähne (da diese ja dieselbe Größe behalten müssen). 
+
+
+
+\subsection{Arbeitsumgebung einrichten}
+Um die Zusammenarbeit aller Gruppenmitglieder angemessen koordinieren zu können, sowie um praktische Erfahrungen mit Version-Controll-Systemen zu sammeln, entschloss sich die Gruppe, Git zu benutzen. 
+Nachdem ein gemeinsames Repository aufgesetzt und allen Mitgliedern Zugriff darauf gewährt wurde, war jedes Gruppenmitglied unabhängig voneinander in der Lage, den aktuellen Code von Github herunterzuladen, bzw. eigene Änderungen am Projekt in das Repository zu pushen, um sie für alle verfügbar zu machen. 
+Die Arbeit mit Git (über den Dienst Gitkraken) erwies sich im Verlaufe des Projektes generell als sehr lehrreich. 
+Die Einarbeitung in die Funktionsweise von Git stellte allerdings, insbesondere am Anfang, einige Schwierigkeiten dar. 
+Allgemein kann jedoch generell gesagt werden, dass je mehr Kenntnisse die Gruppe im Umgang mit Git sammeln konnte, desto stärker traten dessen Vorteile in den Vordergrund.  
+
+Generell überwogen für alle Beteiligten die Vorteile einer sinnvollen Möglichkeit zur Versionskontrolle über den anfänglichen Schwierigkeiten bei der Einarbeitung in die Thematik.
+
+Weiterführend musste auf allen Rechnern der Gruppenteilnehmer Eclipse, bzw. die korrekte Version von Eclipse installiert werden, sowie der Szenegraph aus den Veranstaltungsübungen kompiliert und zum Laufen gebracht werden. 
+
+Dies war am Anfang mit einigen Schwierigkeiten verbunden. 
+Die Schwierigkeiten entstanden teilweise aus den unterschiedlichen Hardwarevoraussetzungen der einzelnen Rechner 
+(zwei Gruppenmitglieder haben sich im Verlaufe des Projekts einen neuen Laptop angeschafft, da die Kompilierung und Ausführung der Projekte teilweise hardwarebedingt nicht unterstützt werden konnte), 
+teilweise aus Softwareunterschieden (Linux vs. Windows, bzw. den Einstellungen von Eclipse allgemein) und teilweise aus einer schmächtigen Dokumentation der verwendeten Materialien. 
+
+
+
+\subsection{3. Zahnradmodell erstellen}
+Für eine erster Implementierung der Idee in Form eines Minimal Viable Products (künftig MVP's) wurde gemeinschaftlich ein Zahnradmodell erstellt. 
+Die nötigen Vertices und Faces wurden dabei, in Ermangelung von Kenntnissen im Bereich Blender, noch von Hand berechnet und hart im Code eingeschrieben. 
+
+Parallel sah sich die Gruppe mit der ersten Herausforderung in diesem Projekt konfrontiert: 
+Die Arbeitsumgebung aus den Übungen auf den einzelnen Privatrechnern der Mitglieder zu konfigurieren, sodass das Basisprojekt kompiliert und gestartet werden konnte. 
+Obwohl dies eigentlich eine grundsätzliche Voraussetzung für die Weiterarbeit am Projekt ist, wurde insgesamt ein unverhältnismäßig großer Zeitaufwand für das Aufsetzen der Entwicklungsumgebung verbraucht (Näheres hierzu im vorigen Unterkapitel). 
+
+
+
+\subsection{Raum erstellen, Zahnrad im Raum erstellen, Kamerabewegung ermöglichen}
+Sobald die Entwicklungsumgebung auf allen Teilnehmerrechnern einsatzbereit war und parallel das erste Modell eines Zahnrads erstellt und in Github gepusht wurde, konnten die restlichen Teilnehmer damit beginnen, den aktuellen Stand zu pullen und selbst weitere Modifikationen vornehmen. 
+
+In der Zwischenzeit waren die Inhalte aus den Vorlesungen und Übungen weiter fortgeschritten, sodass an dieser Stelle auch ein tatsächlicher Raum in den Arbeitsmaterialen zur Verfügung gestellt wurde. 
+Dies ermöglichte eine Implementierung der Arbeitsmaterialien in das eigene Projekt, sowie ein Einfügen des selbst erstellten Zahnrades in den neuen Stand. 
+
+Obwohl die Aufgabe rückwirkend relativ einfach zu beschreiben ist, war die Umsetzung an erhebliche zeitliche Komponenten gebunden. 
+Der Grund hierfür ist darin zu benennen, dass die Gruppenteilnehmer sich zuerst mit dem neuen Code vertraut machen und darin zurechtfinden mussten, bevor Änderungen vorgenommen werden konnten. 
+
+Um eine schnellere Bewältigung der noch ausstehenden Arbeitspakete zu ermöglichen wurde aus diesem Grund eine Aufteilung der anstehenden Arbeitspakete beschlossen. 
+Ein Arbeitspaket war die Erstellung des Raumes selbst. 
+Ein weiteres Arbeitspaket war der Einbau des Zahnrads in den Raum selbst: 
+Erst testweise in den Raum aus den Übungen, danach mit frotgeschrittenen Kenntnissen in den selbst von der Gruppe erstellten Raum. 
+Parallel wurde an der Steuerung der Kamerabewegung über die Tastatur gearbeitet. 
+
+
+
+\subsection{Beleuchtung, Raumplatzierung, Bewegungsoptionen}
+Sobald die Arbeitspakete "Raumerstellung", "Zahnradeinbindung" und "Kamerasteuerung" grundlegend implementiert waren, konnten neue Arbeitspakete erstellt werden. 
+Um die gewonnenen Kenntnisse aus den Arbeitspaketen zu teilen, wurden die Ergebnisse und Vorgehensweisen der Gruppenmitglieder untereinander geteilt. 
+So hatte jedes Mitglied, auch wenn eine Arbeitsteilung stattgefunden hatte, in etwa denselben Wissenstand über die Vorgänge im Projekt. 
+
+Es folgte das Einfügen eines zweiten Zahnrads, dass neben dem bestehenden Zahnrad platziert wurde. Die Umkehrung der Drehrichtung und eine bei beiden Modellen gleiche Drehgeschwindigkeit sorgte folgend dafür, dass die Zähne der einzelnen Zahnräder fließend ineinander griffen. 
+
+Der erste Prototyp des Zahnradaparatus' präsentierte sich beeindruckend. 
+
+Da die Steuerung der Kamera aus den bereitgestellten Arbeitsmaterialien sich bisweilen etwas kontraintuitiv gestaltete, wurde auch hieran weitergearbeitet. 
+Die Pfeiltasten nach vorne, hinten, links und rechts sorgten somit nun für eine Bewegung in die entsprechende Richtung, "q" und "e" ermöglichten ein Drehen der Kamera um sich selbst. 
+
+Für die Arbeit an den Zahnradmodellen, die noch einige Schönheitsfehler enthielten, wurde mit den Tasten "x" und "v" die Möglichkeit geschaffen, links-/rechtsdrehend um ein Objekt zu "fahren", sodass die Beleuchtung stationär an Ort und Stelle stehen bleibt und sich nur die Kamera um das Objekt bewegt. 
+
+Parallel war während den Arbeiten an dem Modell und der Kamera an der Implementierung einer Textur für das Objekt geforscht worden. 
+Ein erster Anlauf war die Implementierung von einfachen Texturen auf die vorhandenen Raumwände, die durch ihre Natur relativ einfach mit einer Textur versehen werden konnte (im Gegensatz zu bspw. dem eigens modellierten Zahnrad). 
+Zudem wurde die Erstellung und der Einbau eines Fenstergitters in Erwägung gezogen, dass als zweite Beleuchtungsquelle dienen könnte. 
+
+In Kombination mit einer Zementtextur für die Wände würde das dem dargestellten Raum einen besonderen, industriellen Flair geben. 
+
+
+Sodann konnten weitere Aufgabenpakete für das Erreichen des Projektziels abgeschätzt werden: 
+Eines dieser Aufgabenpakete war die Erstellung zweier leuchtender Sphären, damit das Projekt zwei Lichtquellen  enthält. 
+
+Eine weitere Aufgabe war die Implementierung einer Taste, die die Drehung der Zahnräder ineinander starten/beenden sollte. 
+Dies würde nicht nur die Interaktion mit dem Projektmodell ermöglichen, sondern auch die gewünschte Animation der dargstellten Objekte vervollständigen. 
+
+Weiterfolgend hat die Gruppe in Erwägung gezogen, die eine Restriktion der Kamera zu implementieren, damit man nicht versehentlich über die Steuerung der Pfeiltasten aus dem Raum heraus navigieren könnte. 
+Im Gespräch mit dem die Veranstaltung begleitenden Dozenten wurde jedoch beschlossen, dass dies keine grundlegende Anforderung sei und somit nicht zum Bestehen des Projektes erforderlich sein würde. 
+
+Aus diesem Grund wurde die Kamerarestriktion vorerst auf die "Wunschliste" gestellt: 
+Eine Liste, mit Wünschen der Gruppenteilnehmern, die "nice to have" wären, allerdings nicht im Rahmen des Projekts als zwangsläufig notwendig erachtet wurden. 
+
+
+
+\subsection{Zweite Beleuchtungsquelle, Objektinteration mit der Kamera und Umstrukturierung des Szenegraphen}
+Um final die Anforderungen an das Projekt zu erfüllen, waren noch zwei Aspekte der grundsätzlichen Aufgabenstellung offen. 
+Es handelt sich dabei um 
+\begin{itemize}
+    \item die Verwendung einer zweiten Beleuchtungsquelle und
+    \item die Interaktion mit einem Objekt. 
+\end{itemize}
+
+Im Verlauf der Veranstaltung hat sich die Gruppe entschlossen, als zweite Lichtquelle kleine Lichtspots zu verwenden, die an den Raumwänden platziert werden sollen. 
+Diese Implementierung bot sich insbesondere an, da der bereitgestellte Szenegraph hierzu bereits Ansätze verwendet und diese entsprechend umgebaut den notwendigen Zweck erfüllen. 
+
+Als Interaktion wurde nach Absprache mit dem Dozenten die Idee angenommen, die Drehungen des Zahnrades per Tastaturdruck zu stoppen, bzw. zu starten. 
+
+Im Verlauf dieser Implememtierung ist es hierbei deutlich geworden, dass eine Restrukturierung des bislang verwendeten Szenegraphen nötig ist. 
+Dieser enthält alle notwendigen und dargestellten Objekte in einer relativ ungeordneten Form.
+Die Veranstaltungsinhalte geben jedoch Hinweise darauf, wie eine korrekte Implemetierung der Klassen und Funktionen, beispielsweise in Baumform, möglich ist. 
+
+Hierdurch löst sich zwar das Problem, wie per Tastatureingabe mit den Objekten interagiert werden soll, allerdings eröffnete sich hierdurch neues Problem: 
+Da es nicht möglich ist, ein Objekt von zwei Beleuchtungsquellen angestrahlt werden zu lassen, stand die Gruppe vor einem Problem. 
+Glücklicherweise konnte dieses relativ zügig gelöst werden, indem man die beiden Licht-Knoten im Szenegraphen nicht nebeneinander auf dieselbe Ebene stellte, sondern einen Lichtknoten zum Kindknoten des anderen Lichtknoten machte (also Licht2 ist Kind von Licht1). 
+Hierüber konnten folgend alle anderen Objekte und Gruppen in der Szene nun Kinder vom Kindknoten sein (d.h. Kindknoten von Licht2). 
+
+\end{document}
