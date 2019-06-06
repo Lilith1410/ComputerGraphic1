@@ -385,20 +385,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	 */
 
 
-
-
-
-
-	auto spotCore = geometryFactory.createModelFromOBJFile("obj/spot.obj");
-	auto spot = Shape::create();
-	spot->addCore(matGrey)->addCore(spotCore);
-	auto spotTrans = Transformation::create();
-/*	spotTrans->translate(glm::vec3(0.0f, 0.2f, -4.58f));
-	spotTrans->rotate(-135.0f, glm::vec3(0.f, 1.f, 0.f));
-	spotTrans->rotate(180.0f, glm::vec3(1.f, 0.f, 1.f));
-	spotTrans->rotate(180.0f, glm::vec3(0.f, 1.f, 0.f));
-*/	spotTrans->scale(glm::vec3(0.2f, 0.2f, 0.2f));
-
 	auto stabCore = geometryFactory.createModelFromOBJFile("obj/gear_center.obj");
 	auto stab = Shape::create();
 	stab->addCore(matGold)->addCore(stabCore);
@@ -499,6 +485,21 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	   sphereTrans->translate(glm::vec3(1.0f, 7.95f, -1.f))
 		->scale(glm::vec3(0.2f, 0.2f, 0.2f));;
 
+	   //Create SpotLampe
+	auto spotCore = geometryFactory.createModelFromOBJFile("obj/spot.obj");
+		auto spot = Shape::create();
+		spot->addCore(matGrey)->addCore(spotCore);
+		auto spotTrans = Transformation::create();
+		spotTrans->translate(glm::vec3(0.0f, 5.5f, -5.f));
+		spotTrans->rotate(-90.0f, glm::vec3(0.f, 1.f, 0.f));
+		//spotTrans->scale(glm::vec3(0.8f, 0.8f, 0.8f));
+	auto sphere2Core = geometryFactory.createSphere(1.0f, 50, 50) ;
+	   auto sphere2 = Shape::create();
+	   sphere2->addCore(matWhite)
+			->addCore(sphere2Core);
+	   auto sphere2Trans = Transformation::create();
+	   sphere2Trans->translate(glm::vec3(0.0f, 4.5f, -4.5f))
+		->scale(glm::vec3(0.17f, 0.17f, 0.17f));;
 
 	// create scene graph
 	/*
@@ -520,9 +521,13 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			->addChild(clock)
 			->addChild(lampeTrans)
 			->addChild(sphereTrans)
+			->addChild(spotTrans)
+			->addChild(sphere2Trans)
 			->addChild(gearFloorTrans);
 	lampeTrans->addChild(lampe);
 	sphereTrans->addChild(sphere);
+	sphere2Trans->addChild(sphere2);
+	spotTrans->addChild(spot);
 	//gearTrans->addChild(gear);
 	//gear2Trans->addChild(gear2);
 //	gearFloorTrans->addChild(gearFloor);
