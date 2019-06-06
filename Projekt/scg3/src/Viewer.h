@@ -124,6 +124,9 @@ public:
    */
   static ViewerSP create();
 
+
+  GLFWwindow* getWindow();
+
   /**
    * Initialize GLFW with given renderer.
    * \return this pointer for method chaining
@@ -280,6 +283,8 @@ private:
    * Disallow copy constructor and assignment operator.
    */
   SCG_DISALLOW_COPY_AND_ASSIGN(Viewer);
+
+
 
 protected:
 

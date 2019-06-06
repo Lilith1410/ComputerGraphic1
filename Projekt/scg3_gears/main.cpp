@@ -32,6 +32,7 @@
 #include <ctime>
 #include <functional>
 #include <random>
+#include <thread>
 
 using namespace scg;
 
@@ -39,6 +40,7 @@ using namespace scg;
  * \brief Typical application using a customized viewer to create a teapot or table scene.
  */
 void customViewer();
+void keyBoardFunction(ViewerSP viewer);
 
 /**
  * \brief Create a scene consisting of a floor, a table, a teapot, a camera, and a light.
@@ -58,7 +60,21 @@ int main() {
 		std::cerr << std::endl << "Exception: " << exc.what() << std::endl;
 		result = 1;
 	}
+
 	return result;
+}
+
+void keyBoardFunction(ViewerSP viewer){
+
+	GLFWwindow* fenster = viewer->getWindow();
+	while(!glfwWindowShouldClose(fenster)){
+		 if(glfwGetKey(fenster, GLFW_KEY_T) == GLFW_PRESS){
+			 while(glfwGetKey(fenster, GLFW_KEY_T) == GLFW_PRESS){
+				 //wait
+			 }
+		  std::cout << "Test Taste" << std::endl;
+		}
+	}
 }
 
 
@@ -69,7 +85,7 @@ void customViewer() {
 	auto viewer = Viewer::create();
 	auto renderer = StandardRenderer::create();
 	viewer->init(renderer)->createWindow("s c g 3   e x a m p l e", 1024, 768);
-
+	std::thread keyBoard(keyBoardFunction, viewer);
 	// create camera
 	auto camera = PerspectiveCamera::create();
 	renderer->setCamera(camera);
@@ -82,6 +98,7 @@ void customViewer() {
 
 	// start animations, enter main loop
 	viewer->startAnimations()->startMainLoop();
+	keyBoard.join();
 }
 
 
