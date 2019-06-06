@@ -65,6 +65,9 @@ ViewerSP Viewer::create() {
   return  std::make_shared<Viewer>();
 }
 
+GLFWwindow* Viewer::getWindow(){
+	return window_;
+}
 
 Viewer* Viewer::setOpenGLConfig(const OGLConfig& oglConfig) {
   oglConfig_ = oglConfig;
@@ -245,6 +248,7 @@ Viewer* Viewer::createFullscreenWindow(const char* title) {
 
 
 void Viewer::startMainLoop() {
+
   if (!renderer_) {
     throw std::runtime_error("Undefined renderer, call Viewer::init() first [Viewer::render()]");
   }
@@ -365,6 +369,5 @@ void Viewer::framebufferSizeCB_(GLFWwindow* window, int width, int height) {
 
 bool Viewer::isInstantiated_(false);
 bool Viewer::isWindowResized_(false);
-
 
 } /* namespace scg */
