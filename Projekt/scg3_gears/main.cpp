@@ -398,35 +398,87 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto gearSilber = Group::create();
 		gearSilber->addCore(matSilber);
 
-	/*TransformationSP gearsAnimTrans[6];
-
-
-	for(int i = 0; i < 6; i++){
-		    auto gearsAnim = TransformAnimation::create();
-		    float angularVelGears = 20.f; //Geschwindigkeit
-			glm::vec3 axisGears(1.f, 0.f, 0.f); //Rotation um z-Achse
-			gearsAnim->setUpdateFunc(
-					[angularVelGears, axisGears](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-						animation->rotate(angularVelGears*static_cast<GLfloat>(diffTime), axisGears);
+	//Animation
+		    auto gearsAnim1 = TransformAnimation::create();
+		    float angularVelGears1 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears1(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim1->setUpdateFunc(
+					[angularVelGears1, axisGears1](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(angularVelGears1*static_cast<GLfloat>(diffTime), axisGears1);
 					});
-			viewer->addAnimation(gearsAnim);
+			viewer->addAnimation(gearsAnim1);
 			// add transformation (translation) to be applied before animation
-			gearsAnimTrans[i] = Transformation::create();
-			gearsAnimTrans[i]->translate(glm::vec3(0.0f, 0.f, 0.f));
-	}*/
+			auto gearsAnimTrans1 = Transformation::create();
+			gearsAnimTrans1->translate(glm::vec3(0.0f, 0.f, 0.f));
+
+			auto gearsAnim2 = TransformAnimation::create();
+			float angularVelGears2 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears2(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim2->setUpdateFunc(
+					[angularVelGears2, axisGears2](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(-angularVelGears2*static_cast<GLfloat>(diffTime), axisGears2);
+					});
+			viewer->addAnimation(gearsAnim2);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans2 = Transformation::create();
+			gearsAnimTrans2->translate(glm::vec3(0.0f, 0.f, 0.f));
+
+			auto gearsAnim3 = TransformAnimation::create();
+			float angularVelGears3 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears3(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim3->setUpdateFunc(
+					[angularVelGears3, axisGears3](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(-angularVelGears3*static_cast<GLfloat>(diffTime), axisGears3);
+					});
+			viewer->addAnimation(gearsAnim3);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans3 = Transformation::create();
+			gearsAnimTrans3->translate(glm::vec3(0.0f, 0.f, 0.f));
+
+			auto gearsAnim4 = TransformAnimation::create();
+			float angularVelGears4 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears4(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim4->setUpdateFunc(
+					[angularVelGears4, axisGears4](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(-angularVelGears4*static_cast<GLfloat>(diffTime), axisGears4);
+					});
+			viewer->addAnimation(gearsAnim4);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans4 = Transformation::create();
+			gearsAnimTrans4->translate(glm::vec3(0.0f, 0.f, 0.f));
+
+			auto gearsAnim5 = TransformAnimation::create();
+			float angularVelGears5 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears5(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim5->setUpdateFunc(
+					[angularVelGears5, axisGears5](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(-angularVelGears5*static_cast<GLfloat>(diffTime), axisGears5);
+					});
+			viewer->addAnimation(gearsAnim5);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans5 = Transformation::create();
+			gearsAnimTrans5->translate(glm::vec3(0.0f, 0.f, 0.f));
+
+			auto gearsAnim6 = TransformAnimation::create();
+			float angularVelGears6 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears6(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim6->setUpdateFunc(
+					[angularVelGears6, axisGears6](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(angularVelGears6*static_cast<GLfloat>(diffTime), axisGears6);
+					});
+			viewer->addAnimation(gearsAnim6);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans6 = Transformation::create();
+			gearsAnimTrans6->translate(glm::vec3(0.0f, 0.f, 0.f));
+
 
 		for(int i = 0; i < 6; i++) {
 			gears[i]=Shape::create(gearCore);
 			gearsTrans[i] = Transformation::create();
-			gearsTrans[i]
-			/*->addChild(gearsAnim);
-			gearsAnim->addChild(gearsAnimTrans[i]);
-			gearsAnimTrans[i]*/
-			->addChild(gears[i]);
 			gearsCenter[i]=Shape::create(gearCenterCore);
 			gearsCenterTrans[i] = Transformation::create();
-			gearsCenterTrans[i]->addChild(gearsCenter[i]);
-			}
+		}
+
 		gearsTrans[0]->translate(glm::vec3(-4.85f, 2.f, 0.f))->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
 		gearsTrans[1]->translate(glm::vec3(-4.85f, 2.f, -1.4f))->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
 		gearsTrans[2]->translate(glm::vec3(-4.85f, 3.4f, 0.f))->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
@@ -440,6 +492,36 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		gearsCenterTrans[4]->translate(glm::vec3(4.85f, 2.f, -1.4f))->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
 		gearsCenterTrans[5]->translate(glm::vec3(4.85f, 2.f, 0.f))->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
 
+		//Animation hinzufügen
+		gearsTrans[0]->addChild(gearsAnim1);
+		gearsAnim1->addChild(gearsAnimTrans1);
+		gearsAnimTrans1->addChild(gears[0]);
+
+		gearsTrans[1]->addChild(gearsAnim2);
+		gearsAnim2->addChild(gearsAnimTrans2);
+		gearsAnimTrans2->addChild(gears[1]);
+
+		gearsTrans[2]->addChild(gearsAnim3);
+		gearsAnim3->addChild(gearsAnimTrans3);
+		gearsAnimTrans3->addChild(gears[2]);
+
+		gearsTrans[3]->addChild(gearsAnim4);
+		gearsAnim4->addChild(gearsAnimTrans4);
+		gearsAnimTrans4->addChild(gears[3]);
+
+		gearsTrans[4]->addChild(gearsAnim5);
+		gearsAnim5->addChild(gearsAnimTrans5);
+		gearsAnimTrans5->addChild(gears[4]);
+
+		gearsTrans[5]->addChild(gearsAnim6);
+		gearsAnim6->addChild(gearsAnimTrans6);
+		gearsAnimTrans6->addChild(gears[5]);
+
+
+		for(int i = 0; i < 6; i++) {
+
+			gearsCenterTrans[i]->addChild(gearsCenter[i]);
+		}
 
 		gearChrom->addChild(gearsTrans[0])->addChild(gearsTrans[4])->addChild(gearsCenterTrans[1])->addChild(gearsCenterTrans[5]);
 		gearMessing->addChild(gearsTrans[1])->addChild(gearsTrans[2])->addChild(gearsTrans[5])->addChild(gearsCenterTrans[0])->addChild(gearsCenterTrans[3]);
