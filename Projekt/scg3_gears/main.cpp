@@ -340,25 +340,28 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	 *
 	 *
 	 */
+
 	auto clock = Group::create();
 
+
 	auto clockAxisCore = geometryFactory.createModelFromOBJFile("obj/clock/06_achse.obj");
+	auto clockAxis2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/07_achse_2.obj");
+
 	auto clockGear1Core = geometryFactory.createModelFromOBJFile("obj/clock/00_Zahnrad_1.obj");
 	auto clockGear2Core = geometryFactory.createModelFromOBJFile("obj/clock/01_Zahnrad_2.obj");
 	auto clockGear3Core = geometryFactory.createModelFromOBJFile("obj/clock/02_Zahnrad_3.obj");
 	auto clockGear4Core = geometryFactory.createModelFromOBJFile("obj/clock/03_Zahnrad_4.obj");
-	auto clockHandSmallCore = geometryFactory.createModelFromOBJFile("obj/clock/04_Zeiger_klein.obj");
-	auto clockHandBigCore = geometryFactory.createModelFromOBJFile("obj/clock/05_Zeiger_gross.obj");
-	auto clockAxis2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/07_achse_2.obj");
 	auto clockGear2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/08_zahnrad_abseits.obj");
 
-	ShapeSP clockGears[7];
-	ShapeSP clockGearsCenter[2];
-	TransformationSP clockGearsTrans[7];
-	TransformationSP clockGearsCenterTrans[1];
+	//auto clockHandSmallCore = geometryFactory.createModelFromOBJFile("obj/clock/04_Zeiger_klein.obj");
+	//auto clockHandBigCore = geometryFactory.createModelFromOBJFile("obj/clock/05_Zeiger_gross.obj");
 
-	// ShapeSP clockHands[2];
-	// TransformationSP clockHandsTrans[2];
+
+	ShapeSP clockGears[5];
+	ShapeSP clockGearsCenter[2];
+	TransformationSP clockGearsTrans[5];
+	TransformationSP clockGearsCenterTrans[2];
+
 
 	// von ganz innen nach ganz außen und dann das an der seite
 	auto gearInnen1 = Group::create();
@@ -373,18 +376,17 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto gearInnen4 = Group::create();
 	gearInnen4->addCore(matGold);
 
-	// auto clock = Group::create();
-	// auto gearsAxis = Group::create();
-	// gearsAxis->addCore(matGold);
-	// auto zeiger = Group::create();
-	// zeiger->addCore(matMessing);
+	auto gearAussen = Group::create();
+	gearAussen->addCore(matGold);
 
-	// Animation
+	/*
+	 * Animation
+	 */
 
-	//rechts
 	int speedClock = 20.f;
 	glm::vec3 rotateAxisClock(0.f, 1.f, 0.f);
 
+	//rechts
 	auto animClockRight = TransformAnimation::create();
 	animClockRight->setUpdateFunc(
 		[speedClock, rotateAxisClock] (TransformAnimation*animation, double currTime, double diffTime, double totalTime) {
@@ -403,44 +405,70 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		});
 
 	viewer->addAnimation(animClockLeft);
+	//add transformation (translation) to be applied before animation
 	auto animClockLeftTrans = Transformation::create();
 	animClockLeftTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-	clockGears[0] = Shape::create(clockAxisCore);
-	clockGears[1] = Shape::create(clockGear1Core);
-	clockGears[2] = Shape::create(clockGear2Core);
-	clockGears[3] = Shape::create(clockGear3Core);
-	clockGears[4] = Shape::create(clockGear4Core);
-	clockGears[5] = Shape::create(clockAxis2ndCore);
-	clockGears[6] = Shape::create(clockGear2ndCore);
+	/*
+	 * Füllen der Arrays
+	 */
 
-	//clockHands[0] = Shape::create(clockHandSmallCore);
-	//clockHands[1] = Shape::create(clockHandBigCore);
+	clockGears[0] = Shape::create(clockGear1Core);
+	clockGears[1] = Shape::create(clockGear2Core);
+	clockGears[2] = Shape::create(clockGear3Core);
+	clockGears[3] = Shape::create(clockGear4Core);
+	clockGears[4] = Shape::create(clockGear2ndCore);
 
-	for(int i = 0; i < 7; i++) {
+	for(int i = 0; i < 5; i++){
 		clockGearsTrans[i] = Transformation::create();
 	}
 
 	clockGearsCenter[0] = Shape::create(clockAxisCore);
-	clockGearsCenterTrans[0] = Transformation::create();
-
 	clockGearsCenter[1] = Shape::create(clockAxis2ndCore);
-	clockGearsCenterTrans[1] = Transformation::create();
 
-	clockGearsTrans[0]->translate(glm::vec3(0.0f, 2.f, -4.85f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[1]->translate(glm::vec3(0.0f, 2.f, -4.7f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[2]->translate(glm::vec3(0.0f, 2.f, -4.5f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[3]->translate(glm::vec3(0.0f, 2.f, -4.25f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[4]->translate(glm::vec3(0.0f, 2.f, -4.f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[5]->translate(glm::vec3(-2.03f, 2.f, -4.85f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(2.0f, 2.0f, 2.0f));
-	clockGearsTrans[6]->translate(glm::vec3(-2.03f, 2.f, -4.47f))->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))->scale(glm::vec3(1.85f, 1.85f, 1.85f));
+	for(int i = 0; i < 2; i++) {
+			clockGearsCenterTrans[i] = Transformation::create();
+	}
 
-	// bei translate noch random zahlen?
-	clockGearsCenterTrans[0]->translate(glm::vec3(-4.85f, 2.f, 0.f))->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
+	/*
+	 * Translationen + Rotationen
+	 */
+	clockGearsTrans[0]
+		->translate(glm::vec3(0.0f, 2.f, -4.7f))
+		->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))
+		->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[1]
+		->translate(glm::vec3(0.0f, 2.f, -4.5f))
+		->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))
+		->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[2]
+		->translate(glm::vec3(0.0f, 2.f, -4.25f))
+		->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))
+		->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsTrans[3]
+		->translate(glm::vec3(0.0f, 2.f, -4.f))
+		->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))
+		->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	// Außengear
+	clockGearsTrans[4]
+		->translate(glm::vec3(-2.03f, 2.f, -4.47f))
+		->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))
+		->scale(glm::vec3(1.85f, 1.85f, 1.85f));
 
-	clockGearsCenterTrans[1]->translate(glm::vec3(-4.85f, 2.f, 0.f))->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
 
-	//Animation hinzufügen 1l, 2r, 3l, 4r, 5r
+	clockGearsCenterTrans[0]
+		->translate(glm::vec3(0.0f, 2.f, -4.85f))
+		->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))
+		->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+	clockGearsCenterTrans[1]
+		->translate(glm::vec3(-2.03f, 2.f, -4.85f))
+		->rotate(-90.f, glm::vec3(1.f, 0.f, 0.f))
+		->scale(glm::vec3(2.0f, 2.0f, 2.0f));
+
+
+	/*
+	 * Animation hinzufügen 1l, 2r, 3l, 4r, 5(außen)r
+	 */
 	animClockRight->addChild(animClockRightTrans);
 	animClockRightTrans->addChild(clockGears[1])
 		->addChild(clockGears[3])
@@ -451,24 +479,26 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		->addChild(clockGears[2]);
 
 
-	for(int i = 0; i < 7; i++) {
+	for(int i = 0; i < 5; i++) {
 		clockGearsCenterTrans[i]->addChild(clockGearsCenter[i]);
 	}
 
-	gearInnen1->addChild(clockGearsTrans[1])
+	gearInnen1->addChild(clockGearsTrans[0])
 			->addChild(clockGearsCenterTrans[0]);
-	gearInnen2->addChild(clockGearsTrans[2])
-			->addChild(clockGearsCenterTrans[0]);;
-	gearInnen3->addChild(clockGearsTrans[3])
-			->addChild(clockGearsCenterTrans[0]);;
-	gearInnen4->addChild(clockGearsTrans[4])
-			->addChild(clockGearsCenterTrans[0]);;
+	gearInnen2->addChild(clockGearsTrans[1])
+			->addChild(clockGearsCenterTrans[0]);
+	gearInnen3->addChild(clockGearsTrans[2])
+			->addChild(clockGearsCenterTrans[0]);
+	gearInnen4->addChild(clockGearsTrans[3])
+			->addChild(clockGearsCenterTrans[0]);
+	gearAussen->addChild(clockGearsTrans[4])
+			->addChild(clockGearsCenterTrans[1]);
 
 	clock->addChild(gearInnen1)
 		->addChild(gearInnen2)
 		->addChild(gearInnen3)
-		->addChild(gearInnen4);
-
+		->addChild(gearInnen4)
+		->addChild(gearAussen);
 
 
 	/*
@@ -581,101 +611,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 				->addChild(gearMessing)
 				->addChild(gearSilber);
 
-
-
-	/*
-	 *
-
-	auto clockGearAnim = TransformAnimation::create();
-	float angularVel5 = 3.f; //Geschwindigkeit
-	glm::vec3 axis5(0.f, 1.f, 0.f); //Rotation um z-Achse
-	clockGearAnim->setUpdateFunc(
-			[angularVel5, axis5](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-				animation->rotate(angularVel5*static_cast<GLfloat>(diffTime), axis5);});
-	viewer->addAnimation(clockGearAnim);
-
-	auto clockGearAnimTrans = Transformation::create(); clockGearAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
-	*/
-	/*
-	 *
-
-	auto clockGear2ndAnim = TransformAnimation::create();
-	float angularVel6 = 3.f; //Geschwindigkeit
-	glm::vec3 axis6(0.f, 1.f, 0.f); //Rotation um z-Achse
-	clockGear2ndAnim->setUpdateFunc(
-			[angularVel6, axis6](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-				animation->rotate(-angularVel6*static_cast<GLfloat>(diffTime), axis6);
-			});
-			*/
-		/*
-	viewer->addAnimation(clockGear2ndAnim);
-	auto clockGear2ndAnimTrans = Transformation::create(); clockGear2ndAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
-
-	 *
-	 */
-
-
-	/*auto stabCore = geometryFactory.createModelFromOBJFile("obj/gear_center.obj");
-	auto stab = Shape::create();
-	stab->addCore(matGold)->addCore(stabCore);
-	auto stabTrans = Transformation::create();
-	stabTrans->translate(glm::vec3(-0.45f, 0.75f, -4.55f));
-	stabTrans->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
-
-
-	auto gearCore = geometryFactory.createModelFromOBJFile("obj/gear.obj");
-	auto gear = Shape::create();
-	gear->addCore(matMessing)->addCore(gearCore);
-	auto gearTrans = Transformation::create();
-	gearTrans->translate(glm::vec3(-0.45f, 0.75f, -4.7f));
-	gearTrans->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
-
-	//Animation für Zahnrad- Rotation
-	auto gearAnim = TransformAnimation::create();
-	float angularVel3 = 60.f; //Geschwindigkeit
-	glm::vec3 axis3(0.f, 1.f, 0.f); //Rotation um z-Achse
-	gearAnim->setUpdateFunc(
-			[angularVel3, axis3](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-				animation->rotate(angularVel3*static_cast<GLfloat>(diffTime), axis3);
-			});
-	viewer->addAnimation(gearAnim);
-	// add transformation (translation) to be applied before animation
-	auto gearAnimTrans = Transformation::create();
-	gearAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
-
-
-
-
-	auto stab2Core = geometryFactory.createModelFromOBJFile("obj/gear_center.obj");
-	auto stab2 = Shape::create();
-	stab2->addCore(matMessing)->addCore(stab2Core);
-	auto stab2Trans = Transformation::create();
-	stab2Trans->translate(glm::vec3(0.93f, 0.75f, -4.55f));
-	stab2Trans->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
-
-
-	// Create Zahnrad 2
-	auto gear2Core = geometryFactory.createModelFromOBJFile("obj/gear.obj");
-	auto gear2 = Shape::create();
-	gear2->addCore(matGold)->addCore(gear2Core);
-	auto gear2Trans = Transformation::create();
-	gear2Trans->translate(glm::vec3(0.93f, 0.75f, -4.7f));
-	gear2Trans->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
-	//->rotate(-10.f, glm::vec3(0.f, 0.f, 1.f));
-
-	//Animation für 2-Zahnrad- Rotation
-	auto gear2Anim = TransformAnimation::create();
-	float angularVel4 = 60.f; //Geschwindigkeit
-	glm::vec3 axis4(0.f, 1.f, 0.f); //Rotation um z-Achse
-	gear2Anim->setUpdateFunc(
-			[angularVel4, axis4](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-				animation->rotate(-angularVel4*static_cast<GLfloat>(diffTime), axis4);
-			});
-	viewer->addAnimation(gear2Anim);
-	// add transformation (translation) to be applied before animation
-	auto gear2AnimTrans = Transformation::create();
-	gear2AnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
-	*/
 
 	//Create Zahnrad auf dem Boden
 	auto gearFloorCore = geometryFactory.createModelFromOBJFile("obj/gear.obj");
@@ -805,8 +740,8 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	gear2AnimTrans->addChild(gear2);
 */
 	gearFloorTrans->addChild(gearFloorAnim);
-		gearFloorAnim->addChild(gearFloorAnimTrans);
-		gearFloorAnimTrans
+	gearFloorAnim->addChild(gearFloorAnimTrans);
+	gearFloorAnimTrans
 	//	->addChild(camera)
 		->addChild(gearFloor);
 }
