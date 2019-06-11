@@ -253,16 +253,13 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 
 	GeometryCoreFactory geometryFactory;
-	auto wallCore = geometryFactory.createCuboid(glm::vec3(10.f, 0.05f, 10.f));
+	auto wallCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
 	ShapeSP walls[6];
 	TransformationSP wallsTrans[6];
 
 	auto zimmer = Group::create();
 	zimmer->addCore(shaderPhongTex)
 			->addCore(matGrey);
-
-	//auto wandTrans = Transformation::create();
-	//zimmer->addChild(wandTrans);
 
 	auto wandLR = Group::create();
 		wandLR->addCore(texCem1);
@@ -293,12 +290,10 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	wallsTrans[0]->translate(glm::vec3(0.f, -0.5f, 0.f));												//floor
 	wallsTrans[1]->translate(glm::vec3(0.f, 9.5f, 0.f))->rotate(-180.f,glm::vec3(1.f, 0.f, 0.f));		//decke
-	wallsTrans[2]->translate(glm::vec3(-5.0f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//links
+	wallsTrans[2]->translate(glm::vec3(-7.5f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//links
 	wallsTrans[3]->translate(glm::vec3(0.0f, 4.5f, -5.f))->rotate(-90.f,glm::vec3(1.f, 0.f, 0.f));		//hinten
-	wallsTrans[4]->translate(glm::vec3(5.0f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//rechts
+	wallsTrans[4]->translate(glm::vec3(7.5f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//rechts
 	wallsTrans[5]->translate(glm::vec3(0.0f, 4.5f, 5.f))->rotate(-90.f,glm::vec3(1.f, 0.f, 0.f));		//vorn
-
-
 
 
 	/*
@@ -319,6 +314,23 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto clockAxis2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/07_achse_2.obj");
 	auto clockGear2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/08_zahnrad_abseits.obj");
 
+<<<<<<< Updated upstream
+=======
+/*
+	auto clockAxis = Shape::create(); clockAxis->addCore(matGold)->addCore(clockAxisCore);
+	auto clockGear1 = Shape::create(); clockGear1->addCore(matGold)->addCore(clockGear1Core);
+	auto clockGear2 = Shape::create(); clockGear2->addCore(matGold)->addCore(clockGear2Core);
+	auto clockGear3 = Shape::create(); clockGear3->addCore(matGold)->addCore(clockGear3Core);
+	auto clockGear4 = Shape::create(); clockGear4->addCore(matGold)->addCore(clockGear4Core);
+	auto clockHandSmall = Shape::create(); clockHandSmall->addCore(matMessing)->addCore(clockHandSmallCore);
+	auto clockHandBig = Shape::create(); clockHandBig->addCore(matMessing)->addCore(clockHandBigCore);
+	auto clockAxis2nd = Shape::create(); clockAxis2nd->addCore(matGold)->addCore(clockAxis2ndCore);
+	auto clockGear2nd = Shape::create(); clockGear2nd->addCore(matGold)->addCore(clockGear2ndCore);
+*/
+
+
+
+>>>>>>> Stashed changes
 	// Dinge
 
 	ShapeSP clockGears[7];
@@ -676,7 +688,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	gearFloor->addCore(matChrom)->addCore(gearFloorCore);
 	auto gearFloorTrans = Transformation::create();
 	gearFloorTrans->translate(glm::vec3(0.f, -0.4f, 0.f));
-	gearFloorTrans->scale(glm::vec3(1.5f, 1.5f, 1.5f));
+	gearFloorTrans->scale(glm::vec3(1.0f, 1.0f, 1.0f));
 	//->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
 
 	auto stabFloorCore = geometryFactory.createModelFromOBJFile("obj/gear_center.obj");
@@ -700,6 +712,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto gearFloorAnimTrans = Transformation::create();
 	gearFloorAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
 
+<<<<<<< Updated upstream
 
 	//Create Lampe
 	auto lampeCore = geometryFactory.createModelFromOBJFile("obj/lamp1.obj");
@@ -710,10 +723,14 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		//lampeTrans->scale(glm::vec3(1.5f, 1.5f, 1.5f));
 
 	auto sphereCore = geometryFactory.createSphere(1.0f, 50, 50) ;
+=======
+	/*auto sphereCore = geometryFactory.createSphere(1.0f, 50, 50) ;
+>>>>>>> Stashed changes
 	   auto sphere = Shape::create();
 	   sphere->addCore(matWhite)
 			->addCore(sphereCore);
 	   auto sphereTrans = Transformation::create();
+<<<<<<< Updated upstream
 	   sphereTrans->translate(glm::vec3(1.0f, 7.95f, -1.f))
 		->scale(glm::vec3(0.2f, 0.2f, 0.2f));;
 
@@ -732,6 +749,11 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	   auto sphere2Trans = Transformation::create();
 	   sphere2Trans->translate(glm::vec3(0.0f, 4.5f, -4.5f))
 		->scale(glm::vec3(0.17f, 0.17f, 0.17f));;
+=======
+	   sphereTrans->translate(glm::vec3(3.0f, 2.5f, -3.f))
+		->scale(glm::vec3(0.5f, 0.5f, 0.5f));;
+*/
+>>>>>>> Stashed changes
 
 	// create scene graph
 	/*
@@ -751,6 +773,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	light ->addChild(light2);
 	light2->addChild(zimmer)
 			->addChild(clock)
+<<<<<<< Updated upstream
 			->addChild(gear)
 			->addChild(lampeTrans)
 			->addChild(sphereTrans)
@@ -763,6 +786,17 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	sphere2Trans->addChild(sphere2);
 	spotTrans->addChild(spot);
 	stabFloorTrans->addChild(stabFloor);
+=======
+			->addChild(gearFloorTrans);
+
+	//sphereTrans->addChild(sphere);
+	//gearTrans->addChild(gear);
+	//gear2Trans->addChild(gear2);
+//	gearFloorTrans->addChild(gearFloor);
+
+//	stabTrans->addChild(stab);
+//	stab2Trans->addChild(stab2);
+>>>>>>> Stashed changes
 
 //	gearFloorTrans->addChild(gearFloor);
 
