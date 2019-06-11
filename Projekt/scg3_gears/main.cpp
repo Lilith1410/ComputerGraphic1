@@ -33,27 +33,19 @@
 #include <functional>
 #include <random>
 #include <thread>
-#include <unistd.h>
-
 
 using namespace scg;
-
-auto viewer = Viewer::create();
-auto renderer = StandardRenderer::create();
-
 
 /**
  * \brief Typical application using a customized viewer to create a teapot or table scene.
  */
 void customViewer();
-void keyBoardFunction(ViewerSP viewer, RendererSP renderer);
-TransformAnimation createAnimation(float speed, glm::vec3 rotateAxis, int r);
+void keyBoardFunction(ViewerSP viewer);
 
 /**
  * \brief Create a scene consisting of a floor, a table, a teapot, a camera, and a light.
  */
 void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene);
-void keyBoardFunction(ViewerSP viewer, RendererSP renderer);
 
 /**
  * \brief The main function.
@@ -72,27 +64,15 @@ int main() {
 	return result;
 }
 
-void keyBoardFunction(ViewerSP viewer, RendererSP renderer){
+void keyBoardFunction(ViewerSP viewer){
 
 	GLFWwindow* fenster = viewer->getWindow();
 	while(!glfwWindowShouldClose(fenster)){
 		 if(glfwGetKey(fenster, GLFW_KEY_T) == GLFW_PRESS){
 			 while(glfwGetKey(fenster, GLFW_KEY_T) == GLFW_PRESS){
+				 //wait
 			 }
-		//speed = 10;
-/*
-		float angularVel7 = speed*20.f; //Geschwindigkeit
-		glm::vec3 axis7(0.f, -1.f, 0.f); //Rotation um z-Achse
-		gearFloorAnim->setUpdateFunc(
-				[angularVel7, axis7](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-					animation->rotate(angularVel7*static_cast<GLfloat>(diffTime), axis7);
-				});
-
-*/		//renderer->~Renderer();
-
-		std::cout << " Bla " << std::endl;
-		usleep(500000); //wait for 0.5 seconds
-
+		  std::cout << "Test Taste" << std::endl;
 		}
 	}
 }
@@ -101,15 +81,17 @@ void keyBoardFunction(ViewerSP viewer, RendererSP renderer){
 // Typical application using a customized viewer.
 void customViewer() {
 
-	GroupSP scene;
 	// create viewer and renderer
+	auto viewer = Viewer::create();
+	auto renderer = StandardRenderer::create();
 	viewer->init(renderer)->createWindow("s c g 3   e x a m p l e", 1024, 768);
-	std::thread keyBoard(keyBoardFunction, viewer, renderer);
+	std::thread keyBoard(keyBoardFunction, viewer);
 	// create camera
 	auto camera = PerspectiveCamera::create();
 	renderer->setCamera(camera);
 
 	// create scene
+	GroupSP scene;
 	createGearScene(viewer, camera, scene);
 
 	renderer->setScene(scene);
@@ -120,21 +102,7 @@ void customViewer() {
 }
 
 
-/*
- * Create animation
- * r = 1 for clockwise rotation
- * r = -1 for counter clockwise rotation
- */
-/*
-TransformAnimation createAnimation(float speed, glm::vec3 rotateAxis, int r){
-	auto animation = TransformAnimation::create();
-	animation->setUpdateFunc(
-			[speed, rotateAxis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-				animation->rotate((r)*speed*static_cast<GLfloat>(diffTime), rotateAxis);
-			});
-	return animation;
-}
-*/
+
 /*
  *
  *
@@ -212,27 +180,27 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	 *
 	 */
 	// materials
-/*	auto matRed = MaterialCore::create();
+	auto matRed = MaterialCore::create();
 	matRed->setAmbientAndDiffuse(glm::vec4(1.f, 0.5f, 0.5f, 1.f))->setSpecular(
 			glm::vec4(1.f, 1.f, 1.f, 1.f))->setShininess(20.f)->init();
 
 	auto matGreen = MaterialCore::create();
 	matGreen->setAmbientAndDiffuse(glm::vec4(0.1f, 0.8f, 0.3f, 1.f))->init();
-*/
+
 	auto matWhite = MaterialCore::create();
 	matWhite->setAmbientAndDiffuse(glm::vec4(1.f, 1.f, 1.f, 1.f))->setSpecular(
 			glm::vec4(0.5f, 0.5f, 0.5f, 1.f))->setShininess(20.f)->init();
-/*
+
 	auto matBlue = MaterialCore::create();
 	matBlue->setAmbientAndDiffuse(glm::vec4(0.5f, 0.5f, 1.f, 1.f))->setSpecular(
 			glm::vec4(0.8f, 0.8f, 0.8f, 1.f))->setShininess(20.f)->init();
-*/
+
 	auto matGrey = MaterialCore::create();
 	matGrey->setAmbientAndDiffuse(glm::vec4(.5f, 0.5f, 0.5f, 1.f))->init();
 
-/*	auto matDarkGrey = MaterialCore::create();
+	auto matDarkGrey = MaterialCore::create();
 		matDarkGrey->setAmbientAndDiffuse(glm::vec4(0.25f, 0.25f, 0.25f, 1.f))->init();
-*/
+
 	auto matGold = MaterialCore::create();
 	matGold->setAmbient(glm::vec4(0.25f, 0.22f, 0.06f, 1.f))->setDiffuse(
 			glm::vec4(0.35f, 0.31f, 0.09f, 1.f))->setSpecular(
@@ -252,13 +220,13 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	matChrom->setAmbient(glm::vec4(0.25f, 0.25f, 0.25f, 1.f))->setDiffuse(
 			glm::vec4(0.40f, 0.40f, 0.40f, 1.f))->setSpecular(
 			glm::vec4(0.77f, 0.77f, 0.77f, 1.f))->setShininess(76.8f)->init();
-/*
+
 	auto matBronze = MaterialCore::create();
 	matBronze->setAmbient(glm::vec4(0.21f, 0.13f, 0.05f, 1.f))->setDiffuse(
 			glm::vec4(0.71f, 0.43f, 0.18f, 1.f))->setSpecular(
 			glm::vec4(0.39f, 0.27f, 0.17f, 1.f))->setShininess(25.6f)->init();
 
-*/
+
 
 
 	// textures
@@ -285,13 +253,16 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 
 	GeometryCoreFactory geometryFactory;
-	auto wallCore = geometryFactory.createCuboid(glm::vec3(15.f, 0.05f, 10.f));
+	auto wallCore = geometryFactory.createCuboid(glm::vec3(10.f, 0.05f, 10.f));
 	ShapeSP walls[6];
 	TransformationSP wallsTrans[6];
 
 	auto zimmer = Group::create();
 	zimmer->addCore(shaderPhongTex)
 			->addCore(matGrey);
+
+	//auto wandTrans = Transformation::create();
+	//zimmer->addChild(wandTrans);
 
 	auto wandLR = Group::create();
 		wandLR->addCore(texCem1);
@@ -322,10 +293,12 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	wallsTrans[0]->translate(glm::vec3(0.f, -0.5f, 0.f));												//floor
 	wallsTrans[1]->translate(glm::vec3(0.f, 9.5f, 0.f))->rotate(-180.f,glm::vec3(1.f, 0.f, 0.f));		//decke
-	wallsTrans[2]->translate(glm::vec3(-7.5f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//links
+	wallsTrans[2]->translate(glm::vec3(-5.0f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//links
 	wallsTrans[3]->translate(glm::vec3(0.0f, 4.5f, -5.f))->rotate(-90.f,glm::vec3(1.f, 0.f, 0.f));		//hinten
-	wallsTrans[4]->translate(glm::vec3(7.5f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//rechts
+	wallsTrans[4]->translate(glm::vec3(5.0f, 4.5f, 0.f))->rotate(-90.f,glm::vec3(0.f, 0.f, 1.f));		//rechts
 	wallsTrans[5]->translate(glm::vec3(0.0f, 4.5f, 5.f))->rotate(-90.f,glm::vec3(1.f, 0.f, 0.f));		//vorn
+
+
 
 
 	/*
@@ -346,23 +319,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto clockAxis2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/07_achse_2.obj");
 	auto clockGear2ndCore = geometryFactory.createModelFromOBJFile("obj/clock/08_zahnrad_abseits.obj");
 
-<<<<<<< Updated upstream
-=======
-/*
-	auto clockAxis = Shape::create(); clockAxis->addCore(matGold)->addCore(clockAxisCore);
-	auto clockGear1 = Shape::create(); clockGear1->addCore(matGold)->addCore(clockGear1Core);
-	auto clockGear2 = Shape::create(); clockGear2->addCore(matGold)->addCore(clockGear2Core);
-	auto clockGear3 = Shape::create(); clockGear3->addCore(matGold)->addCore(clockGear3Core);
-	auto clockGear4 = Shape::create(); clockGear4->addCore(matGold)->addCore(clockGear4Core);
-	auto clockHandSmall = Shape::create(); clockHandSmall->addCore(matMessing)->addCore(clockHandSmallCore);
-	auto clockHandBig = Shape::create(); clockHandBig->addCore(matMessing)->addCore(clockHandBigCore);
-	auto clockAxis2nd = Shape::create(); clockAxis2nd->addCore(matGold)->addCore(clockAxis2ndCore);
-	auto clockGear2nd = Shape::create(); clockGear2nd->addCore(matGold)->addCore(clockGear2ndCore);
-*/
-
-
-
->>>>>>> Stashed changes
 	// Dinge
 
 	ShapeSP clockGears[7];
@@ -566,23 +522,77 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		gearSilber->addCore(matSilber);
 
 	//Animation
-		int speed = 20.f;
-		glm::vec3 rotateAxis(0.f, 1.f, 0.f);
+		    auto gearsAnim1 = TransformAnimation::create();
+		    float angularVelGears1 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears1(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim1->setUpdateFunc(
+					[angularVelGears1, axisGears1](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(angularVelGears1*static_cast<GLfloat>(diffTime), axisGears1);
+					});
+			viewer->addAnimation(gearsAnim1);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans1 = Transformation::create();
+			gearsAnimTrans1->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-		auto animRight = TransformAnimation::create();
-		animRight->setUpdateFunc(
-				[speed, rotateAxis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-					animation->rotate(speed*static_cast<GLfloat>(diffTime), rotateAxis);
-				});
+			auto gearsAnim2 = TransformAnimation::create();
+			float angularVelGears2 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears2(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim2->setUpdateFunc(
+					[angularVelGears2, axisGears2](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(-angularVelGears2*static_cast<GLfloat>(diffTime), axisGears2);
+					});
+			viewer->addAnimation(gearsAnim2);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans2 = Transformation::create();
+			gearsAnimTrans2->translate(glm::vec3(0.0f, 0.f, 0.f));
 
+			auto gearsAnim3 = TransformAnimation::create();
+			float angularVelGears3 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears3(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim3->setUpdateFunc(
+					[angularVelGears3, axisGears3](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(-angularVelGears3*static_cast<GLfloat>(diffTime), axisGears3);
+					});
+			viewer->addAnimation(gearsAnim3);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans3 = Transformation::create();
+			gearsAnimTrans3->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-	//	auto animRight = createAnimation(speed, rotateAxis, -1);
+			auto gearsAnim4 = TransformAnimation::create();
+			float angularVelGears4 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears4(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim4->setUpdateFunc(
+					[angularVelGears4, axisGears4](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(-angularVelGears4*static_cast<GLfloat>(diffTime), axisGears4);
+					});
+			viewer->addAnimation(gearsAnim4);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans4 = Transformation::create();
+			gearsAnimTrans4->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-		viewer->addAnimation(animRight);
-		// add transformation (translation) to be applied before animation
-		auto animRightTrans = Transformation::create();
-		animRightTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
+			auto gearsAnim5 = TransformAnimation::create();
+			float angularVelGears5 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears5(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim5->setUpdateFunc(
+					[angularVelGears5, axisGears5](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(-angularVelGears5*static_cast<GLfloat>(diffTime), axisGears5);
+					});
+			viewer->addAnimation(gearsAnim5);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans5 = Transformation::create();
+			gearsAnimTrans5->translate(glm::vec3(0.0f, 0.f, 0.f));
 
+			auto gearsAnim6 = TransformAnimation::create();
+			float angularVelGears6 = 20.f; //Geschwindigkeit
+			glm::vec3 axisGears6(0.f, 1.f, 0.f); //Rotation um z-Achse
+			gearsAnim6->setUpdateFunc(
+					[angularVelGears6, axisGears6](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+						animation->rotate(angularVelGears6*static_cast<GLfloat>(diffTime), axisGears6);
+					});
+			viewer->addAnimation(gearsAnim6);
+			// add transformation (translation) to be applied before animation
+			auto gearsAnimTrans6 = Transformation::create();
+			gearsAnimTrans6->translate(glm::vec3(0.0f, 0.f, 0.f));
 
 			auto gearsAnim7 = TransformAnimation::create();
 			float angularVelGears7 = 20.f; //Geschwindigkeit
@@ -619,14 +629,22 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		gearsCenterTrans[5]->translate(glm::vec3(4.85f, 2.f, 0.f))->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
 		gearsCenterTrans[6]->translate(glm::vec3(4.85f, 3.4f, 1.4f))->rotate(-90.f, glm::vec3(0.f, 0.f, 1.f));
 
-		//Animation hinzufügen 1r, 2l, 3l, 4l, 5l, 6r
-		animRight->addChild(animRightTrans);
-		animRightTrans->addChild(gears[0])->addChild(gears[5]);
+		//Animation hinzufügen
+		gearsTrans[0]->addChild(gearsAnim1);
+		gearsAnim1->addChild(gearsAnimTrans1);
+		gearsAnimTrans1->addChild(gears[0]);
 
-		animLeft->addChild(animLeftTrans);
-		animLeftTrans->addChild(gears[1])->addChild(gears[2])->addChild(gears[3])->addChild(gears[4]);
+		gearsTrans[1]->addChild(gearsAnim2);
+		gearsAnim2->addChild(gearsAnimTrans2);
+		gearsAnimTrans2->addChild(gears[1]);
 
+		gearsTrans[2]->addChild(gearsAnim3);
+		gearsAnim3->addChild(gearsAnimTrans3);
+		gearsAnimTrans3->addChild(gears[2]);
 
+		gearsTrans[3]->addChild(gearsAnim4);
+		gearsAnim4->addChild(gearsAnimTrans4);
+		gearsAnimTrans4->addChild(gears[3]);
 
 		gearsTrans[4]->addChild(gearsAnim5);
 		gearsAnim5->addChild(gearsAnimTrans5);
@@ -658,7 +676,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	gearFloor->addCore(matChrom)->addCore(gearFloorCore);
 	auto gearFloorTrans = Transformation::create();
 	gearFloorTrans->translate(glm::vec3(0.f, -0.4f, 0.f));
-	gearFloorTrans->scale(glm::vec3(1.0f, 1.0f, 1.0f));
+	gearFloorTrans->scale(glm::vec3(1.5f, 1.5f, 1.5f));
 	//->rotate(90.f, glm::vec3(1.f, 0.f, 0.f));
 
 	auto stabFloorCore = geometryFactory.createModelFromOBJFile("obj/gear_center.obj");
@@ -671,8 +689,8 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 //	Animation für Zahnrad auf dem Boden
 	auto gearFloorAnim = TransformAnimation::create();
-	float angularVel7 = speed; //Geschwindigkeit
-	glm::vec3 axis7(0.f, -1.f, 0.f); //Rotation um z-Achse
+	float angularVel7 = 20.f; //Geschwindigkeit
+	glm::vec3 axis7(0.f, 1.f, 0.f); //Rotation um z-Achse
 	gearFloorAnim->setUpdateFunc(
 			[angularVel7, axis7](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
 				animation->rotate(angularVel7*static_cast<GLfloat>(diffTime), axis7);
@@ -682,7 +700,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	auto gearFloorAnimTrans = Transformation::create();
 	gearFloorAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-<<<<<<< Updated upstream
 
 	//Create Lampe
 	auto lampeCore = geometryFactory.createModelFromOBJFile("obj/lamp1.obj");
@@ -693,14 +710,10 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		//lampeTrans->scale(glm::vec3(1.5f, 1.5f, 1.5f));
 
 	auto sphereCore = geometryFactory.createSphere(1.0f, 50, 50) ;
-=======
-	/*auto sphereCore = geometryFactory.createSphere(1.0f, 50, 50) ;
->>>>>>> Stashed changes
 	   auto sphere = Shape::create();
 	   sphere->addCore(matWhite)
 			->addCore(sphereCore);
 	   auto sphereTrans = Transformation::create();
-<<<<<<< Updated upstream
 	   sphereTrans->translate(glm::vec3(1.0f, 7.95f, -1.f))
 		->scale(glm::vec3(0.2f, 0.2f, 0.2f));;
 
@@ -719,11 +732,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	   auto sphere2Trans = Transformation::create();
 	   sphere2Trans->translate(glm::vec3(0.0f, 4.5f, -4.5f))
 		->scale(glm::vec3(0.17f, 0.17f, 0.17f));;
-=======
-	   sphereTrans->translate(glm::vec3(3.0f, 2.5f, -3.f))
-		->scale(glm::vec3(0.5f, 0.5f, 0.5f));;
-*/
->>>>>>> Stashed changes
 
 	// create scene graph
 	/*
@@ -743,7 +751,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	light ->addChild(light2);
 	light2->addChild(zimmer)
 			->addChild(clock)
-<<<<<<< Updated upstream
 			->addChild(gear)
 			->addChild(lampeTrans)
 			->addChild(sphereTrans)
@@ -756,17 +763,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	sphere2Trans->addChild(sphere2);
 	spotTrans->addChild(spot);
 	stabFloorTrans->addChild(stabFloor);
-=======
-			->addChild(gearFloorTrans);
-
-	//sphereTrans->addChild(sphere);
-	//gearTrans->addChild(gear);
-	//gear2Trans->addChild(gear2);
-//	gearFloorTrans->addChild(gearFloor);
-
-//	stabTrans->addChild(stab);
-//	stab2Trans->addChild(stab2);
->>>>>>> Stashed changes
 
 //	gearFloorTrans->addChild(gearFloor);
 
