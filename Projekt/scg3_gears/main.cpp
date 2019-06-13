@@ -1,29 +1,3 @@
-/**
- * \file main.cpp
- * \brief A simple scg3 example application.
- *
- * Requires C++11 and OpenGL 3.2 (or later versions).
- *
- * \author Volker Ahlers\n
- *         volker.ahlers@hs-hannover.de
- */
-
-/*
- * Copyright 2014-2019 Volker Ahlers
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 #include <iostream>
 #include <stdexcept>
 #include <vector>
@@ -41,11 +15,30 @@ using namespace scg;
  */
 void customViewer();
 void keyBoardFunction(ViewerSP viewer);
+void setAnimation(bool started);
 
 /**
  * \brief Create a scene consisting of a floor, a table, a teapot, a camera, and a light.
  */
 void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene);
+
+
+bool started = false;
+auto clockAnim1 = TransformAnimation::create();
+auto clockAnim2 = TransformAnimation::create();
+auto clockAnim3 = TransformAnimation::create();
+auto clockAnim4 = TransformAnimation::create();
+auto clockAnim5 = TransformAnimation::create();
+auto clockHandAnim1 = TransformAnimation::create();
+auto clockHandAnim2 = TransformAnimation::create();
+auto gearsAnim1 = TransformAnimation::create();
+auto gearsAnim2 = TransformAnimation::create();
+auto gearsAnim3 = TransformAnimation::create();
+auto gearsAnim4 = TransformAnimation::create();
+auto gearsAnim5 = TransformAnimation::create();
+auto gearsAnim6 = TransformAnimation::create();
+auto gearsAnim7 = TransformAnimation::create();
+auto gearFloorAnim = TransformAnimation::create();
 
 /**
  * \brief The main function.
@@ -72,7 +65,12 @@ void keyBoardFunction(ViewerSP viewer){
 			 while(glfwGetKey(fenster, GLFW_KEY_T) == GLFW_PRESS){
 				 //wait
 			 }
-		  std::cout << "Test Taste" << std::endl;
+			  if(started) {
+				  started = false;
+			  }else{
+				  started = true;
+			  }
+			  setAnimation(started);
 		}
 	}
 }
@@ -84,8 +82,12 @@ void customViewer() {
 	// create viewer and renderer
 	auto viewer = Viewer::create();
 	auto renderer = StandardRenderer::create();
-	viewer->init(renderer)->createWindow("s c g 3   e x a m p l e", 1024, 768);
+	viewer->init(renderer)->createWindow("Gears :: Computergrafik 1", 1024, 768);
+
+	// Thread für Tastaturabfrage starten
 	std::thread keyBoard(keyBoardFunction, viewer);
+	// Animationen initialisieren
+	setAnimation(started);
 	// create camera
 	auto camera = PerspectiveCamera::create();
 	renderer->setCamera(camera);
@@ -101,7 +103,54 @@ void customViewer() {
 	keyBoard.join();
 }
 
+void setAnimation(bool started) {
+	float angular1 = 0.0f;
+	float angular3 = 0.0f;
+	float angular3_5 = 0.0f;
+	float angular6 = 0.0f;
+	float angular20 = 0.0f;
+	glm::vec3 axis(0.f, 1.f, 0.f); //Rotation um y-Achse
 
+	if(started) {
+		angular1 = 1.0f;
+		angular3 = 3.0f;
+		angular3_5 = 3.5f;
+		angular6 = 6.0f;
+		angular20 = 20.0f;
+	}
+	clockAnim1->setUpdateFunc(
+			[angular3, axis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(angular3*static_cast<GLfloat>(diffTime), axis);
+			});
+	clockAnim2->setUpdateFunc(
+			[angular3, axis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(-angular3*static_cast<GLfloat>(diffTime), axis);
+			});
+	clockAnim3->setUpdateFunc(
+			[angular3, axis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(angular3*static_cast<GLfloat>(diffTime), axis);
+			});
+	clockAnim4->setUpdateFunc(
+			[angular3, axis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(-angular3*static_cast<GLfloat>(diffTime), axis);
+			});
+	clockAnim5->setUpdateFunc(
+			[angular3, axis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(angular3*static_cast<GLfloat>(diffTime), axis);
+			});
+	clockHandAnim2->setUpdateFunc(
+			[angular6, axis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(angular6*static_cast<GLfloat>(diffTime), axis);
+			});
+	clockHandAnim1->setUpdateFunc(
+			[angular1, axis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(angular1*static_cast<GLfloat>(diffTime), axis);
+			});
+	gearFloorAnim->setUpdateFunc(
+			[angular20, axis](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
+				animation->rotate(angular20*static_cast<GLfloat>(diffTime), axis);
+			});
+}
 
 /*
  *
@@ -372,61 +421,26 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 	//Animationen von ClockGears
 	//
-	 auto clockAnim1 = TransformAnimation::create();
-		float angularVelClock1 = 3.f; //Geschwindigkeit
-		glm::vec3 axisClock1(0.f, 1.f, 0.f); //Rotation um y-Achse
-		clockAnim1->setUpdateFunc(
-				[angularVelClock1, axisClock1](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-					animation->rotate(angularVelClock1*static_cast<GLfloat>(diffTime), axisClock1);
-				});
 		viewer->addAnimation(clockAnim1);
 		// add transformation (translation) to be applied before animation
 		auto clockAnimTrans1 = Transformation::create();
 		clockAnimTrans1->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-	auto clockAnim2 = TransformAnimation::create();
-		float angularVelClock2 = 3.f; //Geschwindigkeit
-		glm::vec3 axisClock2(0.f, 1.f, 0.f); //Rotation um y-Achse
-		clockAnim2->setUpdateFunc(
-				[angularVelClock2, axisClock2](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-					animation->rotate(-angularVelClock2*static_cast<GLfloat>(diffTime), axisClock2);
-				});
 		viewer->addAnimation(clockAnim2);
 		// add transformation (translation) to be applied before animation
 		auto clockAnimTrans2 = Transformation::create();
 		clockAnimTrans2->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-	auto clockAnim3 = TransformAnimation::create();
-		float angularVelClock3 = 3.f; //Geschwindigkeit
-		glm::vec3 axisClock3(0.f, 1.f, 0.f); //Rotation um y-Achse
-		clockAnim3->setUpdateFunc(
-				[angularVelClock3, axisClock3](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-					animation->rotate(angularVelClock3*static_cast<GLfloat>(diffTime), axisClock3);
-				});
 		viewer->addAnimation(clockAnim3);
 		// add transformation (translation) to be applied before animation
 		auto clockAnimTrans3 = Transformation::create();
 		clockAnimTrans3->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-	auto clockAnim4 = TransformAnimation::create();
-		float angularVelClock4 = 3.f; //Geschwindigkeit
-		glm::vec3 axisClock4(0.f, 1.f, 0.f); //Rotation um y-Achse
-		clockAnim4->setUpdateFunc(
-				[angularVelClock4, axisClock4](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-					animation->rotate(-angularVelClock4*static_cast<GLfloat>(diffTime), axisClock4);
-				});
 		viewer->addAnimation(clockAnim4);
 		// add transformation (translation) to be applied before animation
 		auto clockAnimTrans4 = Transformation::create();
 		clockAnimTrans4->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-	auto clockAnim5 = TransformAnimation::create();
-		float angularVelClock5 = 3.f; //Geschwindigkeit
-		glm::vec3 axisClock5(0.f, 1.f, 0.f); //Rotation um y-Achse
-		clockAnim5->setUpdateFunc(
-				[angularVelClock5, axisClock5](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-					animation->rotate(angularVelClock5*static_cast<GLfloat>(diffTime), axisClock5);
-				});
 		viewer->addAnimation(clockAnim5);
 		// add transformation (translation) to be applied before animation
 		auto clockAnimTrans5 = Transformation::create();
@@ -459,26 +473,12 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 
 	//Animation von kleinen Zeiger
-	 auto clockHandAnim1 = TransformAnimation::create();
-		float angularVelClockHand1 = 1.f; //Geschwindigkeit
-		glm::vec3 axisClockHand1(0.f, 1.f, 0.f); //Rotation um y-Achse
-		clockHandAnim1->setUpdateFunc(
-				[angularVelClockHand1, axisClockHand1](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-					animation->rotate(angularVelClockHand1*static_cast<GLfloat>(diffTime), axisClockHand1);
-				});
 		viewer->addAnimation(clockHandAnim1);
 		// add transformation (translation) to be applied before animation
 		auto clockHandAnimTrans1 = Transformation::create();
 		clockHandAnimTrans1->translate(glm::vec3(0.0f, 0.f, 0.f));
 
 	//Animation von größer Zeiger
-	auto clockHandAnim2 = TransformAnimation::create();
-		float angularVelClockHand2 = 8.f; //Geschwindigkeit
-		glm::vec3 axisClockHand2(0.f, 1.f, 0.f); //Rotation um z-Achse
-		clockHandAnim2->setUpdateFunc(
-				[angularVelClockHand2, axisClockHand2](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-					animation->rotate(angularVelClockHand2*static_cast<GLfloat>(diffTime), axisClockHand2);
-				});
 		viewer->addAnimation(clockHandAnim2);
 		// add transformation (translation) to be applied before animation
 		auto clockHandAnimTrans2 = Transformation::create();
@@ -528,7 +528,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 		gearSilber->addCore(matSilber);
 
 	//Animation
-		    auto gearsAnim1 = TransformAnimation::create();
 		    float angularVelGears1 = 20.f; //Geschwindigkeit
 			glm::vec3 axisGears1(0.f, 1.f, 0.f); //Rotation um y-Achse
 			gearsAnim1->setUpdateFunc(
@@ -540,7 +539,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			auto gearsAnimTrans1 = Transformation::create();
 			gearsAnimTrans1->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-			auto gearsAnim2 = TransformAnimation::create();
 			float angularVelGears2 = 20.f; //Geschwindigkeit
 			glm::vec3 axisGears2(0.f, 1.f, 0.f); //Rotation um y-Achse
 			gearsAnim2->setUpdateFunc(
@@ -552,7 +550,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			auto gearsAnimTrans2 = Transformation::create();
 			gearsAnimTrans2->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-			auto gearsAnim3 = TransformAnimation::create();
 			float angularVelGears3 = 20.f; //Geschwindigkeit
 			glm::vec3 axisGears3(0.f, 1.f, 0.f); //Rotation um y-Achse
 			gearsAnim3->setUpdateFunc(
@@ -564,7 +561,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			auto gearsAnimTrans3 = Transformation::create();
 			gearsAnimTrans3->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-			auto gearsAnim4 = TransformAnimation::create();
 			float angularVelGears4 = 20.f; //Geschwindigkeit
 			glm::vec3 axisGears4(0.f, 1.f, 0.f); //Rotation um y-Achse
 			gearsAnim4->setUpdateFunc(
@@ -576,7 +572,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			auto gearsAnimTrans4 = Transformation::create();
 			gearsAnimTrans4->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-			auto gearsAnim5 = TransformAnimation::create();
 			float angularVelGears5 = 20.f; //Geschwindigkeit
 			glm::vec3 axisGears5(0.f, 1.f, 0.f); //Rotation um y-Achse
 			gearsAnim5->setUpdateFunc(
@@ -588,7 +583,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			auto gearsAnimTrans5 = Transformation::create();
 			gearsAnimTrans5->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-			auto gearsAnim6 = TransformAnimation::create();
 			float angularVelGears6 = 20.f; //Geschwindigkeit
 			glm::vec3 axisGears6(0.f, 1.f, 0.f); //Rotation um y-Achse
 			gearsAnim6->setUpdateFunc(
@@ -600,7 +594,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			auto gearsAnimTrans6 = Transformation::create();
 			gearsAnimTrans6->translate(glm::vec3(0.0f, 0.f, 0.f));
 
-			auto gearsAnim7 = TransformAnimation::create();
 			float angularVelGears7 = 20.f; //Geschwindigkeit
 			glm::vec3 axisGears7(0.f, 1.f, 0.f); //Rotation um y-Achse
 			gearsAnim7->setUpdateFunc(
@@ -613,13 +606,6 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 			gearsAnimTrans7->translate(glm::vec3(0.0f, 0.f, 0.f));
 
 			//	Animation für Zahnrad auf dem Boden
-				auto gearFloorAnim = TransformAnimation::create();
-				float angularVel7 = 20.f; //Geschwindigkeit
-				glm::vec3 axis7(0.f, 1.f, 0.f); //Rotation um y-Achse
-				gearFloorAnim->setUpdateFunc(
-						[angularVel7, axis7](TransformAnimation*animation,double currTime, double diffTime, double totalTime) {
-							animation->rotate(angularVel7*static_cast<GLfloat>(diffTime), axis7);
-						});
 				viewer->addAnimation(gearFloorAnim);
 				auto gearFloorAnimTrans = Transformation::create();
 				gearFloorAnimTrans->translate(glm::vec3(0.0f, 0.f, 0.f));
