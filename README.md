@@ -28,3 +28,9 @@ For this means several different techniques were tried and finally used and the 
 * j: toggle center point visibility
 * k: toggle mouse cursor visibility
 * l: toggle polygon mode (fill/line)
+
+
+## Instructions 
+Either clone the repository into an Eclipse project folder, build "scg3", then run "scg3_gears". 
+Alternatively you could unzip the provided .zip-File and start the script "start.sh". 
+The project should start on its own then. 
