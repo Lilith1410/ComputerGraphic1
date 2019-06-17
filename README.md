@@ -8,6 +8,11 @@ This was achieved by building a base of theoretical knowledge through the conten
 
 For this means several different techniques were tried and finally used and the participants of this group gained a vast knowledgebase. 
 
+## Instructions 
+Alternatively you could unzip the provided .zip-File and start the script "start.sh" in the folder "project". 
+The project should start on its own then. 
+
+
 ## Controls
 * Spacebar: toggle fly/examine mode on/off
 * arrow keys (fly mode/default): rotate around yaw and pitch axes
@@ -28,9 +33,3 @@ For this means several different techniques were tried and finally used and the 
 * j: toggle center point visibility
 * k: toggle mouse cursor visibility
 * l: toggle polygon mode (fill/line)
-
-
-## Instructions 
-Either clone the repository into an Eclipse project folder, build "scg3", then run "scg3_gears". 
-Alternatively you could unzip the provided .zip-File and start the script "start.sh". 
-The project should start on its own then. 
