@@ -8,7 +8,7 @@ This was achieved by building a base of theoretical knowledge through the conten
 
 For this means several different techniques were tried and finally used and the participants of this group gained a vast knowledgebase. 
 
-## Controlls
+## Controls
 * Spacebar: toggle fly/examine mode on/off
 * arrow keys (fly mode/default): rotate around yaw and pitch axes
 
