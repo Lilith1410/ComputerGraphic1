@@ -42,7 +42,7 @@ endif
 all: scg3_gears
 
 dependents:
-	-cd /home/zbr/git/ComputerGraphic1/Projekt/scg3/ReleaseLinux && $(MAKE) clean all
+	-cd /home/zbr/git/ComputerGraphic1/Projekt/scg3/ReleaseLinux && $(MAKE) all
 
 # Tool invocations
 scg3_gears: $(OBJS) $(USER_OBJS) /home/zbr/git/ComputerGraphic1/Projekt/scg3/ReleaseLinux/libscg3.a

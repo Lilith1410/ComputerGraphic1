@@ -6,6 +6,9 @@
 CPP_SRCS += \
 ../main.cpp 
 
+O_SRCS += \
+../gears.o 
+
 OBJS += \
 ./main.o 
 

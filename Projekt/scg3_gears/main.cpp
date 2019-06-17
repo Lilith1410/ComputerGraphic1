@@ -647,7 +647,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 		gearsTrans[7]->addChild(gearFloorAnim);
 		gearFloorAnim->addChild(gearFloorAnimTrans);
-		gearFloorAnimTrans->addChild(gears[7])->addChild(camera);
+		gearFloorAnimTrans->addChild(gears[7]);
 
 
 		for(int i = 0; i < 8; i++) {
