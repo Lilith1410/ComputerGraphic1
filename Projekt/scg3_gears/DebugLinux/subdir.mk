@@ -6,6 +6,9 @@
 CPP_SRCS += \
 ../main.cpp 
 
+O_SRCS += \
+../gears.o 
+
 OBJS += \
 ./main.o 
 
@@ -17,7 +20,7 @@ CPP_DEPS += \
 %.o: ../%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -I"/home/zbr/git/ComputerGraphic1/Projekt/scg3" -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -I"/home/firas/Dokumente/Git/ComputerGraphic1/Projekt/scg3" -O0 -g3 -Wall -c -fmessage-length=0 -std=c++11 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

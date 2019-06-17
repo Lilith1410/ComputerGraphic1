@@ -8,9 +8,9 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include subdir.mk
 -include obj/clock/subdir.mk
 -include obj/subdir.mk
--include subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -42,13 +42,13 @@ endif
 all: scg3_gears
 
 dependents:
-	-cd /home/zbr/git/ComputerGraphic1/Projekt/scg3/DebugLinux && $(MAKE) all
+	-cd /home/firas/Dokumente/Git/ComputerGraphic1/Projekt/scg3/DebugLinux && $(MAKE) all
 
 # Tool invocations
-scg3_gears: $(OBJS) $(USER_OBJS) /home/zbr/git/ComputerGraphic1/Projekt/scg3/DebugLinux/libscg3.a
+scg3_gears: $(OBJS) $(USER_OBJS) /home/firas/Dokumente/Git/ComputerGraphic1/Projekt/scg3/DebugLinux/libscg3.a
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L"/home/zbr/git/ComputerGraphic1/Projekt/scg3/DebugLinux" -o "scg3_gears" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L"/home/firas/Dokumente/Git/ComputerGraphic1/Projekt/scg3/DebugLinux" -o "scg3_gears" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -58,6 +58,7 @@ clean:
 	-@echo ' '
 
 .PHONY: all clean dependents
-/home/zbr/git/ComputerGraphic1/Projekt/scg3/DebugLinux/libscg3.a:
+.SECONDARY:
+/home/firas/Dokumente/Git/ComputerGraphic1/Projekt/scg3/DebugLinux/libscg3.a:
 
 -include ../makefile.targets
