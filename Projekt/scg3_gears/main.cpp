@@ -104,7 +104,7 @@ void customViewer() {
 	viewer->init(renderer)->createWindow("Gears :: Computergrafik 1", 1024, 768);
 
 	// Thread for Key detection starten
-	std::thread keyBoard(keyBoardFunction, viewer);
+//	std::thread keyBoard(keyBoardFunction, viewer);
 	// Animationen initialisieren
 	setAnimation(started);
 	// create camera
@@ -119,7 +119,7 @@ void customViewer() {
 
 	// start animations, enter main loop
 	viewer->startAnimations()->startMainLoop();
-	keyBoard.join();
+//	keyBoard.join();
 }
 
 /*
