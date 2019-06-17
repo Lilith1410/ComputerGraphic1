@@ -12,15 +12,15 @@ For this means several different techniques were tried and finally used and the 
 * Spacebar: toggle fly/examine mode on/off
 * arrow keys (fly mode/default): rotate around yaw and pitch axes
 
-+ alt: rotate around roll and pitch axes
+  + alt: rotate around roll and pitch axes
 
 * arrow keys (examine mode): rotate around azimuth and elevation axes
 
-+ alt: rotate around roll and elevation axes
+  + alt: rotate around roll and elevation axes
 
 * w/s: move forward/backward
 
-+ alt: dolly in/out (relative to center point)
+  + alt: dolly in/out (relative to center point)
 
 * a/d/x/z: move left/right/up/down (a/d/x/y on German keyboard)
 * page up/down: increase/decrease continuous flight velocity
