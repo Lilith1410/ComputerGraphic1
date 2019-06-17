@@ -647,7 +647,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 
 		gearsTrans[7]->addChild(gearFloorAnim);
 		gearFloorAnim->addChild(gearFloorAnimTrans);
-		gearFloorAnimTrans->addChild(gears[7]);
+		gearFloorAnimTrans->addChild(gears[7])->addChild(camera);
 
 
 		for(int i = 0; i < 8; i++) {
@@ -723,7 +723,7 @@ void createGearScene(ViewerSP viewer, CameraSP camera, GroupSP& scene) {
 	 */
 	scene = Group::create();
 	scene->addCore(shaderPhong);
-	scene->addChild(camera)
+	scene//->addChild(camera)
 			->addChild(light);
 	light ->addChild(light2);
 	light2->addChild(zimmer)
