@@ -1,3 +1,8 @@
+ * Ekaterina Spengler 1428413
+ * Valerie Vaske 1434213
+ * Firas Shmit 1346981
+ * Kurt Merbeth 1168947
+
 # ComputerGraphic1
 A student project of University of Applied Sciences in Hanover. 
 
@@ -33,6 +38,7 @@ The project should start on its own then.
 * j: toggle center point visibility
 * k: toggle mouse cursor visibility
 * l: toggle polygon mode (fill/line)
+* t: start/stop animation
 
 
 ## Technologies used
