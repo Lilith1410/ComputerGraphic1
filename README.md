@@ -33,3 +33,13 @@ The project should start on its own then.
 * j: toggle center point visibility
 * k: toggle mouse cursor visibility
 * l: toggle polygon mode (fill/line)
+
+
+## Technologies used
+ * Transformationen: Translation, Skalierung, Rotation, 
+ * perspektivische Projektion
+ * Phong Shader
+ * Texture Shader
+ * Camera controls 
+ * Quaternions (animation)
+ * Object modells
