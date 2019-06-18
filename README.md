@@ -43,3 +43,5 @@ The project should start on its own then.
  * Camera controls 
  * Quaternions (animation)
  * Object modells
+ * Blender
+ * scg_3 library from ComputerGrafik1 lectures by University of Applied Sciences Hanover
