@@ -45,7 +45,7 @@ Die Wahl auf das Zahnrad fiel aufgrund von unterschiedlichen Überlegungen:
 
 Bedingt durch die Möglichkeit,den Apparatus durch Drehung der Zahnräder in Bewegung zu setzen, würde das Projekt dementsprechend auch eine dynamisch-animierte Komponente enthalten, die sich die Gruppenmitgleider ausdrücklich gewünscht hatten. 
 
-Weiterhin bot die Idee des Zahnradapparatus' die Möglichkeiten, diesen durch eine dynamische (keyboard-gesteuerte) Implementierung zu \enquote{umschreiten}, um den Apparat von unterschiedlichen Seiten zu betrachten. 
+Weiterhin bot die Idee des Zahnradapparatus' die Möglichkeiten, diesen durch eine dynamische (keyboard-gesteuerte) Implementierung zu umschreiten, um den Apparat von unterschiedlichen Seiten zu betrachten. 
 
 Nachdem sich alle Gruppenmitglieder mit dem Vorschlag des Zahnradapparatus' einverstanden erklärt hatten, erfolgte die Vorstellung der Idee vor dem Dozenten, der mit dem Umfang und den Implementierungen des Projektes einverstanden war. 
 
@@ -65,7 +65,7 @@ Dies bedeutet somit, dass für ein kleineres Zahnrad ein neues Modell erstellt w
 
 \begin{figure}
 \centering
-\includegraphics[scale=1.7]{Little_Gear}
+\includegraphics[scale=1.7]{res/Little_Gear.png}
 \caption{Zahnrad bei Verkleinerung des Radradius}
 \label{fig:littleGear}
 \end{figure}
@@ -104,7 +104,7 @@ Die nötigen Vertices und Faces wurden dabei, in Ermangelung von Kenntnissen im 
 
 \begin{figure}
 \centering
-\includegraphics[scale=1.0]{Gear.png}
+\includegraphics[scale=1.0]{res/Gear.png}
 \caption{Einfaches, selbst erstelltes Zahnrad}
 \label{fig:gear}
 \end{figure}
@@ -120,14 +120,14 @@ Parallel schlug es allerdings auf die grundlegende Motivation der Gruppe, dass d
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=1.0]{Buggy_Gear1.png}
+\includegraphics[scale=1.0]{res/Buggy_Gear1.png}
 \caption{Probleme im eigenen Zahnradmodell}
 \label{fig:bugGear1}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=1.0]{Buggy_Gear2.png}
+\includegraphics[scale=1.0]{res/Buggy_Gear2.png}
 \caption{Noch mehr Probleme im eigenen Zahnradmodell}
 \label{fig:bugGear2}
 \end{figure}
@@ -135,7 +135,7 @@ Parallel schlug es allerdings auf die grundlegende Motivation der Gruppe, dass d
 \subsection{Erste Probleme}
 Parallel sah sich die Gruppe mit der ersten Herausforderung in diesem Projekt konfrontiert: 
 Die Arbeitsumgebung aus den Übungen auf den einzelnen Privatrechnern der Mitglieder zu konfigurieren, sodass das Basisprojekt kompiliert und gestartet werden konnte. 
-Obwohl dies eigentlich eine grundsätzliche Voraussetzung für die Weiterarbeit am Projekt ist, wurde insgesamt ein unverhältnismäßig großer Zeitaufwand für das Aufsetzen der Entwicklungsumgebung verbraucht (Näheres hierzu im vorigen Unterkapitel \enquote{Eclipse} \ref{EclipseProbleme}). 
+Obwohl dies eigentlich eine grundsätzliche Voraussetzung für die Weiterarbeit am Projekt ist, wurde insgesamt ein unverhältnismäßig großer Zeitaufwand für das Aufsetzen der Entwicklungsumgebung verbraucht (Näheres hierzu im vorigen Unterkapitel Eclipse). 
 
 
 
@@ -161,7 +161,7 @@ Sobald die Übungsaufgaben erfolgreich bearbeitet und dadurch das allgemeine Vor
 Nachdem der grundlegende Raum vorhanden war, in dem sich das Projekt abspielen sollte, konnte damit begonnen werden, das Zahnradmodell in diesen einzufügen. 
 In erster Instanz wurde dabei der Mittelpunkt des Raumes als Nullpunkt der Raumkoordinaten definiert. 
 
-Sodann war es möglich, nicht nur das Zahnradmodell ebenfalls im Mittelpunkt des Raumes darzustellen, sondern dieses über Translation und Rotation beispielsweise auch an eine der Raumwände \enquote{anzuhängen}. 
+Sodann war es möglich, nicht nur das Zahnradmodell ebenfalls im Mittelpunkt des Raumes darzustellen, sondern dieses über Translation und Rotation beispielsweise auch an eine der Raumwände anzuhängen. 
 
 Zu diesem Zeitpunkt offenbarten sich auch die ersten Probleme mit dem selbsterstellten Zahnradmodell. 
 Bei der Anbringung an die Raumwand kam es zu Fehlern in der Oberflächendarstellung, sowie beim ersten Versuch einer drehenden Animation zu Problemen beim Rendering des Animationsablaufs. 
@@ -208,7 +208,7 @@ Die final implementierten Steuerungstasten finden sich in der dem Projekt beilie
 
 
 \subsection{Zahnradmodell aus Blender}
-Da nach wie vor und trotz hartnäckigen Lösungsversuchen immernoch Darstellungs-, Textur- und Animationsprobleme bei der Verwendung des eigenen Zahnradmodells bestanden, arbeitete sich ein Gruppenmitglied kurzerhand in die grundlegendsten Befehle und Funktionsweisen der Grafiksoftware \enquote{Blender} ein. 
+Da nach wie vor und trotz hartnäckigen Lösungsversuchen immernoch Darstellungs-, Textur- und Animationsprobleme bei der Verwendung des eigenen Zahnradmodells bestanden, arbeitete sich ein Gruppenmitglied kurzerhand in die grundlegendsten Befehle und Funktionsweisen der Grafiksoftware Blender ein. 
 Nach dem Erlernen der grundlegendsten Funktionen war es dem Gruppenmitglied daraufhin möglich, in Blender ein neues Zahnradmodell zu erstellen. 
 
 Dieses präsentierte sich nicht nur in seinem Detailreichtum beeindruckend, sondern löste über die Export-Funktion als .Obj-Datei auch die Probleme, die bislang am selbsterstellten Modell bestanden haben. 
@@ -221,7 +221,7 @@ Nach einige wenigen gescheiterten Experimenten am Source-Code gelang es schließ
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.7]{Final_Clock_Blender.png}
+\includegraphics[scale=0.7]{res/Final_Clock_Blender.png}
 \caption{Zahnradmodell nach der Nutzung von Blender}
 \label{fig:clock_blender}
 \end{figure}
@@ -230,7 +230,7 @@ Das fertige Ergebnis, eingespeist in das bisherige Projekt und veredelt durch ei
 
 \begin{figure}[h!]
 \centering
-\includegraphics[scale=0.8]{finalClock.png}
+\includegraphics[scale=0.8]{res/finalClock.png}
 \caption{Blender-Uhr im Projekt}
 \label{fig:finalClock}
 \end{figure}
@@ -279,7 +279,7 @@ Es handelt sich dabei um
 Im Verlauf des Projekts hat sich die Gruppe entschlossen, als zweite 
 Lichtquelle kleine Lichtspots zu verwenden, die an den Raumwänden platziert werden sollen. 
 
-Die im Vorfeld erwägten Sphären, bzw. der Einsatz eines Fenstergitters waren zwischenzeitlich wieder verworfen (Spähren), bzw. auf die \enquote{Wunschliste} (Fenstergitter) gestellt worden. 
+Die im Vorfeld erwägten Sphären, bzw. der Einsatz eines Fenstergitters waren zwischenzeitlich wieder verworfen (Spähren), bzw. auf die Wunschliste (Fenstergitter) gestellt worden. 
 Hintergrund dieser Entscheidungen waren Probleme beim generellen Verwenden einer zweiten Beleuchtungsquelle. 
 
 Die Lösung dieser Problematik zeigte sich im weiteren Verlauf dadurch, dass die zweite Lichtquelle als Kindknoten der ersten Lichtquelle eingesetzt werden musste, und im Szenegraphen nicht beide auf einer Ebene stehen durften. 
@@ -298,7 +298,7 @@ Somit gestaltete sich diese Interaktion als weiteres Aufgabenpaket, dass es bis 
 
 
 \subsection{Restrukturierung des Szenegraphen}
-Beim versuch, die letzten Arbeitspakete zu implementieren ist ein grundlegendes Hindernis immer deutlicher zu Tage getreten: 
+Beim Versuch, die letzten Arbeitspakete zu implementieren ist ein grundlegendes Hindernis immer deutlicher zu Tage getreten: 
 
 Die Interaktion mit dem Objekt, die bislang immer wieder gescheitert ist, sowie die Implementierung der zweiten Lichtquelle erforderten eine Restrukturierung des bislang verwendeten Szenegraphen. 
 
@@ -306,11 +306,22 @@ Diese Erkenntnis schlug sich erneut massiv auf die Motivation der Gruppe nieder,
 
 Gemeinsam, und unter erneutem großen zeitlichen Aufwand, gelang jedoch auch final die Überwindung dieses Hindernisses und die Freude war groß. 
 
-Endlich war es möglich, sowohl die Interaktion per Tastendruck einzupflegen, als auch eine zweite Beleuchtungsquelle anzubringen. 
+Gelöst wurde dies durch eine Implementierung des Szenegraphen in der folgenden Form: 
 
-Die Interaktion von Wänden, Licht und Zahnrädern lief dabei endlich wie geschmiert. 
-Anscheinend war ein großer Anteil der bisherigen Problematiken durch eine bizarre Strukturierung des Szenegraphen ausgelöst worden. 
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{res/Szenegraph_root.png}
+\caption{Grundlegendes Wurzelverzeichnis des Szenegraphen nach Umstrukturierung}
+\label{fig:Scenegraph_root}
+\end{figure}
+
+Damit war es endlich auch möglich, sowohl die Interaktion per Tastendruck einzupflegen, als auch eine zweite Beleuchtungsquelle anzubringen. 
+
+Die Interaktion von Wänden, Licht und Zahnrädern lief dabei wie geschmiert. 
+Anscheinend war ein großer Anteil der bisherigen Problematiken durch eine bisherige bizarre Strukturierung des Szenegraphen ausgelöst worden. 
 Da dieser Knoten nun geplatzt war, schritt die Fertigstellung des Projektes mit großen Schritten voran, fast so schnell wie der Tag der finalen Abgabe näher rückte. 
+
+\paragraph{Anm.d.A.: Der gesamte Szenegraph, inklusive aller Licht- und Texturenshader, sowie der einzelnen Transformationen, liegt dieser Abgabe als reine PDF-Datei bei, da die Größe und Weite des Baums in seiner Darstellung einer Einbindung in dieses Dokument widerstreben. }
 
 \section{Abgabe}
 Gemäß den Anforderungen an die Abgabe für das Projekt wurde im Github Repository eine Readme-Datei erstellt, die grundlegende Informationen zum Projekt und den beteiligten Studierenden, Technologien und Algorithmen beinhaltete. 
